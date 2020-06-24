@@ -8,11 +8,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    // font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Overpass', sans-serif;
   }
 
   body.fontLoaded {
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    // font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
   #app {
@@ -25,6 +26,14 @@ const GlobalStyle = createGlobalStyle`
   label {
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
+  }
+
+  .page{
+    max-width: 900px;
+    margin: auto;
+    padding: 0px 20px;
+    overflow: auto;
+    min-height: 700px;
   }
 `;
 

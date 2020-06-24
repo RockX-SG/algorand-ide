@@ -1,0 +1,36 @@
+import { createSelector } from 'reselect';
+import { initialState } from './reducer';
+
+/**
+ * Direct selector to the smartContractPage state domain
+ */
+
+const selectSmartContractPageDomain = state =>
+  state.smartContractPage || initialState;
+
+/**
+ * Other specific selectors
+ */
+
+/**
+ * Default selector used by SmartContractPage
+ */
+
+const makeSelectSmartContractPage = () =>
+  createSelector(
+    selectSmartContractPageDomain,
+    substate => substate,
+  );
+
+const makeSelectCodeValue = () =>
+   createSelector(
+     selectSmartContractPageDomain,
+     substate => substate.codeValue,
+   );
+
+
+export {
+  selectSmartContractPageDomain,
+  makeSelectSmartContractPage,
+  makeSelectCodeValue
+};
