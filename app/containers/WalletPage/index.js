@@ -38,6 +38,7 @@ import {
 } from '../WalletPage/actions';
 
 import Input from './Input';
+import SimpleForm from "./SimpleForm";
 
 export function WalletPage({
   onGenerateAccountPrimary,
@@ -87,43 +88,24 @@ export function WalletPage({
     <div>
       <FormattedMessage {...messages.header} />
       <div>
-        <form onSubmit={onFaucetSend}>
-          <h2>
-            Selected Account:
-          </h2>
-          <div>
-            {(walletPage.selectedAccount == 1) ? walletPage.addressPrimary : walletPage.addressSecondary}
-          </div>
-          <div onClick={() => onToggleSelectedAccount()}>
-            Change selected account
-          </div>
-          <h2>
-            Faucet
-          </h2>
-          <div>
-            Faucet Address:
-          </div>
-          <div>
-            core alone rain law scout guitar immense tag kit dice negative inject crew unfold acquire buzz notice scene outer leisure soccer treat family abstract sign
-          </div>
-          <div>
-            CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM
-          </div>
-          <div>
-            Available balance: {walletPage.faucetBalance} ALGO
-          </div>
-          <div>
-            <button>
-              Redeem from Faucet
-            </button>
-          </div>
+        <h2>
+          Selected Account:
+        </h2>
+        <div>
+          {(walletPage.selectedAccount == 1) ? walletPage.addressPrimary : walletPage.addressSecondary}
+        </div>
+        <div onClick={() => onToggleSelectedAccount()}>
+          Change selected account
+        </div>
+        
+        <SimpleForm onSubmit={onFaucetSend} faucetBalance={walletPage.faucetBalance} />
 
-          <div>
-            <a href={"https://testnet.algoexplorer.io/tx/" + walletPage.faucetSendTxHash} target="_blank">
-              {walletPage.faucetSendTxHash}
-            </a>
-          </div>
-        </form>
+        <div>
+          <a href={"https://testnet.algoexplorer.io/tx/" + walletPage.faucetSendTxHash} target="_blank">
+            {walletPage.faucetSendTxHash}
+          </a>
+        </div>
+        
         <form onSubmit={onSendTransaction}>
           <h2>
             Send ALGO

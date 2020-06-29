@@ -16,11 +16,14 @@ import { useInjectReducer } from 'utils/injectReducer';
 
 import {
   makeSelectSmartContractPage,
-  makeSelectCodeValue
+  makeSelectCodeValue,
+  makeSelectCodeCompileResponse
 } from './selectors';
 
 import reducer from './reducer';
 import saga from './saga';
+import reducerWallet from '../WalletPage/reducer';
+import sagaWallet from '../WalletPage/saga';
 import messages from './messages';
 
 import Select from 'react-select'
@@ -28,8 +31,13 @@ import Select from 'react-select'
 import {
   updateCodeValue,
   changeContract,
-  codeDeploy
+  codeDeploy,
+  codeCompile,
 } from './actions';
+
+import {
+  faucetContractSend,
+} from '../WalletPage/actions';
 
 import {Controlled as CodeMirror} from 'react-codemirror2'
 
@@ -44,12 +52,18 @@ import SmartContract from './SmartContract';
 
 export function SmartContractPage({
   codeValue,
+  codeCompileResponse,
   onUpdateCodeValue,
   onChangeContract,
-  onCodeDeploy
+  onCodeDeploy,
+  onCodeCompile,
+  onFundContract,
+  smartContractPage
 }) {
   useInjectReducer({ key: 'smartContractPage', reducer });
   useInjectSaga({ key: 'smartContractPage', saga });
+  useInjectReducer({ key: 'walletPage', reducer: reducerWallet });
+  useInjectSaga({ key: 'walletPage', saga: sagaWallet });
 
   const options = [
     { value: 'contract1', label: 'Contract 1' },
@@ -106,7 +120,18 @@ export function SmartContractPage({
         </div>
       </div>
       <div className="pageRight">
-        <form onSubmit={onCodeDeploy}>
+        <div>
+          Allow user to compile ASC to get account address & byte code. Then fund address with funds from faucet. followed by running it to send funds out based on smart contract logic.
+          
+          UI needs:
+          - TEAL code
+          - address
+          - byte code
+          - get funds from faucet
+          - run Teal code
+          - get tx hash
+        </div>
+        <form>
           <div>
 
             <CodeMirror
@@ -123,12 +148,42 @@ export function SmartContractPage({
             />
           </div>
           <div>
-            <button>
+            <button onClick={onCodeCompile}>
+              compile
+            </button>
+            <button onClick={onFundContract}>
+              Fund Smart Contract from faucet
+            </button>
+            <button onClick={onCodeDeploy}>
               deploy
             </button>
           </div>
         </form>
-
+        
+        <div>
+          <a href={"https://testnet.algoexplorer.io/address/" + codeCompileResponse} target="_blank">
+            {codeCompileResponse}
+          </a>
+        </div>
+        <div>
+          {smartContractPage.codeCompileStatus}
+        </div>
+        
+        <div>
+          Algorand smart contract are off-chain and unlike ethereum where it exist before u can interact
+          <CodeMirror
+            value="byte code"
+            options={optionsResponse}
+            autoFocus={false}
+            onBeforeChange={(editor, data, value) => {
+              console.log('set value here', {value});
+            }}
+            onChange={(editor, value) => {
+              console.log('controlled', {value});
+            }}
+          />
+        </div>
+        
         <div>
 
           <CodeMirror
@@ -174,6 +229,7 @@ SmartContractPage.propTypes = {
 const mapStateToProps = createStructuredSelector({
   smartContractPage: makeSelectSmartContractPage(),
   codeValue: makeSelectCodeValue(),
+  codeCompileResponse: makeSelectCodeCompileResponse(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -184,6 +240,14 @@ function mapDispatchToProps(dispatch) {
     onCodeDeploy: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(codeDeploy(evt));
+    },
+    onCodeCompile: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(codeCompile(evt));
+    },
+    onFundContract: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(faucetContractSend(evt));
     },
   };
 }

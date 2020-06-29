@@ -20,7 +20,8 @@ import {
   GET_FAUCET_BALANCE,
   GET_FAUCET_BALANCE_SUCCESS,
   GET_FAUCET_BALANCE_ERROR,
-  TOGGLE_SELECTED_ACCOUNT
+  TOGGLE_SELECTED_ACCOUNT,
+  CHANGE_NETWORK
 } from './constants';
 
 export function generateAccountPrimary() {
@@ -93,6 +94,14 @@ export function faucetSend() {
   };
 }
 
+export function faucetContractSend() {
+  console.log("fundContract - SEND_TRANSACTION")
+  return {
+    type: SEND_TRANSACTION,
+    sendFrom: "faucetContract",
+  };
+}
+
 export function sendTransaction() {
   return {
     type: SEND_TRANSACTION,
@@ -151,5 +160,12 @@ export function getFaucetBalanceError() {
 export function toggleSelectedAccount() {
   return {
     type: TOGGLE_SELECTED_ACCOUNT,
+  };
+}
+
+export function changeNetwork(network) {
+  return {
+    type: CHANGE_NETWORK,
+    network
   };
 }

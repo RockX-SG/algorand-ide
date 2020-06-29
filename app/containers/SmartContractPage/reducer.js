@@ -7,7 +7,9 @@ import produce from 'immer';
 import {
   UPDATE_CODE_VALUE,
   CHANGE_CONTRACT,
-  CODE_DEPLOY
+  CODE_DEPLOY,
+  CODE_COMPILE_SUCCESS,
+  CODE_COMPILE_ERROR
 } from './constants';
 
 import templateContract1 from './templateContract1.js';
@@ -16,7 +18,10 @@ import templateContract3 from './templateContract3.js';
 import templateContract4 from './templateContract4.js';
 
 export const initialState = {
-  codeValue: ""
+  codeValue: "",
+  codeCompileStatus: "",
+  codeCompileFileName: "",
+  codeCompileAddress: ""
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -25,6 +30,20 @@ const smartContractPageReducer = (state = initialState, action) =>
     switch (action.type) {
       case UPDATE_CODE_VALUE:
         draft.codeValue = action.codeValue;
+
+        break;
+        
+      case CODE_COMPILE_SUCCESS:
+        draft.codeCompileFileName = action.fileName;
+        draft.codeCompileAddress = action.address;
+        draft.codeCompileStatus = "true";
+
+        break;
+        
+      case CODE_COMPILE_ERROR:
+        draft.codeCompileFileName = "";
+        draft.codeCompileAddress = "";
+        draft.codeCompileStatus = "false";
 
         break;
 

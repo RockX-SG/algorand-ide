@@ -34,6 +34,11 @@ const GlobalStyle = createGlobalStyle`
     padding: 0px 20px;
     overflow: auto;
     min-height: 700px;
+    margin-top: 20px;
+  }
+  
+  .hide{
+    display: none;
   }
 `;
 

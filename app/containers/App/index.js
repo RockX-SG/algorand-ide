@@ -34,6 +34,8 @@ import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import Navigation from '../../components/Navigation';
 import Footer from '../../components/Footer';
 
+import MainnetDisclaimer from '../../components/MainnetDisclaimer';
+
 import GlobalStyle from '../../global-styles';
 
 import {
@@ -41,7 +43,8 @@ import {
   restoreAccountPrimary,
   generateAccountSecondary,
   restoreAccountSecondary,
-  toggleSelectedAccount
+  toggleSelectedAccount,
+  changeNetwork
 } from '../WalletPage/actions';
 
 import {
@@ -54,6 +57,7 @@ export function App({
   onGenerateAccountSecondary,
   onRestoreAccountSecondary,
   onToggleSelectedAccount,
+  onChangeNetwork,
   walletPage
 }) {
   // useInjectReducer({ key: 'app', reducer });
@@ -80,10 +84,12 @@ export function App({
     }
 
   });
+  
 
   return (
     <div>
-      <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} />
+      <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} />
+      <MainnetDisclaimer network={walletPage.network} />
       <div className="page">
         <Switch>
           <Route exact path="/" component={HomePage} />
@@ -126,6 +132,7 @@ function mapDispatchToProps(dispatch) {
     },
     onRestoreAccountPrimary: evt => dispatch(restoreAccountPrimary(evt)),
     onRestoreAccountSecondary: evt => dispatch(restoreAccountSecondary(evt)),
+    onChangeNetwork: evt => dispatch(changeNetwork(evt.value)),
   };
 }
 

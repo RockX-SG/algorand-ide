@@ -11,7 +11,8 @@ import {
   CHANGE_ADDRESS,
   CHANGE_AMOUNT,
   GET_FAUCET_BALANCE_SUCCESS,
-  TOGGLE_SELECTED_ACCOUNT
+  TOGGLE_SELECTED_ACCOUNT,
+  CHANGE_NETWORK
 } from './constants';
 
 export const initialState = {
@@ -33,7 +34,8 @@ export const initialState = {
   faucetBalance: 0,
   faucetSendTxHash: "",
   userSendTxHash: "",
-  addressList: []
+  addressList: [],
+  network: "testnet"
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -106,6 +108,13 @@ const walletPageReducer = (state = initialState, action) =>
         draft.userSendTxHash = action.txHash;
 
         break;
+
+      case CHANGE_NETWORK:
+        draft.network = action.network;
+
+        break;
+        
+        
 
     }
   });

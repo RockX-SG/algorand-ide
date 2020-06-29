@@ -23,6 +23,10 @@ import {
   makeSelectWalletPage
 } from 'containers/WalletPage/selectors';
 
+import {
+  makeSelectSmartContractPage
+} from 'containers/SmartContractPage/selectors';
+
 var algosdk = require('algosdk')
 
 const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
@@ -114,6 +118,7 @@ function shortenAddress(addr){
 
 export function* sendTransaction(data) {
   console.log(data["sendFrom"]);
+  let smartContractInfo = yield select(makeSelectSmartContractPage());
   let walletInfo = yield select(makeSelectWalletPage());
 
   let addressTo;
@@ -138,6 +143,11 @@ export function* sendTransaction(data) {
     keys = keysUser;
   }else if(data["sendFrom"] == "faucet"){
     addressTo = keysUser["addr"];
+    amount = 5 * 1000000;
+
+    keys = keysFaucet;
+  }else if(data["sendFrom"] == "faucetContract"){
+    addressTo = smartContractInfo["codeCompileAddress"];
     amount = 5 * 1000000;
 
     keys = keysFaucet;

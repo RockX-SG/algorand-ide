@@ -31,7 +31,8 @@ function Navigation(props) {
     onToggleSelectedAccount,
     address,
     addressShorten,
-    balance
+    balance,
+    onChangeNetwork
   } = props;
 
   const options = [
@@ -59,8 +60,9 @@ function Navigation(props) {
       <div className="navRight">
         <NavNetwork>
           <Select
-            defaultValue={options[1]}
+            defaultValue={options[0]}
             options={options}
+            onChange={onChangeNetwork}
           />
         </NavNetwork>
         <NavInfo>

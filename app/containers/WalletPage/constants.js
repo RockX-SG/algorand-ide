@@ -25,3 +25,6 @@ export const GET_FAUCET_BALANCE_SUCCESS = 'app/WalletPage/GET_FAUCET_BALANCE_SUC
 export const GET_FAUCET_BALANCE_ERROR = 'app/WalletPage/GET_FAUCET_BALANCE_ERROR';
 
 export const TOGGLE_SELECTED_ACCOUNT = 'app/WalletPage/TOGGLE_SELECTED_ACCOUNT';
+
+export const CHANGE_NETWORK = 'app/WalletPage/CHANGE_NETWORK';
+

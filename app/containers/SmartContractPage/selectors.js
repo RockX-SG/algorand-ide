@@ -28,9 +28,16 @@ const makeSelectCodeValue = () =>
      substate => substate.codeValue,
    );
 
+ const makeSelectCodeCompileResponse = () =>
+    createSelector(
+      selectSmartContractPageDomain,
+      substate => substate.codeCompileAddress,
+    );
+
 
 export {
   selectSmartContractPageDomain,
   makeSelectSmartContractPage,
-  makeSelectCodeValue
+  makeSelectCodeValue,
+  makeSelectCodeCompileResponse
 };
