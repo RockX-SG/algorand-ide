@@ -15,6 +15,24 @@ const ExplorerStyle = styled.div`
     width: calc(100% - 200px)
   }
   
+  .contractAddress{
+    font-size: 12px;
+    background-color: #040404;
+    color: #999;
+    padding: 20px;
+  }
+  
+  .contractAddressTitle{
+    float: left;
+    padding-right: 20px;
+  }
+  
+  .contractAddressContent{
+    float: left;
+    font-weight: 700;
+    color: white;
+  }
+  
   .CodeMirror{
     padding: 10px;
     
@@ -46,6 +64,7 @@ const ExplorerStyle = styled.div`
     font-size: 12px;
     
     font-family: 'PT Serif', serif;
+    overflow-y: scroll;
   }
   
   .bashConsoleLine{

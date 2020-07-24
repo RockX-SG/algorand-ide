@@ -13,7 +13,11 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectExplorerPage from './selectors';
+
+import {
+  makeSelectExplorerPage
+} from './selectors';
+
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -27,10 +31,17 @@ import {
   updateCodeValue,
   addNewFile,
   toggleFolder,
-  changeContract
+  changeContract,
+  codeDeploy,
+  codeCompile,
 } from './actions';
 
+import {
+  faucetContractSend,
+} from '../WalletPage/actions';
+
 import FileExplorer from '../../components/FileExplorer';
+import BashConsole from '../../components/BashConsole';
 
 import Terminal from 'terminal-in-react';
 import {Controlled as CodeMirror} from 'react-codemirror2'
@@ -50,7 +61,10 @@ export function ExplorerPage({
   explorerPage,
   onAddNewFile,
   onToggleFolder,
-  onChangeContract
+  onChangeContract,
+  onCodeCompile,
+  onFundContract,
+  onCodeDeploy
 }) {
   useInjectReducer({ key: 'explorerPage', reducer });
   useInjectSaga({ key: 'explorerPage', saga });
@@ -84,6 +98,17 @@ export function ExplorerPage({
             <FileExplorer filePreset={explorerPage.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage} onChangeContract={onChangeContract} />
           </div>
           <div className="pageRight">
+            <div className={(explorerPage.codeCompileStatus == "true") ? "contractAddress" : "contractAddress xxx"}>
+              <div className="contractAddressTitle">
+                Contract Address:
+              </div>
+              <div className="contractAddressContent">
+                <a href={"https://testnet.algoexplorer.io/address/" + explorerPage.codeCompileAddress} target="_blank">
+                  {explorerPage.codeCompileAddress}
+                </a>
+              </div>
+              <div className="clear"></div>
+            </div>
             <div className="ide">
               <CodeMirror
                 value={explorerPage.codeValue}
@@ -100,49 +125,33 @@ export function ExplorerPage({
             </div>
             <div className="actionPanel">
               <div className="actionPanelButton">
-                <button data-tip="Compiling outputs a deterministic address" data-for="bash">
-                  Compile
-                </button>
+                <div className={(explorerPage.codeCompileAddress == "-") ? "" : "disabled"}>
+                  <button data-tip="Compiling outputs a deterministic address" data-for="bash" onClick={onCodeCompile}>
+                    Compile
+                  </button>
+                </div>
               </div>
               <div className="actionPanelButton">
-                <button data-tip="Funds address from faucet" data-for="bash">
-                  Fund Contract Address
-                </button>
+                <div className={(explorerPage.codeCompileAddress == "-") ? "disabled" : ""}>
+                  <button data-tip="Funds address from faucet" data-for="bash" onClick={onFundContract}>
+                    Fund Contract Address
+                  </button>
+                </div>
               </div>
               <div className="actionPanelButton">
-                <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="bash">
-                  Execute Transaction
-                </button>
+                <div className={(explorerPage.codeCompileAddress == "-") ? "disabled" : ""}>
+                  <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="bash" onClick={onCodeDeploy}>
+                    Execute Transaction
+                  </button>
+                </div>
               </div>
               <div className="clear"></div>
             </div>
-            <div className="bashConsole">
-              <div className="bashConsoleLine">
-                this is an example code response this is an example code response this is an example code response this is an example code response this is an example code response
-              </div>
-              <div className="bashConsoleLine">
-                this is an example code response
-              </div>
-            </div>
-            <div className="hide">
-              <Terminal
-                  color='green'
-                  backgroundColor='black'
-                  barColor='black'
-                  style={{ fontWeight: "bold", fontSize: "1em" }}
-                  commands={{
-                    'open-google': () => window.open('https://www.google.com/', '_blank'),
-                    showmsg: "hello world",
-                    popup: () => alert('Terminal in React')
-                  }}
-                  descriptions={{
-                    'open-google': 'opens google.com',
-                    showmsg: 'shows a message',
-                    alert: 'alert', popup: 'alert'
-                  }}
-                  msg='You can write anything here. Example - Hello! My name is Foo and I like Bar.'
-                />
-            </div>
+            
+            
+            <BashConsole bashResponse={explorerPage.bashResponse} />
+            
+          
           </div>
           <div className="clear"></div>
         </div>
@@ -170,6 +179,18 @@ function mapDispatchToProps(dispatch) {
     onAddNewFile: evt => dispatch(addNewFile()),
     onToggleFolder: evt => dispatch(toggleFolder(evt)),
     onChangeContract: evt => dispatch(changeContract(evt)),
+    onCodeDeploy: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(codeDeploy(evt));
+    },
+    onCodeCompile: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(codeCompile(evt));
+    },
+    onFundContract: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(faucetContractSend(evt));
+    },
   };
 }
 

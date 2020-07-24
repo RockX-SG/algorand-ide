@@ -8,7 +8,10 @@ import {
   UPDATE_CODE_VALUE,
   ADD_NEW_FILE,
   TOGGLE_FOLDER,
-  CHANGE_CONTRACT
+  CHANGE_CONTRACT,
+  CODE_DEPLOY,
+  CODE_COMPILE_SUCCESS,
+  CODE_COMPILE_ERROR
 } from './constants';
 
 
@@ -19,6 +22,9 @@ import templateContract4 from './templateContract4.js';
 
 export const initialState = {
   codeValue: "",
+  codeCompileStatus: "",
+  codeCompileFileName: "-",
+  codeCompileAddress: "-",
   explorerFilePreset: [
     {
       "id": 1,
@@ -55,6 +61,11 @@ export const initialState = {
   userFolderStatus: true,
   selectedFolderId: -1, //-1 for null
   selectedFileIndex: 0, //0 for null
+  bashResponse: [
+    "this is an example code response this is an example code response this is an example code response this is an example code response this is an example code response",
+    "this is an example code response",
+    "123",
+  ],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -103,6 +114,21 @@ const explorerPageReducer = (state = initialState, action) =>
         draft.selectedFolderId = action.folderIndex;
         draft.selectedFileIndex = action.fileIndex;
         
+        break;
+        
+      case CODE_COMPILE_SUCCESS:
+        draft.codeCompileFileName = action.fileName;
+        draft.codeCompileAddress = action.address;
+        draft.codeCompileStatus = "true";
+        draft.bashResponse.unshift(action.address);
+
+        break;
+        
+      case CODE_COMPILE_ERROR:
+        draft.codeCompileFileName = "";
+        draft.codeCompileAddress = "";
+        draft.codeCompileStatus = "false";
+
         break;
         
     }

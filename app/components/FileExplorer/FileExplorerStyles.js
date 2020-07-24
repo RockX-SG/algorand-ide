@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const FileExplorerStyles = styled.div`
   font-size: 12px;
   padding-bottom: 20px;
-  height: 600px;
+  height: calc(600px + 53px);
   border-right: 1px solid #333;
   
   .header{
@@ -13,7 +13,7 @@ const FileExplorerStyles = styled.div`
   
   .explorerBoundary{
     overflow-y: scroll;
-    height: 554px;
+    height: calc(554px + 53px);
     padding-bottom: 20px;
   }
   

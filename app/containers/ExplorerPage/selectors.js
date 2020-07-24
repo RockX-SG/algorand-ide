@@ -21,5 +21,7 @@ const makeSelectExplorerPage = () =>
     substate => substate,
   );
 
-export default makeSelectExplorerPage;
-export { selectExplorerPageDomain };
+export { 
+  selectExplorerPageDomain,
+  makeSelectExplorerPage
+};
