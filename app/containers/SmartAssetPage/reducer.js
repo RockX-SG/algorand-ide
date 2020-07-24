@@ -7,6 +7,7 @@ import produce from 'immer';
 import {
   CREATE_ASSET,
   CREATE_ASSET_SUCCESS,
+  CREATE_ASSET_ERROR,
   CHANGE_NOTE,
   CHANGE_ADDRESS,
   CHANGE_DEFAULT_FROZEN,
@@ -22,6 +23,7 @@ import {
 } from './constants';
 
 export const initialState = {
+  formSubmitted: false,
   inputNote: undefined,
   inputAddress: "VBW6SN2L5Z3AJTBEXLOZGOP4I2BCFYU34IC4HGKYOB25YQ3ICYOEO275KE",
   inputDefaultFrozen: false,
@@ -34,13 +36,29 @@ export const initialState = {
   inputReserve: "AJNNFQN7DSR7QEY766V7JDG35OPM53ZSNF7CU264AWOOUGSZBMLMSKCRIU",
   inputFreeze: "AJNNFQN7DSR7QEY766V7JDG35OPM53ZSNF7CU264AWOOUGSZBMLMSKCRIU",
   inputClawback: "AJNNFQN7DSR7QEY766V7JDG35OPM53ZSNF7CU264AWOOUGSZBMLMSKCRIU",
+  txID: "-",
+  assetID: "-",
 };
 
 /* eslint-disable default-case, no-param-reassign */
 const smartAssetPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case CREATE_ASSET:
+          
+        break;
+        
       case CREATE_ASSET_SUCCESS:
+        draft.formSubmitted = true;
+        draft.txID = action.txID;
+        draft.assetID = action.assetID;
+        draft.formSubmitted = false;
+          
+        break;
+        
+      case CREATE_ASSET_ERROR:
+        draft.formSubmitted = false;
+          
         break;
 
       case CHANGE_NOTE:

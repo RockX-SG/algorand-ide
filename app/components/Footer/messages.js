@@ -11,6 +11,6 @@ export const scope = 'app.components.Footer';
 export default defineMessages({
   header: {
     id: `${scope}.header`,
-    defaultMessage: 'This is the Footer component!',
+    defaultMessage: 'Powered by RockX © 2020',
   },
 });

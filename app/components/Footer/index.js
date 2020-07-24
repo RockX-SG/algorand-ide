@@ -16,7 +16,12 @@ import FooterStyles from './FooterStyles';
 function Footer() {
   return (
     <FooterStyles>
-      <FormattedMessage {...messages.header} />
+      <div className="logoFooter">
+      
+      </div>
+      <div className="footerText">
+        <FormattedMessage {...messages.header} />
+      </div>
     </FooterStyles>
   );
 }

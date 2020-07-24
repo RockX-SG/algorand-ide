@@ -27,4 +27,14 @@ export const GET_FAUCET_BALANCE_ERROR = 'app/WalletPage/GET_FAUCET_BALANCE_ERROR
 export const TOGGLE_SELECTED_ACCOUNT = 'app/WalletPage/TOGGLE_SELECTED_ACCOUNT';
 
 export const CHANGE_NETWORK = 'app/WalletPage/CHANGE_NETWORK';
+export const SELECT_ACCOUNT = 'app/WalletPage/SELECT_ACCOUNT';
+
+export const ADD_ACCOUNT = 'app/WalletPage/ADD_ACCOUNT';
+export const ADD_ACCOUNT_SUCCESS = 'app/WalletPage/ADD_ACCOUNT_SUCCESS';
+export const ADD_ACCOUNT_ERROR = 'app/WalletPage/ADD_ACCOUNT_ERROR';
+
+export const TOGGLE_DROPDOWN = 'app/WalletPage/TOGGLE_DROPDOWN';
+export const SELECT_PAGE = 'app/WalletPage/SELECT_PAGE';
+
+export const RECAPTCHA_CHANGE = 'app/WalletPage/RECAPTCHA_CHANGE';
 

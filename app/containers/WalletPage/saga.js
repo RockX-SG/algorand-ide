@@ -6,7 +6,8 @@ import {
   GENERATE_ACCOUNT_SECONDARY,
   RESTORE_ACCOUNT_SECONDARY,
   SEND_TRANSACTION,
-  GET_FAUCET_BALANCE
+  GET_FAUCET_BALANCE,
+  ADD_ACCOUNT
 } from 'containers/WalletPage/constants';
 
 import {
@@ -16,7 +17,9 @@ import {
   sendTransactionSuccess,
   sendTransactionError,
   getFaucetBalanceSuccess,
-  getFaucetBalanceError
+  getFaucetBalanceError,
+  addAccountSuccess,
+  addAccountError
 } from 'containers/WalletPage/actions';
 
 import {
@@ -46,6 +49,8 @@ export default function* walletPageSaga() {
   yield takeLatest(RESTORE_ACCOUNT_SECONDARY, restoreAccountSecondary);
   yield takeLatest(SEND_TRANSACTION, sendTransaction);
   yield takeLatest(GET_FAUCET_BALANCE, getFaucetBalance);
+  yield takeLatest(ADD_ACCOUNT, addAccount);
+  
 }
 
 export function* generateAccountPrimary() {
@@ -127,77 +132,90 @@ export function* sendTransaction(data) {
 
   let mnemonicFaucet = "core alone rain law scout guitar immense tag kit dice negative inject crew unfold acquire buzz notice scene outer leisure soccer treat family abstract sign";
   let keysFaucet = algosdk.mnemonicToSecretKey(mnemonicFaucet);
-
+  
+  // draft.addressArray[0] = action.address;
+  // draft.mnemonicArray[0] = action.mnemonic;
+  
   let mnemonicUser;
-  if(walletInfo["selectedAccount"] == 1){
-    mnemonicUser = localStorage.getItem('mnemonicPrimary');
-  }else if(walletInfo["selectedAccount"] == 2){
-    mnemonicUser = localStorage.getItem('mnemonicSecondary');
-  }
+  mnemonicUser = walletInfo["mnemonic"];
+  console.log("mnemonicUser", mnemonicUser);
+  // if(walletInfo["selectedAccount"] == 1){
+  //   mnemonicUser = localStorage.getItem('mnemonicPrimary');
+  // }else if(walletInfo["selectedAccount"] == 2){
+  //   mnemonicUser = localStorage.getItem('mnemonicSecondary');
+  // }
   let keysUser = algosdk.mnemonicToSecretKey(mnemonicUser);
+  
+  let captchaData = walletInfo["captchaData"];
+  
+  if(captchaData == "" || captchaData == undefined || captchaData == null){
+    console.log("recaptcha error")
+    yield put(sendTransactionError("recaptcha"));
+  }else{
 
-  if(data["sendFrom"] == "user"){
-    addressTo = walletInfo["inputAddress"];
-    amount = walletInfo["inputAmount"] * 1000000;
+    if(data["sendFrom"] == "user"){
+      addressTo = walletInfo["inputAddress"];
+      amount = walletInfo["inputAmount"] * 1000000;
 
-    keys = keysUser;
-  }else if(data["sendFrom"] == "faucet"){
-    addressTo = keysUser["addr"];
-    amount = 5 * 1000000;
+      keys = keysUser;
+    }else if(data["sendFrom"] == "faucet"){
+      addressTo = keysUser["addr"];
+      amount = 5 * 1000000;
 
-    keys = keysFaucet;
-  }else if(data["sendFrom"] == "faucetContract"){
-    addressTo = smartContractInfo["codeCompileAddress"];
-    amount = 5 * 1000000;
+      keys = keysFaucet;
+    }else if(data["sendFrom"] == "faucetContract"){
+      addressTo = smartContractInfo["codeCompileAddress"];
+      amount = 5 * 1000000;
 
-    keys = keysFaucet;
-  }
-
-
-  console.log("addressTo", addressTo);
-
-  let params = yield call(algodclient.getTransactionParams);
-  let endRound = params.lastRound + parseInt(1000);
-
-  let txn = {
-      "to": addressTo,
-      "fee": 10,
-      "amount": amount,
-      "firstRound": params.lastRound,
-      "lastRound": endRound,
-      "genesisID": params.genesisID,
-      "genesisHash": params.genesishashb64,
-      "note": new Uint8Array(0),
-  };
-  console.log(txn);
-
-  const txHeaders = {
-      'Content-Type' : 'application/x-binary'
-  }
-
-  let signedTxn = algosdk.signTransaction(txn, keys.sk);
-  console.log(signedTxn);
-  let tx = yield call(algodclient.sendRawTransaction, signedTxn.blob, txHeaders);
-  console.log("Transaction : " + tx.txId);
-
-
-  let status = yield call(algodclient.status);
-  console.log("status : " + status);
-  let lastround = status.lastRound;
-  console.log("lastround : " + lastround);
-  while (true) {
-    let pendingInfo = yield call(algodclient.pendingTransactionInformation, tx.txId);
-    if (pendingInfo.round !== null && pendingInfo.round > 0) {
-      //Got the completed Transaction
-      console.log("Transaction " + pendingInfo.tx + " confirmed in round " + pendingInfo.round);
-      break;
+      keys = keysFaucet;
     }
-    lastround++;
-    yield call(algodclient.statusAfterBlock, lastround);
-  }
-  console.log("done");
 
-  yield put(sendTransactionSuccess(tx.txId));
+
+    console.log("addressTo", addressTo);
+
+    let params = yield call(algodclient.getTransactionParams);
+    let endRound = params.lastRound + parseInt(1000);
+
+    let txn = {
+        "to": addressTo,
+        "fee": 10,
+        "amount": amount,
+        "firstRound": params.lastRound,
+        "lastRound": endRound,
+        "genesisID": params.genesisID,
+        "genesisHash": params.genesishashb64,
+        "note": new Uint8Array(0),
+    };
+    console.log(txn);
+
+    const txHeaders = {
+        'Content-Type' : 'application/x-binary'
+    }
+
+    let signedTxn = algosdk.signTransaction(txn, keys.sk);
+    console.log(signedTxn);
+    let tx = yield call(algodclient.sendRawTransaction, signedTxn.blob, txHeaders);
+    console.log("Transaction : " + tx.txId);
+
+
+    let status = yield call(algodclient.status);
+    console.log("status : " + status);
+    let lastround = status.lastRound;
+    console.log("lastround : " + lastround);
+    while (true) {
+      let pendingInfo = yield call(algodclient.pendingTransactionInformation, tx.txId);
+      if (pendingInfo.round !== null && pendingInfo.round > 0) {
+        //Got the completed Transaction
+        console.log("Transaction " + pendingInfo.tx + " confirmed in round " + pendingInfo.round);
+        break;
+      }
+      lastround++;
+      yield call(algodclient.statusAfterBlock, lastround);
+    }
+    console.log("done");
+
+    yield put(sendTransactionSuccess(tx.txId));
+  }
 }
 
 export function* getFaucetBalance() {
@@ -207,4 +225,30 @@ export function* getFaucetBalance() {
   let accountInfo = yield call(algodclient.accountInformation, addr);
 
   yield put(getFaucetBalanceSuccess(accountInfo["amount"]));
+}
+
+
+export function* addAccount() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  var keys = algosdk.generateAccount();
+  
+  console.log("keys", keys["addr"]);
+  
+  var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
+  console.log("mnemonic", mnemonic);
+  
+  // retrieve num of account here
+  let n = walletInfo["walletArray"].length + 1;
+  
+  localStorage.setItem('address'+n, keys["addr"]);
+  
+  localStorage.setItem('mnemonic'+n, mnemonic);
+  
+  localStorage.setItem('totalAccount', n);
+  
+  let accountInfo = yield call(algodclient.accountInformation, keys["addr"]);
+  let addressShorten = shortenAddress(keys["addr"]);
+  
+  yield put(addAccountSuccess(keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
 }

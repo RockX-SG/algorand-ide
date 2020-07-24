@@ -28,15 +28,18 @@ export function createAsset() {
   };
 }
 
-export function createAssetSuccess() {
+export function createAssetSuccess(txID, assetID) {
   return {
     type: CREATE_ASSET_SUCCESS,
+    txID, 
+    assetID
   };
 }
 
-export function createAssetError() {
+export function createAssetError(error) {
   return {
     type: CREATE_ASSET_ERROR,
+    error
   };
 }
 

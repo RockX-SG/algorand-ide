@@ -24,6 +24,7 @@ import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
 
+
 import {
   generateAccountPrimary,
   restoreAccountPrimary,
@@ -34,11 +35,17 @@ import {
   changeAddress,
   changeAmount,
   getFaucetBalance,
-  toggleSelectedAccount
+  toggleSelectedAccount,
+  selectAccount,
+  addAccount,
+  recaptchaChange
 } from '../WalletPage/actions';
 
 import Input from './Input';
-import SimpleForm from "./SimpleForm";
+import FaucetForm from "./FaucetForm";
+import Wallet from './Wallet';
+
+import WalletDisplay from '../../components/WalletDisplay';
 
 export function WalletPage({
   onGenerateAccountPrimary,
@@ -51,13 +58,17 @@ export function WalletPage({
   onGetFaucetBalance,
   onFaucetSend,
   onToggleSelectedAccount,
+  onSelectAccount,
+  onAddAccount,
   inputAddress,
   inputAmount,
   addressPrimary,
   mnemonicPrimary,
   addressSecondary,
   mnemonicSecondary,
-  walletPage
+  walletPage,
+  onChangeMnemonicRestore,
+  onRecaptchaChange
 }) {
   useInjectReducer({ key: 'walletPage', reducer });
   useInjectSaga({ key: 'walletPage', saga });
@@ -82,110 +93,89 @@ export function WalletPage({
 
     onGetFaucetBalance();
   });
-
+  
 
   return (
     <div>
-      <FormattedMessage {...messages.header} />
-      <div>
-        <h2>
-          Selected Account:
-        </h2>
-        <div>
-          {(walletPage.selectedAccount == 1) ? walletPage.addressPrimary : walletPage.addressSecondary}
+      <Wallet>
+        <div className="pageName">
+          Wallets
         </div>
-        <div onClick={() => onToggleSelectedAccount()}>
-          Change selected account
-        </div>
+        <WalletDisplay address={walletPage.addressArray} addressShorten={walletPage.addressShortenArray} mnemonic={walletPage.mnemonicArray} balance={walletPage.balanceArray} selectedAccount={walletPage.address} onSelectAccount={onSelectAccount}
+        onChangeMnemonicRestore={onChangeMnemonicRestore} mnemonicRestore={walletPage.mnemonicRestore} />
         
-        <SimpleForm onSubmit={onFaucetSend} faucetBalance={walletPage.faucetBalance} />
-
-        <div>
-          <a href={"https://testnet.algoexplorer.io/tx/" + walletPage.faucetSendTxHash} target="_blank">
-            {walletPage.faucetSendTxHash}
-          </a>
-        </div>
+        <button className={(walletPage.addressArray.length < 5) ? "" : "hide"} onClick={() => onAddAccount()}>
+          Add more wallet
+        </button>
         
-        <form onSubmit={onSendTransaction}>
-          <h2>
-            Send ALGO
-          </h2>
-          <div>
-            Sending Address:
+        <div className="faucet">
+          
+          <FaucetForm onSubmit={onFaucetSend} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          
+          
+          <div className="assetResponse">
+            <div className={(walletPage.faucetSendTxHash == "-") ? "disabled" : ""}>
+              <div className="assetResponseSection">
+                <div className="assetResponseTitle">
+                  Transaction ID:
+                </div>
+                <div className="assetResponseOutput">
+                  <a href={"https://testnet.algoexplorer.io/tx/"+walletPage.faucetSendTxHash} target="_blank">
+                    {walletPage.faucetSendTxHash}
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            {(walletPage.selectedAccount == 1) ? walletPage.addressPrimary : walletPage.addressSecondary}
-          </div>
-          <div>
-            Destination Address:
-          </div>
-          <div>
-            <Input
-              id="address"
-              type="text"
-              placeholder="Please input receiving address"
-              value={walletPage.inputAddress}
-              onChange={onChangeAddress}
-            />
-          </div>
-          <div>
-            Amount:
-          </div>
-          <div>
-            <Input
-              id="amount"
-              type="text"
-              placeholder="Please input sending amount"
-              value={walletPage.inputAmount}
-              onChange={onChangeAmount}
-            />
-          </div>
-          <div>
-            <button>
-              Send Tx
-            </button>
-          </div>
+          
+          <form className="hide" onSubmit={onSendTransaction}>
+            <h3>
+              Send ALGO
+            </h3>
+            <div>
+              Sending Address:
+            </div>
+            <div>
+              {(walletPage.selectedAccount == 1) ? walletPage.addressPrimary : walletPage.addressSecondary}
+            </div>
+            <div>
+              Destination Address:
+            </div>
+            <div>
+              <Input
+                id="address"
+                type="text"
+                placeholder="Please input receiving address"
+                value={walletPage.inputAddress}
+                onChange={onChangeAddress}
+              />
+            </div>
+            <div>
+              Amount:
+            </div>
+            <div>
+              <Input
+                id="amount"
+                type="text"
+                placeholder="Please input sending amount"
+                value={walletPage.inputAmount}
+                onChange={onChangeAmount}
+              />
+            </div>
+            <div>
+              <button>
+                Send Tx
+              </button>
+            </div>
 
-          <div>
-            <a href={"https://testnet.algoexplorer.io/tx/" + walletPage.userSendTxHash} target="_blank">
-              {walletPage.userSendTxHash}
-            </a>
-          </div>
-        </form>
-        <h2>
-          Send ASA
-        </h2>
-        <h2>
-          Mnemonic seed (Primary)
-        </h2>
-        <div onClick={() => onGenerateAccountPrimary()}>
-          Regenerate seed
+            <div>
+              <a href={"https://testnet.algoexplorer.io/tx/" + walletPage.userSendTxHash} target="_blank">
+                {walletPage.userSendTxHash}
+              </a>
+            </div>
+          </form>
         </div>
-        <div>
-          {mnemonicPrimary}
-        </div>
-        <h2>
-          Address
-        </h2>
-        <div>
-          {addressPrimary}
-        </div>
-        <h2>
-          Mnemonic seed (Secondary)
-        </h2>
-        <div onClick={() => onGenerateAccountSecondary()}>
-          Regenerate seed
-        </div>
-        <div>
-          {mnemonicSecondary}
-        </div>
-        <h2>
-          Address
-        </h2>
-        <div>
-          {addressSecondary}
-        </div>
-      </div>
+      </Wallet>
     </div>
   );
 }
@@ -233,6 +223,22 @@ function mapDispatchToProps(dispatch) {
     onToggleSelectedAccount: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(toggleSelectedAccount(evt));
+    },
+    onSelectAccount: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      // dispatch(selectAccount(evt));
+    },
+    onAddAccount: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(addAccount(evt));
+    },
+    onChangeMnemonicRestore: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(addAccount(evt));
+    },
+    onRecaptchaChange: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(recaptchaChange(evt));
     },
   };
 }

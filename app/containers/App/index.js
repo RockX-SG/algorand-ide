@@ -29,9 +29,19 @@ import SmartContractPage from 'containers/SmartContractPage/Loadable';
 import SmartAssetPage from 'containers/SmartAssetPage/Loadable';
 import TutorialPage from 'containers/TutorialPage/Loadable';
 import WalletPage from 'containers/WalletPage/Loadable';
+import ExplorerPage from 'containers/ExplorerPage/Loadable';
+import TransactionPage from 'containers/TransactionPage/Loadable';
+import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
+
+import TutorialJsCreateAccountPage from 'containers/TutorialJsCreateAccountPage/Loadable';
+import TutorialJsCreateAssetPage from 'containers/TutorialJsCreateAssetPage/Loadable';
+import TutorialJsLimitOrderPage from 'containers/TutorialJsLimitOrderPage/Loadable';
+import TutorialJsTransferAssetPage from 'containers/TutorialJsTransferAssetPage/Loadable';
+
 import Navigation from '../../components/Navigation';
+import NavigationSide from '../../components/NavigationSide';
 import Footer from '../../components/Footer';
 
 import MainnetDisclaimer from '../../components/MainnetDisclaimer';
@@ -44,7 +54,10 @@ import {
   generateAccountSecondary,
   restoreAccountSecondary,
   toggleSelectedAccount,
-  changeNetwork
+  changeNetwork,
+  toggleDropdown,
+  selectAccount,
+  selectPage
 } from '../WalletPage/actions';
 
 import {
@@ -58,7 +71,11 @@ export function App({
   onRestoreAccountSecondary,
   onToggleSelectedAccount,
   onChangeNetwork,
-  walletPage
+  walletPage,
+  onShowDropdown,
+  onHideDropdown,
+  onSelectAccount,
+  onSelectPage,
 }) {
   // useInjectReducer({ key: 'app', reducer });
   // useInjectSaga({ key: 'app', saga });
@@ -88,15 +105,27 @@ export function App({
 
   return (
     <div>
-      <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} />
+      <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} dropdownStatus={walletPage.dropdownStatus}  onShowDropdown={onShowDropdown} onHideDropdown={onHideDropdown} addressArray={walletPage.addressArray} addressShortenArray={walletPage.addressShortenArray} mnemonicArray={walletPage.mnemonicArray} balanceArray={walletPage.balanceArray} onSelectAccount={onSelectAccount} />
       <MainnetDisclaimer network={walletPage.network} />
-      <div className="page">
+      <NavigationSide currentPage={walletPage.currentPage} onSelectPage={onSelectPage} />
+      
+      <div className={(walletPage.network == "mainnet") ? "page pagePadTop" : "page"}>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={ExplorerPage} />
           <Route exact path="/smart-contract" component={SmartContractPage} />
           <Route exact path="/smart-asset" component={SmartAssetPage} />
+          <Route exact path="/asset" component={SmartAssetPage} />
           <Route exact path="/tutorials" component={TutorialPage} />
+          <Route exact path="/tutorial/create-account" component={TutorialJsCreateAccountPage} />
+          <Route exact path="/tutorial/create-asset" component={TutorialJsCreateAssetPage} />
+          <Route exact path="/tutorial/limit-order-contract" component={TutorialJsLimitOrderPage} />
+          <Route exact path="/tutorial/transfer-asset" component={TutorialJsTransferAssetPage} />
           <Route exact path="/wallet" component={WalletPage} />
+          <Route exact path="/explorer" component={ExplorerPage} />
+          <Route exact path="/transaction" component={TransactionPage} />
+          <Route exact path="/settings" component={SettingsPage} />
+          
+          
           <Route component={NotFoundPage} />
         </Switch>
       </div>
@@ -133,6 +162,16 @@ function mapDispatchToProps(dispatch) {
     onRestoreAccountPrimary: evt => dispatch(restoreAccountPrimary(evt)),
     onRestoreAccountSecondary: evt => dispatch(restoreAccountSecondary(evt)),
     onChangeNetwork: evt => dispatch(changeNetwork(evt.value)),
+    onShowDropdown: evt => dispatch(toggleDropdown(true)),
+    onHideDropdown: evt => dispatch(toggleDropdown(false)),
+    onSelectAccount: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectAccount(evt));
+    },
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
+    },
   };
 }
 

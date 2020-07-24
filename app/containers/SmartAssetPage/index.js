@@ -29,6 +29,8 @@ import saga from './saga';
 // import sagaWallet from '../WalletPage/saga';
 import messages from './messages';
 
+import Collapsible from 'react-collapsible';
+
 import {
   createAsset,
   changeNote,
@@ -45,14 +47,17 @@ import {
   changeClawback
 } from '../SmartAssetPage/actions';
 
-// import {
-//   generateAccountPrimary,
-//   restoreAccountPrimary,
-//   generateAccountSecondary,
-//   restoreAccountSecondary,
-// } from '../WalletPage/actions';
+import {
+  recaptchaChange
+} from '../WalletPage/actions';
 
 import Input from './Input';
+import SmartAsset from './SmartAsset';
+
+
+import Captcha from '../../components/Captcha';
+
+const recaptchaRef = React.createRef();
 
 import Select from 'react-select'
 import CreatableSelect from 'react-select/creatable';
@@ -66,7 +71,7 @@ require('codemirror/mode/javascript/javascript.js');
 require("codemirror/theme/dracula.css");
 
 export function SmartAssetPage({
-  onCreatAsset,
+  onCreateAsset,
   onChangeNote,
   onChangeAddress,
   onChangeDefaultFrozen,
@@ -80,7 +85,7 @@ export function SmartAssetPage({
   onChangeFreeze,
   onChangeClawback,
   smartAssetPage,
-
+  onRecaptchaChange,
   // onGenerateAccountPrimary,
   // onRestoreAccountPrimary,
   // onGenerateAccountSecondary,
@@ -129,163 +134,208 @@ export function SmartAssetPage({
   })
 
   return (
-    <div>
-      <FormattedMessage {...messages.header} />
+    <SmartAsset>
       <div>
-        <form onSubmit={onCreatAsset}>
-          <div>
-            Note:
+        <div className="pageName">
+          Smart Asset Creator
+        </div>
+        <form className={(smartAssetPage.formSubmitted == true) ? "disabled" : ""} onSubmit={onCreateAsset}>
+          <div className="pageLeft">
+            <div className="section">
+              <div className="sectionTitle">
+                Note:
+              </div>
+              <div>
+                <Input
+                  id="note"
+                  type="text"
+                  value={smartAssetPage.inputNote}
+                  onChange={onChangeNote}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                address:
+              </div>
+              <div className="selectComponent">
+                <Select
+                  defaultValue={options[1]}
+                  options={options}
+                  onChange={onChangeAddress}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                defaultFrozen:
+              </div>
+              <div>
+                <Input
+                  id="defaultFrozen"
+                  type="text"
+                  value={smartAssetPage.inputDefaultFrozen}
+                  onChange={onChangeDefaultFrozen}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                totalIssuance:
+              </div>
+              <div>
+                <Input
+                  id="totalIssuance"
+                  type="text"
+                  value={smartAssetPage.inputTotalIssuance}
+                  onChange={onChangeTotalIssuance}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                unitName:
+              </div>
+              <div>
+                <Input
+                  id="unitName"
+                  type="text"
+                  value={smartAssetPage.inputUnitName}
+                  onChange={onChangeUnitName}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                assetName:
+              </div>
+              <div>
+                <Input
+                  id="assetName"
+                  type="text"
+                  value={smartAssetPage.inputAssetName}
+                  onChange={onChangeAssetName}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                assetURL:
+              </div>
+              <div>
+                <Input
+                  id="assetURL"
+                  type="text"
+                  value={smartAssetPage.inputAssetURL}
+                  onChange={onChangeAssetURL}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                assetMetaHash:
+              </div>
+              <div>
+                <Input
+                  id="assetMetahash"
+                  type="text"
+                  value={smartAssetPage.inputAssetMetadataHash}
+                  onChange={onChangeAssetMetadataHash}
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            <Input
-              id="note"
-              type="text"
-              value={smartAssetPage.inputNote}
-              onChange={onChangeNote}
-            />
+          <div className="pageRight">
+            <div className="section">
+              <div className="sectionTitle">
+                manager:
+              </div>
+              <div className="selectComponent">
+                <CreatableSelect
+                  isClearable
+                  onChange={onChangeManager}
+                  defaultValue={options[0]}
+                  options={options}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                reserve:
+              </div>
+              <div className="selectComponent">
+                <CreatableSelect
+                  isClearable
+                  onChange={onChangeReserve}
+                  defaultValue={options[0]}
+                  options={options}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                freeze:
+              </div>
+              <div className="selectComponent">
+                <CreatableSelect
+                  isClearable
+                  onChange={onChangeFreeze}
+                  defaultValue={options[0]}
+                  options={options}
+                />
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
+                clawback:
+              </div>
+              <div className="selectComponent">
+                <CreatableSelect
+                  isClearable
+                  onChange={onChangeClawback}
+                  defaultValue={options[0]}
+                  options={options}
+                />
+              </div>
+            </div>
           </div>
-          <div>
-            address:
+          <div className="clear"></div>
+          
+          <div className="section">
+            <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
           </div>
-          <div>
-            <Select
-              defaultValue={options[1]}
-              options={options}
-              onChange={onChangeAddress}
-            />
-          </div>
-          <div>
-            defaultFrozen:
-          </div>
-          <div>
-            <Input
-              id="defaultFrozen"
-              type="text"
-              value={smartAssetPage.inputDefaultFrozen}
-              onChange={onChangeDefaultFrozen}
-            />
-          </div>
-          <div>
-            totalIssuance:
-          </div>
-          <div>
-            <Input
-              id="totalIssuance"
-              type="text"
-              value={smartAssetPage.inputTotalIssuance}
-              onChange={onChangeTotalIssuance}
-            />
-          </div>
-          <div>
-            unitName:
-          </div>
-          <div>
-            <Input
-              id="unitName"
-              type="text"
-              value={smartAssetPage.inputUnitName}
-              onChange={onChangeUnitName}
-            />
-          </div>
-          <div>
-            assetName:
-          </div>
-          <div>
-            <Input
-              id="assetName"
-              type="text"
-              value={smartAssetPage.inputAssetName}
-              onChange={onChangeAssetName}
-            />
-          </div>
-          <div>
-            assetURL:
-          </div>
-          <div>
-            <Input
-              id="assetURL"
-              type="text"
-              value={smartAssetPage.inputAssetURL}
-              onChange={onChangeAssetURL}
-            />
-          </div>
-          <div>
-            assetMetaHash:
-          </div>
-          <div>
-            <Input
-              id="assetMetahash"
-              type="text"
-              value={smartAssetPage.inputAssetMetadataHash}
-              onChange={onChangeAssetMetadataHash}
-            />
-          </div>
-          <div>
-            manager:
-          </div>
-          <div>
-            <CreatableSelect
-              isClearable
-              onChange={onChangeManager}
-              defaultValue={options[0]}
-              options={options}
-            />
-          </div>
-          <div>
-            reserve:
-          </div>
-          <div>
-            <CreatableSelect
-              isClearable
-              onChange={onChangeReserve}
-              defaultValue={options[0]}
-              options={options}
-            />
-          </div>
-          <div>
-            freeze:
-          </div>
-          <div>
-            <CreatableSelect
-              isClearable
-              onChange={onChangeFreeze}
-              defaultValue={options[0]}
-              options={options}
-            />
-          </div>
-          <div>
-            clawback:
-          </div>
-          <div>
-            <CreatableSelect
-              isClearable
-              onChange={onChangeClawback}
-              defaultValue={options[0]}
-              options={options}
-            />
-          </div>
-          <div>
-            <button>
-              Create Asset
+          <div className="section">
+            <button className={(smartAssetPage.formSubmitted == true) ? "pending" : ""}>
+              {(smartAssetPage.formSubmitted == true) ? "Creating Asset..." : "Create Asset"}
             </button>
           </div>
         </form>
       </div>
-      <div>
-
-        <CodeMirror
-          value="Code response from deploy"
-          options={optionsResponse}
-          autoFocus={false}
-          onBeforeChange={(editor, data, value) => {
-            console.log('set value here', {value});
-          }}
-          onChange={(editor, value) => {
-            console.log('controlled', {value});
-          }}
-        />
+      <div className="assetResponse">
+        <div className={(smartAssetPage.txID == "-" || smartAssetPage.assetID == "-") ? "disabled" : ""}>
+          <div className="assetResponseSection">
+            <div className="assetResponseTitle">
+              Transaction ID:
+            </div>
+            <div className="assetResponseOutput">
+              <a href={"https://testnet.algoexplorer.io/tx/"+smartAssetPage.txID} target="_blank">
+                {smartAssetPage.txID}
+              </a>
+            </div>
+          </div>
+          <div className="assetResponseSection">
+            <div className="assetResponseTitle">
+              Asset ID:
+            </div>
+            <div className="assetResponseOutput">
+              <a href={"https://testnet.algoexplorer.io/asset/"+smartAssetPage.assetID} target="_blank">
+                {smartAssetPage.assetID}
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </SmartAsset>
   );
 }
 
@@ -301,7 +351,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    onCreatAsset: evt => {
+    onCreateAsset: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(createAsset(evt));
     },
@@ -317,7 +367,10 @@ function mapDispatchToProps(dispatch) {
     onChangeReserve: evt => dispatch(changeReserve(evt.value)),
     onChangeFreeze: evt => dispatch(changeFreeze(evt.value)),
     onChangeClawback: evt => dispatch(changeClawback(evt.value)),
-
+    onRecaptchaChange: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(recaptchaChange(evt));
+    },
     // onGenerateAccountPrimary: evt => {
     //   if (evt !== undefined && evt.preventDefault) evt.preventDefault();
     //   dispatch(generateAccountPrimary(evt));

@@ -13,6 +13,10 @@ import {
   makeSelectSmartAssetPage
 } from 'containers/SmartAssetPage/selectors';
 
+import {
+  makeSelectWalletPage
+} from 'containers/WalletPage/selectors';
+
 var algosdk = require('algosdk')
 
 const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
@@ -31,73 +35,58 @@ export default function* smartAssetPageSaga() {
 
 export function* createAsset() {
   let smartAssetInfo = yield select(makeSelectSmartAssetPage());
+  let walletInfo = yield select(makeSelectWalletPage());
 
-  console.log(smartAssetInfo);
-
-  var account2_mnemonic = "place blouse sad pigeon wing warrior wild script" +
-    " problem team blouse camp soldier breeze twist mother" +
-    " vanish public glass code arrow execute convince ability" +
-    " there";
-  var recoveredAccount2 = algosdk.mnemonicToSecretKey(account2_mnemonic);
-  var recoveredAccount2 = algosdk.mnemonicToSecretKey(account2_mnemonic);
-
-  console.log(recoveredAccount2.addr);
-
-  let mnemonic = localStorage.getItem('mnemonic');
+  // let mnemonic = localStorage.getItem('mnemonic');
+  let mnemonic = walletInfo["mnemonic"];
   let keys = algosdk.mnemonicToSecretKey(mnemonic);
+  
+  console.log("mnemonic", mnemonic);
+  
+  let captchaData = walletInfo["captchaData"];
+  
+  if(captchaData == "" || captchaData == undefined || captchaData == null){
+    console.log("recaptcha error")
+    yield put(createAssetError("recaptcha"));
+  }else{
 
-  let params = yield call(algodclient.getTransactionParams);
-  let endRound = params.lastRound + parseInt(1000);
+    let params = yield call(algodclient.getTransactionParams);
+    let endRound = params.lastRound + parseInt(1000);
 
-  let sFee = yield call(algodclient.suggestedFee);
-  let fee = sFee.fee;
+    let sFee = yield call(algodclient.suggestedFee);
+    let fee = sFee.fee;
 
-  let decimals = 0;
-  console.log("test");
+    let decimals = 0;
+    console.log("test");
 
-  let manager = recoveredAccount2.addr //smartAssetInfo["inputManager"]
-  let reserve = recoveredAccount2.addr //smartAssetInfo["inputReserve"]
-  let freeze = recoveredAccount2.addr //smartAssetInfo["inputFreeze"]
-  let clawback = recoveredAccount2.addr //smartAssetInfo["inputClawback"]
+    let manager = smartAssetInfo["inputManager"];
+    let reserve = smartAssetInfo["inputReserve"];
+    let freeze = smartAssetInfo["inputFreeze"];
+    let clawback = smartAssetInfo["inputClawback"];
 
-  let txn = algosdk.makeAssetCreateTxn(smartAssetInfo["inputAddress"], fee, params.lastRound, endRound, smartAssetInfo["inputNote"], params.genesishashb64, params.genesisID, smartAssetInfo["inputTotalIssuance"], decimals, smartAssetInfo["inputDefaultFrozen"], manager, reserve, freeze, clawback, smartAssetInfo["inputUnitName"], smartAssetInfo["inputAssetName"], smartAssetInfo["inputAssetURL"], smartAssetInfo["inputAssetMetadataHash"]);
-  console.log(txn);
-  console.log("xxx",smartAssetInfo["inputReserve"]);
+    let txn = algosdk.makeAssetCreateTxn(smartAssetInfo["inputAddress"], fee, params.lastRound, endRound, smartAssetInfo["inputNote"], params.genesishashb64, params.genesisID, smartAssetInfo["inputTotalIssuance"], decimals, smartAssetInfo["inputDefaultFrozen"], manager, reserve, freeze, clawback, smartAssetInfo["inputUnitName"], smartAssetInfo["inputAssetName"], smartAssetInfo["inputAssetURL"], smartAssetInfo["inputAssetMetadataHash"]);
+    console.log(txn);
+    console.log("xxx",smartAssetInfo["inputReserve"]);
 
-  let rawSignedTxn = txn.signTxn(keys.sk);
-  console.log(rawSignedTxn);
+    let rawSignedTxn = txn.signTxn(keys.sk);
+    console.log(rawSignedTxn);
 
-  let tx = yield call(algodclient.sendRawTransaction, rawSignedTxn);
-  console.log("Transaction : " + tx.txId);
+    let tx = yield call(algodclient.sendRawTransaction, rawSignedTxn);
+    console.log("Transaction : " + tx.txId);
 
-  let assetID = null;
+    let assetID = null;
 
-  // wait for transaction to be confirmed
-  // yield call(waitForConfirmation, algodclient, tx.txId);
+    // wait for transaction to be confirmed
+    yield call(waitForConfirmation, algodclient, tx.txId);
 
 
-  // // Get the new asset's information from the creator account
-  // let ptx = yield call(algodclient.pendingTransactionInformation, tx.txId);
-  // assetID = ptx.txresults.createdasset;
-  // console.log("AssetID = " + assetID);
+    // // Get the new asset's information from the creator account
+    let ptx = yield call(algodclient.pendingTransactionInformation, tx.txId);
+    assetID = ptx.txresults.createdasset;
+    console.log("AssetID = " + assetID);
 
-  // var keys = algosdk.generateAccount();
-  //
-  // console.log("keys", keys["addr"]);
-  //
-  // var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
-  // console.log("mnemonic", mnemonic);
-  //
-  // localStorage.setItem('address', keys["addr"]);
-  // console.log("localStorage address", localStorage.getItem('address'));
-  //
-  // localStorage.setItem('mnemonic', mnemonic);
-  // console.log("localStorage mnemonic", localStorage.getItem('mnemonic'));
-  //
-  // let accountInfo = yield call(algodclient.accountInformation, keys["addr"]);
-  // let addressShorten = shortenAddress(keys["addr"]);
-
-  // yield put(generateAccountSuccess(keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
+    yield put(createAssetSuccess(tx.txId, assetID));
+  }
 }
 
 const waitForConfirmation = async function (algodclient, txId) {

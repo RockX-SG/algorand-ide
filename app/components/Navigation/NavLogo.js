@@ -8,12 +8,12 @@ const NavLogo = styled.div`
   .flex-grow{
     -webkit-box-flex: 1;
     flex-grow: 1;
-    width: 120px;
+    width: 110px;
   }
 
   .svgLogo{
     float: left;
-    width: 120px;
+    width: 110px;
   }
   .logoText{
     float: left;

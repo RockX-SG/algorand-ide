@@ -1,0 +1,13 @@
+import styled from 'styled-components';
+
+const Input = styled.input`
+  /* outline: none;
+  border: none;
+  border-bottom: 1px dotted #999;
+  background-color: transparent; */
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #BBB;
+`;
+
+export default Input;

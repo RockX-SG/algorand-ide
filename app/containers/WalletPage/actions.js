@@ -21,7 +21,14 @@ import {
   GET_FAUCET_BALANCE_SUCCESS,
   GET_FAUCET_BALANCE_ERROR,
   TOGGLE_SELECTED_ACCOUNT,
-  CHANGE_NETWORK
+  CHANGE_NETWORK,
+  SELECT_ACCOUNT,
+  ADD_ACCOUNT,
+  ADD_ACCOUNT_SUCCESS,
+  ADD_ACCOUNT_ERROR,
+  TOGGLE_DROPDOWN,
+  SELECT_PAGE,
+  RECAPTCHA_CHANGE
 } from './constants';
 
 export function generateAccountPrimary() {
@@ -85,6 +92,12 @@ export function restoreAccountSecondary(data) {
 }
 
 
+export function toggleDropdown(status) {
+  return {
+    type: TOGGLE_DROPDOWN,
+    status
+  };
+}
 
 
 export function faucetSend() {
@@ -116,9 +129,10 @@ export function sendTransactionSuccess(txHash) {
   };
 }
 
-export function sendTransactionError() {
+export function sendTransactionError(error) {
   return {
     type: SEND_TRANSACTION_ERROR,
+    error
   };
 }
 
@@ -163,9 +177,59 @@ export function toggleSelectedAccount() {
   };
 }
 
+export function selectAccount(address) {
+  console.log("address", address);
+  return {
+    type: SELECT_ACCOUNT,
+    address
+  };
+}
+
+export function addAccount() {
+  console.log("addAccount")
+  return {
+    type: ADD_ACCOUNT,
+  };
+}
+
+export function addAccountSuccess(address, addressShorten, mnemonic, balance) {
+  console.log(address, addressShorten, mnemonic, balance)
+  return {
+    type: ADD_ACCOUNT_SUCCESS,
+    address,
+    addressShorten,
+    mnemonic,
+    balance
+  };
+}
+
+export function addAccountError() {
+  return {
+    type: ADD_ACCOUNT_ERROR,
+  };
+}
+
+
 export function changeNetwork(network) {
   return {
     type: CHANGE_NETWORK,
     network
   };
 }
+
+export function selectPage(page) {
+  return {
+    type: SELECT_PAGE,
+    page
+  };
+}
+
+export function recaptchaChange(captchaData) {
+  console.log("captchaData", captchaData)
+  return {
+    type: RECAPTCHA_CHANGE,
+    captchaData
+  };
+}
+
+
