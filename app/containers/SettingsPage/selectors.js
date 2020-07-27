@@ -21,5 +21,15 @@ const makeSelectSettingsPage = () =>
     substate => substate,
   );
 
-export default makeSelectSettingsPage;
-export { selectSettingsPageDomain };
+const makeSelectPureStake = () =>
+  createSelector(
+    selectSettingsPageDomain,
+    substate => substate.enablePureStake,
+  );
+
+// export default makeSelectSettingsPage;
+export {
+  makeSelectSettingsPage,
+  selectSettingsPageDomain,
+  makeSelectPureStake,
+};
