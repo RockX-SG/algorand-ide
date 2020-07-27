@@ -49,7 +49,9 @@ export function* codeDeploy() {
   formData.append('code', contractInfo["codeValue"]);
   // formData.append('auth[password]', );
 
-  const response = yield fetch('http://127.0.0.1:5000/', {
+
+let tealBackendAPI = "http://teal-dev.rockx.com:5000"; //'http://127.0.0.1:5000'
+  const response = yield fetch(tealBackendAPI, {
     method: 'POST',
     body: formData
   })
@@ -83,8 +85,10 @@ export function* codeCompile() {
   var formData = new FormData();
   formData.append('code', contractInfo["codeValue"]);
   // formData.append('auth[password]', );
-
-  const response = yield fetch('http://127.0.0.1:5000/compile', {
+  formData.append('xxxxxxxxxxxxxxxx');
+  
+  let tealBackendAPI = "http://teal-dev.rockx.com:5000"; //'http://127.0.0.1:5000'
+  const response = yield fetch(tealBackendAPI + '/compile', {
     method: 'POST',
     body: formData
   })
