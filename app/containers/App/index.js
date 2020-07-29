@@ -45,6 +45,7 @@ import NavigationSide from '../../components/NavigationSide';
 import Footer from '../../components/Footer';
 
 import MainnetDisclaimer from '../../components/MainnetDisclaimer';
+import CustomNetworkDisclaimer from '../../components/CustomNetworkDisclaimer';
 
 import GlobalStyle from '../../global-styles';
 
@@ -107,6 +108,7 @@ export function App({
     <div>
       <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} dropdownStatus={walletPage.dropdownStatus}  onShowDropdown={onShowDropdown} onHideDropdown={onHideDropdown} addressArray={walletPage.addressArray} addressShortenArray={walletPage.addressShortenArray} mnemonicArray={walletPage.mnemonicArray} balanceArray={walletPage.balanceArray} onSelectAccount={onSelectAccount} />
       <MainnetDisclaimer network={walletPage.network} />
+      <CustomNetworkDisclaimer network={walletPage.network} />
       <NavigationSide currentPage={walletPage.currentPage} onSelectPage={onSelectPage} />
       
       <div className={(walletPage.network == "mainnet") ? "page pagePadTop" : "page"}>
