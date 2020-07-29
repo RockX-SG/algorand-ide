@@ -111,7 +111,7 @@ export function App({
       <CustomNetworkDisclaimer network={walletPage.network} />
       <NavigationSide currentPage={walletPage.currentPage} onSelectPage={onSelectPage} />
       
-      <div className={(walletPage.network == "mainnet") ? "page pagePadTop" : "page"}>
+      <div className={(walletPage.network == "mainnet" || walletPage.network == "custom") ? "page pagePadTop" : "page"}>
         <Switch>
           <Route exact path="/" component={ExplorerPage} />
           <Route exact path="/smart-contract" component={SmartContractPage} />
