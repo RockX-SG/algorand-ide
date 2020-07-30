@@ -26,6 +26,7 @@ export const initialState = {
   addressShorten: "",
   mnemonic: "",
   balance: 0,
+  assetBalance: 0,
   walletNumCount: 3,
   walletArray: [],
   addressArray: [],
@@ -50,7 +51,8 @@ export const initialState = {
   dropdownStatus: false,
   mnemonicRestore: "",
   currentPage: "explorer",
-  captchaData: ""
+  captchaData: "",
+  assetId: ""
 };
 
 /* eslint-disable default-case, no-param-reassign */

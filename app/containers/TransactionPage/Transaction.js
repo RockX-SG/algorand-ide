@@ -4,13 +4,39 @@ const Transaction = styled.div`
   padding: 30px 40px;
   
   .sectionGroup{
-    background-color: #EEE;
+    background-color: #FFF;
     margin-bottom: 20px;
     padding: 20px 25px;
   }
   
   .section{
     padding: 15px 0px;
+  }
+  
+  .sectionStep{
+    font-size: 11px;
+    padding: 10px 15px;
+    /* margin-bottom: 5px; */
+    background-color: #abd2eb;
+    display: inline-block;
+    /* color: white; */
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-weight: 900;
+  }
+  
+  .sectionStepContent{
+    padding: 15px 25px;
+    background-color: #EEE;
+    margin-bottom: 25px;
+    padding-top: 25px;
+  }
+  
+  .sectionDisclaimer{
+    font-size: 11px;
+    font-weight: 300;
+    font-style: italic;
+    padding: 15px 10px;
   }
   
   .sectionTitle{

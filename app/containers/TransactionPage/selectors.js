@@ -22,5 +22,7 @@ const makeSelectTransactionPage = () =>
     substate => substate,
   );
 
-export default makeSelectTransactionPage;
-export { selectTransactionPageDomain };
+export { 
+  selectTransactionPageDomain,
+  makeSelectTransactionPage
+};
