@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
@@ -28,13 +28,14 @@ let iconInfo = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYC
 
 let iconAdd = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAB8ElEQVRYhe2XzS5DURDHf6RsNMq2lJWUWPhoPYF0WzyTj60QS+IRSKwoEg/BQixoG1YkiHZVtZg5uTfNdTv3anXTf3IyN+f85yNzJjPnQh89xkBEfhZYBwrABJDR/QpQBUrAKXDfqQAd8sAV0DSuSyDXCcdDwAHwrYZfgUOgiGRjRFcWWAOOlNNUnX0gEdf5OHCtxr6ATWDUoDcKbAE1vGyMRXU+hJfyKnIFUbEAPKqNG2A4ivKBKpaBdAznDmmkQJvAnlUpj9zfF7D0B+cOy8h1NPS7LVzqNw1cV/XtsK28UjtiFq/aLQVnDSAFvCl3xn8w2ELcUHkCfBgMW/GONCiQRvZrAKsqzzro3MHZLIQFMK3ytgsB3KmcCiN9IveUDDiztuHf6iKp+5/+zdYMWAoqLpyv77AAXlQGNZ+BgGU5c3A2n8MCKKucCzDwVzibZf9mawCuURS7EMCayosw0r83oiBcKnGrgwHsKO/cwCWHVGoN4/BogzxQR4bRolVpH4m4grz94mICbxzvRlFM4F1FFViJ4XwReMKbgpGfZmO+IGrISE0Z9FLInddV94IYTzKHBPKSaaixN+AYmWizSHtN6veGnrlqbyBpj/0o9WMemWbWOVDCWMBRf0xm8H5MMsCk7ld0uR+Th4h2++gdfgA+Fpm3vsNCRAAAAABJRU5ErkJggg=="/>
 
-const SendAlgoAtomicForm = props => {
+function SendAlgoAtomicForm(props) {
   const { 
     handleSubmit, 
     pristine, 
     reset, 
     submitting, 
     walletPage,
+    addressArray,
     transactionPage,
     address,
     balance,
@@ -97,7 +98,7 @@ const SendAlgoAtomicForm = props => {
             <div className="sectionTitle">
               Sign Transactions:
             </div>
-            <RouteSign walletPage={walletPage} />
+            <RouteSign walletPage={walletPage} addressArray={addressArray} />
           </div>
         </div>
       </div>
@@ -117,8 +118,13 @@ const SendAlgoAtomicForm = props => {
 //   <Field name='captcharesponse' recaptchaRef={recaptchaRef} component={Captcha}/>
 // </div>
 
-export default reduxForm({
-  form: 'sendAlgoAtomic', // a unique identifier for this form
-})(SendAlgoAtomicForm);
+// export default reduxForm({
+//   form: 'sendAlgoAtomic', // a unique identifier for this form
+// })(SendAlgoAtomicForm);
+
+SendAlgoAtomicForm.propTypes = {
+};
+
+export default SendAlgoAtomicForm;
 
 

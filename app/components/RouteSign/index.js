@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
@@ -15,10 +15,11 @@ import RouteSignStyle from './RouteSignStyle';
 
 function RouteSign(props) {
   const {
-    walletPage
+    walletPage,
+    addressArray
   } = props;
   
-  const path = walletPage.addressArray.map((address, index) =>
+  const path = addressArray.map((address, index) =>
     <div key={address.toString()}>
       <div>
         <div className="route">
@@ -51,6 +52,8 @@ function RouteSign(props) {
   );
 }
 
-RouteSign.propTypes = {};
+RouteSign.propTypes = {
+  addressArray: PropTypes.array
+};
 
 export default RouteSign;

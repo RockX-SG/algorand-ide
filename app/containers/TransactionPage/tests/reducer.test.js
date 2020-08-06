@@ -7,7 +7,28 @@ describe('transactionPageReducer', () => {
   let state;
   beforeEach(() => {
     state = {
-      // default state params here
+      sendAsaStep: 1,
+      atomicStep: 1,
+      assetBalance: 0,
+      assetError: "",
+      inputSendAmount: 0,
+      inputSendAsaAmount: 0,
+      inputAssetId: "",
+      sendTxHash: "-",
+      sendAsaTxHash: "-",
+      optInTxHash: "-",
+      routeSenders: [
+        {},
+        {}
+      ],
+      routeReceivers: [
+        {},
+        {}
+      ],
+      routeAmount: [
+        {},
+        {}
+      ],
     };
   });
 

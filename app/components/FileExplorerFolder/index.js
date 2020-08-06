@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
@@ -86,6 +86,8 @@ function FileExplorerFolder(props) {
   );
 }
 
-FileExplorerFolder.propTypes = {};
+FileExplorerFolder.propTypes = {
+  files: PropTypes.array
+};
 
 export default FileExplorerFolder;

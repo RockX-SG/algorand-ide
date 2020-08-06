@@ -1,13 +1,17 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { 
+  changeAssetId 
+} from '../actions';
+import { 
+  CHANGE_ASSET_ID 
+} from '../constants';
 
 describe('TransactionPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('Change asset id Action', () => {
+    it('has a type of CHANGE_ASSET_ID', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: CHANGE_ASSET_ID,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(changeAssetId()).toEqual(expected);
     });
   });
 });

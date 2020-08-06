@@ -1,5 +1,9 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { 
+  defaultAction 
+} from '../actions';
+import { 
+  DEFAULT_ACTION 
+} from '../constants';
 
 describe('TutorialPage actions', () => {
   describe('Default Action', () => {

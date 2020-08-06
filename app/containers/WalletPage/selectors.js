@@ -69,6 +69,14 @@ const makeSelectBalanceSecondary = () =>
     substate => substate.balanceSecondary,
   );
 
+const makeSelectWalletAddressList = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressList,
+  );
+  
+  
+
 // const makeSelectWalletArray = () =>
 //   createSelector(
 //     selectWalletPageDomain,
@@ -91,5 +99,6 @@ export {
   makeSelectMnemonicSecondary,
   makeSelectAddressSecondary,
   makeSelectAddressShortenSecondary,
-  makeSelectBalanceSecondary
+  makeSelectBalanceSecondary,
+  makeSelectWalletAddressList
 };

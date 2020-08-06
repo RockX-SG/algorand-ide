@@ -1,13 +1,17 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { 
+  createAsset 
+} from '../actions';
+import { 
+  CREATE_ASSET 
+} from '../constants';
 
 describe('SmartAssetPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('Create asset Action', () => {
+    it('has a type of CREATE_ASSET', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: CREATE_ASSET,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(createAsset()).toEqual(expected);
     });
   });
 });

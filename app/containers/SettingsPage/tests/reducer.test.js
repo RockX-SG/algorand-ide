@@ -7,7 +7,10 @@ describe('settingsPageReducer', () => {
   let state;
   beforeEach(() => {
     state = {
-      // default state params here
+      serverAddress: 'http://127.0.0.1',
+      serverPort: '5555',
+      algodToken: '',
+      enablePureStake: false,
     };
   });
 

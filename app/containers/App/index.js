@@ -25,7 +25,6 @@ import sagaWallet from '../WalletPage/saga';
 import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
-import SmartContractPage from 'containers/SmartContractPage/Loadable';
 import SmartAssetPage from 'containers/SmartAssetPage/Loadable';
 import TutorialPage from 'containers/TutorialPage/Loadable';
 import WalletPage from 'containers/WalletPage/Loadable';
@@ -114,7 +113,6 @@ export function App({
       <div className={(walletPage.network == "mainnet" || walletPage.network == "custom") ? "page pagePadTop" : "page"}>
         <Switch>
           <Route exact path="/" component={ExplorerPage} />
-          <Route exact path="/smart-contract" component={SmartContractPage} />
           <Route exact path="/smart-asset" component={SmartAssetPage} />
           <Route exact path="/asset" component={SmartAssetPage} />
           <Route exact path="/tutorials" component={TutorialPage} />

@@ -148,7 +148,7 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAddress={onChangeAddress} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAddress={onChangeAddress} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
           
           <div className="assetResponse">
             <div className={(walletPage.userSendTxHash == "-") ? "disabled" : ""}>

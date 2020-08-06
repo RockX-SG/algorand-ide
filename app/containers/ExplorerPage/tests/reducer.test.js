@@ -7,7 +7,51 @@ describe('explorerPageReducer', () => {
   let state;
   beforeEach(() => {
     state = {
-      // default state params here
+      codeValue: "",
+      codeCompileStatus: "",
+      codeCompileFileName: "-",
+      codeCompileAddress: "-",
+      explorerFilePreset: [
+        {
+          "id": 1,
+          "name": "folder 1",
+          "status": true,
+          "files": ["file 1", "file 2"]
+        },
+        {
+          "id": 2,
+          "name": "folder 2",
+          "status": true,
+          "files": ["file 1", "file 2", "file 3"]
+        },
+        {
+          "id": 3,
+          "name": "folder 3",
+          "status": true,
+          "files": ["file 1", "file 2", "file 3", "file 4"]
+        },
+        {
+          "id": 4,
+          "name": "folder 4",
+          "status": true,
+          "files": ["file 1"]
+        },
+      ],
+      explorerFileStatus: [
+        true,
+        false,
+        true,
+        false,
+      ],
+      userFiles: ["default.teal"],
+      userFolderStatus: true,
+      selectedFolderId: -1, //-1 for null
+      selectedFileIndex: 0, //0 for null
+      bashResponse: [
+        "this is an example code response this is an example code response this is an example code response this is an example code response this is an example code response",
+        "this is an example code response",
+        "123",
+      ],
     };
   });
 

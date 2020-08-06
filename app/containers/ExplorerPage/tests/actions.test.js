@@ -1,13 +1,17 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { 
+  addNewFile 
+} from '../actions';
+import { 
+  ADD_NEW_FILE 
+} from '../constants';
 
 describe('ExplorerPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
+  describe('Add new file Action', () => {
+    it('has a type of ADD_NEW_FILE', () => {
       const expected = {
-        type: DEFAULT_ACTION,
+        type: ADD_NEW_FILE,
       };
-      expect(defaultAction()).toEqual(expected);
+      expect(addNewFile()).toEqual(expected);
     });
   });
 });

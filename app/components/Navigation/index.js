@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import Select from 'react-select'
@@ -133,6 +133,8 @@ function Navigation(props) {
   );
 }
 
-Navigation.propTypes = {};
+Navigation.propTypes = {
+  addressArray: PropTypes.array
+};
 
 export default Navigation;

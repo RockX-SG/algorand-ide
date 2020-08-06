@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
@@ -175,6 +175,8 @@ function WalletDisplay(props) {
   );
 }
 
-WalletDisplay.propTypes = {};
+WalletDisplay.propTypes = {
+  address: PropTypes.array
+};
 
 export default WalletDisplay;
