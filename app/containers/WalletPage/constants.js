@@ -38,3 +38,6 @@ export const SELECT_PAGE = 'app/WalletPage/SELECT_PAGE';
 
 export const RECAPTCHA_CHANGE = 'app/WalletPage/RECAPTCHA_CHANGE';
 
+export const MNEMONIC_REGENERATE = 'app/WalletPage/MNEMONIC_REGENERATE';
+export const MNEMONIC_REGENERATE_SUCCESS = 'app/WalletPage/MNEMONIC_REGENERATE_SUCCESS';
+

@@ -17,7 +17,8 @@ import {
   ADD_ACCOUNT_SUCCESS,
   TOGGLE_DROPDOWN,
   SELECT_PAGE,
-  RECAPTCHA_CHANGE
+  RECAPTCHA_CHANGE,
+  MNEMONIC_REGENERATE_SUCCESS
 } from './constants';
 
 export const initialState = {
@@ -123,6 +124,22 @@ const walletPageReducer = (state = initialState, action) =>
         
         
         break;
+
+      case MNEMONIC_REGENERATE_SUCCESS:
+      
+        // draft.walletArray[draft.walletArray.length] = action.address;
+        
+        draft.addressArray[action.accountNum] = action.address;
+        draft.addressShortenArray[action.accountNum] = action.addressShorten;
+        draft.mnemonicArray[action.accountNum] = action.mnemonic;
+        draft.balanceArray[action.accountNum] = action.balance/1000000;
+        
+        // draft.walletFullArray[walletFullArray.length - 1] = [action.address, action.addressShorten, action.mnemonic, action.balance/1000000];
+        
+        
+        break;
+        
+        
 
       case TOGGLE_DROPDOWN:
         draft.dropdownStatus = action.status;

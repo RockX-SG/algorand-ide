@@ -7,7 +7,8 @@ import {
   RESTORE_ACCOUNT_SECONDARY,
   SEND_TRANSACTION,
   GET_FAUCET_BALANCE,
-  ADD_ACCOUNT
+  ADD_ACCOUNT,
+  MNEMONIC_REGENERATE
 } from 'containers/WalletPage/constants';
 
 import {
@@ -19,7 +20,8 @@ import {
   getFaucetBalanceSuccess,
   getFaucetBalanceError,
   addAccountSuccess,
-  addAccountError
+  addAccountError,
+  mnemonicRegenerateSuccess
 } from 'containers/WalletPage/actions';
 
 import {
@@ -50,6 +52,7 @@ export default function* walletPageSaga() {
   yield takeLatest(SEND_TRANSACTION, sendTransaction);
   yield takeLatest(GET_FAUCET_BALANCE, getFaucetBalance);
   yield takeLatest(ADD_ACCOUNT, addAccount);
+  yield takeLatest(MNEMONIC_REGENERATE, mnemonicRegenerate);
   
 }
 
@@ -252,3 +255,33 @@ export function* addAccount() {
   
   yield put(addAccountSuccess(keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
 }
+
+
+export function* mnemonicRegenerate(data) {
+  console.log(data["accountNum"]);
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  var keys = algosdk.generateAccount();
+  
+  console.log("keys", keys["addr"]);
+  
+  var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
+  console.log("mnemonic", mnemonic);
+  
+  // retrieve num of account here
+  let n = data["accountNum"];
+  
+  localStorage.setItem('address'+n, keys["addr"]);
+  
+  localStorage.setItem('mnemonic'+n, mnemonic);
+  
+  localStorage.setItem('totalAccount', n);
+  
+  let accountInfo = yield call(algodclient.accountInformation, keys["addr"]);
+  let addressShorten = shortenAddress(keys["addr"]);
+  
+  yield put(mnemonicRegenerateSuccess(data["accountNum"], keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
+}
+
+
+
