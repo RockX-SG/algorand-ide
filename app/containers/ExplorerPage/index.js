@@ -33,10 +33,12 @@ import {
   updateCodeValue,
   addNewFile,
   toggleFolder,
-  changeContract,
+  changeFile,
   codeDeploy,
   codeCompile,
-  changeNewFileName
+  changeNewFileName,
+  deleteFile,
+  editFileContent,
 } from './actions';
 
 import {
@@ -64,11 +66,13 @@ export function ExplorerPage({
   explorerPage,
   onAddNewFile,
   onToggleFolder,
-  onChangeContract,
+  onChangeFile,
   onCodeCompile,
   onFundContract,
   onCodeDeploy,
-  onChangeNewFileName
+  onChangeNewFileName,
+  onDeleteFile,
+  onEditFileContent
 }) {
   useInjectReducer({ key: 'explorerPage', reducer });
   useInjectSaga({ key: 'explorerPage', saga });
@@ -97,71 +101,115 @@ export function ExplorerPage({
         </TabList>
         
         <TabPanel>
-        <div className="ideContent">
-          <div className="pageLeft">
-            <FileExplorer filePreset={explorerPage.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage} onChangeContract={onChangeContract} onChangeNewFileName={onChangeNewFileName} />
+          <div className="ideContent">
+            <div className="pageLeft">
+              <FileExplorer filePreset={explorerPage.teal.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage.teal} onChangeFile={onChangeFile} onChangeNewFileName={onChangeNewFileName} onDeleteFile={onDeleteFile} newFileName={explorerPage.newFileName} mode="teal" />
+            </div>
+            <div className="pageRight">
+              <div className={(explorerPage.teal.codeCompileStatus == "true") ? "contractAddress" : "contractAddress xxx"}>
+                <div className="contractAddressTitle">
+                  Contract Address:
+                </div>
+                <div className="contractAddressContent">
+                  <a href={"https://testnet.algoexplorer.io/address/" + explorerPage.teal.codeCompileAddress} target="_blank">
+                    {explorerPage.teal.codeCompileAddress}
+                  </a>
+                </div>
+                <div className="clear"></div>
+              </div>
+              <div className="ide">
+                <CodeMirror
+                  value={explorerPage.teal.codeValue}
+                  options={optionsCode}
+                  autoFocus={true}
+                  onBeforeChange={(editor, data, value) => {
+                    console.log('set value here', {value});
+                    if(explorerPage.teal.selectedFolderId !== 999){
+                      onUpdateCodeValue(["teal", -1, value])
+                    }else{
+                      onUpdateCodeValue(["teal", explorerPage.teal.selectedFileIndex, value])
+                    }
+                  }}
+                  onChange={(editor, value) => {
+                    console.log('controlled', {value});
+                  }}
+                />
+              </div>
+              <div className="actionPanel">
+                <div className="actionPanelButton">
+                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "" : "disabled"}>
+                    <button data-tip="Compiling outputs a deterministic address" data-for="bash" onClick={onCodeCompile}>
+                      Compile
+                    </button>
+                  </div>
+                </div>
+                <div className="actionPanelButton">
+                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                    <button data-tip="Funds address from faucet" data-for="bash" onClick={onFundContract}>
+                      Fund Contract Address
+                    </button>
+                  </div>
+                </div>
+                <div className="actionPanelButton">
+                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                    <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="bash" onClick={onCodeDeploy}>
+                      Execute Transaction
+                    </button>
+                  </div>
+                </div>
+                <div className="clear"></div>
+              </div>
+              
+              
+              <BashConsole bashResponse={explorerPage.teal.bashResponse} />
+              
+            
+            </div>
+            <div className="clear"></div>
           </div>
-          <div className="pageRight">
-            <div className={(explorerPage.codeCompileStatus == "true") ? "contractAddress" : "contractAddress xxx"}>
-              <div className="contractAddressTitle">
-                Contract Address:
-              </div>
-              <div className="contractAddressContent">
-                <a href={"https://testnet.algoexplorer.io/address/" + explorerPage.codeCompileAddress} target="_blank">
-                  {explorerPage.codeCompileAddress}
-                </a>
-              </div>
-              <div className="clear"></div>
-            </div>
-            <div className="ide">
-              <CodeMirror
-                value={explorerPage.codeValue}
-                options={optionsCode}
-                autoFocus={true}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                  onUpdateCodeValue(value)
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-            <div className="actionPanel">
-              <div className="actionPanelButton">
-                <div className={(explorerPage.codeCompileAddress == "-") ? "" : "disabled"}>
-                  <button data-tip="Compiling outputs a deterministic address" data-for="bash" onClick={onCodeCompile}>
-                    Compile
-                  </button>
-                </div>
-              </div>
-              <div className="actionPanelButton">
-                <div className={(explorerPage.codeCompileAddress == "-") ? "disabled" : ""}>
-                  <button data-tip="Funds address from faucet" data-for="bash" onClick={onFundContract}>
-                    Fund Contract Address
-                  </button>
-                </div>
-              </div>
-              <div className="actionPanelButton">
-                <div className={(explorerPage.codeCompileAddress == "-") ? "disabled" : ""}>
-                  <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="bash" onClick={onCodeDeploy}>
-                    Execute Transaction
-                  </button>
-                </div>
-              </div>
-              <div className="clear"></div>
-            </div>
-            
-            
-            <BashConsole bashResponse={explorerPage.bashResponse} />
-            
-          
-          </div>
-          <div className="clear"></div>
-        </div>
         </TabPanel>
         <TabPanel>
-          Js
+          <div className="ideContent">
+            <div className="pageLeft">
+              <FileExplorer filePreset={explorerPage.javascript.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage.javascript} onChangeFile={onChangeFile} onChangeNewFileName={onChangeNewFileName} onDeleteFile={onDeleteFile} newFileName={explorerPage.newFileName} mode="js" />
+            </div>
+            <div className="pageRight">
+              <div className="ide">
+                <CodeMirror
+                  value={explorerPage.javascript.codeValue}
+                  options={optionsCode}
+                  autoFocus={true}
+                  onBeforeChange={(editor, data, value) => {
+                    console.log('set value here', {value});
+                    if(explorerPage.teal.selectedFolderId !== 999){
+                      onUpdateCodeValue(["js", -1, value])
+                    }else{
+                      onUpdateCodeValue(["js", explorerPage.javascript.selectedFileIndex, value])
+                    }
+                  }}
+                  onChange={(editor, value) => {
+                    console.log('controlled', {value});
+                  }}
+                />
+              </div>
+              <div className="actionPanel">
+                <div className="actionPanelButton">
+                  <div className={(explorerPage.javascript.codeCompileAddress == "-") ? "" : "disabled"}>
+                    <button data-tip="Compiling outputs a deterministic address" data-for="bash" onClick={onCodeCompile}>
+                      Run Script
+                    </button>
+                  </div>
+                </div>
+                <div className="clear"></div>
+              </div>
+              
+              
+              <BashConsole bashResponse={explorerPage.javascript.bashResponse} />
+              
+            
+            </div>
+            <div className="clear"></div>
+          </div>
         </TabPanel>
       </Tabs>
     </ExplorerStyle>
@@ -180,9 +228,9 @@ function mapDispatchToProps(dispatch) {
   return {
     dispatch,
     onUpdateCodeValue: evt => dispatch(updateCodeValue(evt)),
-    onAddNewFile: evt => dispatch(addNewFile()),
+    onAddNewFile: evt => dispatch(addNewFile(evt)),
     onToggleFolder: evt => dispatch(toggleFolder(evt)),
-    onChangeContract: evt => dispatch(changeContract(evt)),
+    onChangeFile: evt => dispatch(changeFile(evt)),
     onCodeDeploy: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(codeDeploy(evt));
@@ -195,10 +243,16 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(faucetContractSend(evt));
     },
-    onChangeNewFileName: evt => {
+    onChangeNewFileName: evt => dispatch(changeNewFileName(evt.target.value)),
+    onDeleteFile: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(changeNewFileName(evt));
+      dispatch(deleteFile(evt));
     },
+    onEditFileContent: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(editFileContent(evt));
+    },
+    
   };
 }
 

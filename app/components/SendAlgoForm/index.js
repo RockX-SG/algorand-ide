@@ -82,6 +82,9 @@ function SendAlgoForm(props) {
                 options={addressOption}
               />
             </div>
+            <div>
+              * Transaction will fail if destination address has 0 balance due to Algorand's account min. balance requirement
+            </div>
           </div>
         </div>
         <div className="sectionGroup">
