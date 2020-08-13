@@ -25,6 +25,7 @@ let iconInfo = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYC
 
 function SendAlgoForm(props) {
   const { 
+    onSubmit,
     handleSubmit, 
     pristine, 
     reset, 
@@ -104,7 +105,7 @@ function SendAlgoForm(props) {
         <div>
           <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
         </div>
-        <button>
+        <button onClick={onSubmit}>
           Send
         </button>
       </div>

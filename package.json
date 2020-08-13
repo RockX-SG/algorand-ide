@@ -1,16 +1,16 @@
 {
-  "name": "react-boilerplate",
+  "name": "algorand-ide-playground",
   "version": "4.0.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "description": "A interactive code playground for developers to test out features on the Algorand blockchain.",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": ""
   },
   "engines": {
     "npm": ">=5",
     "node": ">=8.15.1"
   },
-  "author": "Max Stoiber",
+  "author": "RockX",
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",

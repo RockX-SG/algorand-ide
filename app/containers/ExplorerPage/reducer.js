@@ -21,6 +21,7 @@ import templateContract3 from './templateContract3.js';
 import templateContract4 from './templateContract4.js';
 
 export const initialState = {
+  newFileName: "",
   codeValue: "",
   codeCompileStatus: "",
   codeCompileFileName: "-",

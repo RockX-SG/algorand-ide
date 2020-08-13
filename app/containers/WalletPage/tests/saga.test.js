@@ -18,6 +18,10 @@ import {
   sendTransaction,
   getFaucetBalance
 } from '../saga';
+
+import {
+  makeSelectExplorerPage
+} from 'containers/ExplorerPage/selectors';
 // import walletPageSaga from '../saga';
 // 
 // const generator = walletPageSaga();
@@ -43,14 +47,16 @@ describe('walletPageSaga Saga', () => {
   // });
 });
 
-// describe('sendTransactionSaga Saga', () => {
-//   const sendTransactionSaga = sendTransaction({sendFrom: "user"});
-// 
-//   it('should start task to watch for SEND_TRANSACTION action', () => {
-//     const takeLatestDescriptor = sendTransactionSaga.next().value;
-//     expect(takeLatestDescriptor).toEqual(takeLatest(SEND_TRANSACTION, sendTransaction));
-//   });
-// });
+describe('sendTransactionSaga Saga', () => {
+  const sendTransactionSaga = sendTransaction({sendFrom: "user"});
+
+  it('should start task to watch for SEND_TRANSACTION action', () => {
+    const takeLatestDescriptor = sendTransactionSaga.next().value;
+    expect(takeLatestDescriptor).toEqual(select(makeSelectExplorerPage()));
+    // const takeLatestDescriptor = sendTransactionSaga.next().value;
+    // expect(takeLatestDescriptor).toEqual(takeLatest(SEND_TRANSACTION, sendTransaction));
+  });
+});
 
 // describe('getFaucetBalanceSaga Saga', () => {
 //   let getFaucetBalanceSaga;

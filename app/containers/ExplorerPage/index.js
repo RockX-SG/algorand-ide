@@ -27,6 +27,8 @@ import ReactTooltip from "react-tooltip";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import './react-tabs.css';
 
+import Popup from "reactjs-popup";
+
 import {
   updateCodeValue,
   addNewFile,
@@ -34,6 +36,7 @@ import {
   changeContract,
   codeDeploy,
   codeCompile,
+  changeNewFileName
 } from './actions';
 
 import {
@@ -64,7 +67,8 @@ export function ExplorerPage({
   onChangeContract,
   onCodeCompile,
   onFundContract,
-  onCodeDeploy
+  onCodeDeploy,
+  onChangeNewFileName
 }) {
   useInjectReducer({ key: 'explorerPage', reducer });
   useInjectSaga({ key: 'explorerPage', saga });
@@ -91,11 +95,11 @@ export function ExplorerPage({
           <Tab>TEAL</Tab>
           <Tab>Javascript</Tab>
         </TabList>
-
+        
         <TabPanel>
         <div className="ideContent">
           <div className="pageLeft">
-            <FileExplorer filePreset={explorerPage.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage} onChangeContract={onChangeContract} />
+            <FileExplorer filePreset={explorerPage.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage} onChangeContract={onChangeContract} onChangeNewFileName={onChangeNewFileName} />
           </div>
           <div className="pageRight">
             <div className={(explorerPage.codeCompileStatus == "true") ? "contractAddress" : "contractAddress xxx"}>
@@ -190,6 +194,10 @@ function mapDispatchToProps(dispatch) {
     onFundContract: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(faucetContractSend(evt));
+    },
+    onChangeNewFileName: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(changeNewFileName(evt));
     },
   };
 }

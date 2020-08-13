@@ -223,9 +223,9 @@ export function* sendTransaction(data) {
 
 export function* getFaucetBalance() {
   // let mnemonicFaucet = "core alone rain law scout guitar immense tag kit dice negative inject crew unfold acquire buzz notice scene outer leisure soccer treat family abstract sign"
-  let addr = "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM"
+  // let addr = "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM"
 
-  let accountInfo = yield call(algodclient.accountInformation, addr);
+  let accountInfo = yield call(algodclient.accountInformation, "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM");
 
   yield put(getFaucetBalanceSuccess(accountInfo["amount"]));
 }
