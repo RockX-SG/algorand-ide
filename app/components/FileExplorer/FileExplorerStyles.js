@@ -77,6 +77,10 @@ const FileExplorerStyles = styled.div`
   .indent3{
     padding-left: 55px;
   }
+  
+  .newFilePopup{
+    padding: 20px;
+  }
 `;
 
 export default FileExplorerStyles;

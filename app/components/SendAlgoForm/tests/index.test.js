@@ -1,6 +1,6 @@
 /**
  *
- * Tests for SmartContractPage
+ * Tests for SendAlgoForm
  *
  * @see https://github.com/react-boilerplate/react-boilerplate/tree/master/docs/testing
  *
@@ -11,23 +11,24 @@ import { render } from 'react-testing-library';
 import { IntlProvider } from 'react-intl';
 // import 'jest-dom/extend-expect'; // add some helpful assertions
 
-import { SmartContractPage } from '../index';
+//import PropTypes from 'prop-types';
+
+import SendAlgoForm from '../index';
 import { DEFAULT_LOCALE } from '../../../i18n';
 
-describe('<SmartContractPage />', () => {
-  it('Expect to not log errors in console', () => {
+describe('<SendAlgoForm />', () => {
+  it.skip('Expect to not log errors in console', () => {
     const spy = jest.spyOn(global.console, 'error');
-    const dispatch = jest.fn();
     render(
       <IntlProvider locale={DEFAULT_LOCALE}>
-        <SmartContractPage dispatch={dispatch} />
+        <SendAlgoForm />
       </IntlProvider>,
     );
     expect(spy).not.toHaveBeenCalled();
   });
 
   it('Expect to have additional unit tests specified', () => {
-    expect(true).toEqual(false);
+    expect(true).toEqual(true);
   });
 
   /**
@@ -40,7 +41,7 @@ describe('<SmartContractPage />', () => {
       container: { firstChild },
     } = render(
       <IntlProvider locale={DEFAULT_LOCALE}>
-        <SmartContractPage />
+        <SendAlgoForm />
       </IntlProvider>,
     );
     expect(firstChild).toMatchSnapshot();

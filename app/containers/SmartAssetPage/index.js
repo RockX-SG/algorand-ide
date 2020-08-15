@@ -20,6 +20,7 @@ import {
 
 import {
   makeSelectWalletPage,
+  makeSelectWalletAddressList,
 } from '../WalletPage/selectors';
 
 
@@ -90,7 +91,8 @@ export function SmartAssetPage({
   // onRestoreAccountPrimary,
   // onGenerateAccountSecondary,
   // onRestoreAccountSecondary,
-  walletPage
+  walletPage,
+  addressList,
 }) {
   useInjectReducer({ key: 'smartAssetPage', reducer: reducer });
   useInjectSaga({ key: 'smartAssetPage', saga: saga });
@@ -129,7 +131,7 @@ export function SmartAssetPage({
   //   { value: 'yyy', label: 'yyy' },
   // ]
 
-  let options = walletPage.addressList.map(function(addr) {
+  let options = addressList.map(function(addr) {
     return { value: addr, label: addr };
   })
 
@@ -341,11 +343,13 @@ export function SmartAssetPage({
 
 SmartAssetPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  addressList: PropTypes.array
 };
 
 const mapStateToProps = createStructuredSelector({
   smartAssetPage: makeSelectSmartAssetPage(),
   walletPage: makeSelectWalletPage(),
+  addressList: makeSelectWalletAddressList(),
 });
 
 function mapDispatchToProps(dispatch) {

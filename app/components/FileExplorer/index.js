@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import { FormattedMessage } from 'react-intl';
@@ -18,11 +18,15 @@ import FileExplorerStyles from './FileExplorerStyles';
 import FileExplorerFolder from '../FileExplorerFolder';
 
 
+import Popup from "reactjs-popup";
+
 let iconPlus = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAAT0lEQVQ4jWNgGAXYwP///wP///8fSE0Dz/7///8sMWqZqGbryDWQEZkDjckaLOo0oPQNLHItjIyM62EcqruQKDCabOhrIAuR6lqobfEwAgAW9hxgMIWLOgAAAABJRU5ErkJggg==" />
 
 let iconArrowDown = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAAlklEQVQ4je3QMQtBcRTG4XMH3SgpiVIGZTD49hYGi8ViMBgMyqCU0Sd4LIY/6bouk/z283R6I/79fllEBFoRMfrQ2mdZdokbWMNU9ebI73jkmFXAFqg//RkNLN/AVmgWDoEW1iWwDdql1kUH2wJsh14pLEG7t8PH9ui/hSXoAIcEO2JYCUvQEU44Y/wRlqATTL6C/XvZFaogWFMR+F24AAAAAElFTkSuQmCC" />
 
 let iconArrowRight = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABmJLR0QA/wD/AP+gvaeTAAAAxUlEQVQ4jdXOMSuFcRQG8N+RusUgkzIoymCwGhRFlCx8FN/FR7FZbrpWqzIog7qTxWB9LCbx3vd1/4tnfc75ncO/TZKrJOtD9xY6uh3cJ9lqBcImxkm2W4GwgUmS3VYgrOEuyV4rEFZxm2S/FQgrX+hpKxCWcZPkshUII1wnWWoFTnFWVR/fi8U/YC84qarnn8qhHz7h4DdsKPiIo6p67RrqCz7gsKqmswb7gBMcV9Vbn8uzwDHOq+q9D9aZJBdJRnND8+YT+t062pP9UmkAAAAASUVORK5CYII=" />
+
+import Input from './Input';
 
 function FileExplorer(props) {
   const {
@@ -31,6 +35,7 @@ function FileExplorer(props) {
     onToggleFolder,
     explorerPage,
     onChangeContract,
+    onChangeNewFileName,
   } = props;
   
   console.log("explorerPage.explorerFileStatus", explorerPage.explorerFileStatus)
@@ -49,9 +54,33 @@ function FileExplorer(props) {
           <div className="title">
             Files
           </div>
-          <div className="headerAction" data-tip="New File" data-for="explorer" onClick={() => onAddNewFile()}>
-            {iconPlus}
-          </div>
+          <Popup
+            trigger={
+              <div className="headerAction" data-tip="New File" data-for="explorer">
+                {iconPlus}
+              </div>
+            }
+            modal
+            closeOnDocumentClick
+            closeOnEscape
+          >
+            <div className="newFilePopup">
+              <div>
+                <Input
+                  id="newFileName"
+                  type="text"
+                  placeholder="Please enter your file name"
+                  value={explorerPage.newFileName}
+                  onChange={onChangeNewFileName}
+                />
+              </div>
+              <div>
+                <button onClick={() => onAddNewFile()}>
+                  Create File
+                </button>
+              </div>
+            </div>
+          </Popup>
           <div className="clear"></div>
         </div>
         <div className="explorerBoundary">
@@ -65,6 +94,8 @@ function FileExplorer(props) {
   );
 }
 
-FileExplorer.propTypes = {};
+FileExplorer.propTypes = {
+  filePreset: PropTypes.array
+};
 
 export default FileExplorer;

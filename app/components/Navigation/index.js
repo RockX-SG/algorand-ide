@@ -5,7 +5,7 @@
  */
 
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 // import styled from 'styled-components';
 
 import Select from 'react-select'
@@ -56,7 +56,7 @@ function Navigation(props) {
   const options = [
     { value: 'testnet', label: 'Test Net' },
     { value: 'mainnet', label: 'Main Net' },
-    { value: 'custom', label: 'Custom Network' },
+    { value: 'custom', label: 'Custom ' },
   ]
   
   const addressDropdown = addressArray.map((addr, index) =>
@@ -133,6 +133,8 @@ function Navigation(props) {
   );
 }
 
-Navigation.propTypes = {};
+Navigation.propTypes = {
+  addressArray: PropTypes.array
+};
 
 export default Navigation;

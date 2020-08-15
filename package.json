@@ -1,16 +1,16 @@
 {
-  "name": "react-boilerplate",
+  "name": "algorand-ide-playground",
   "version": "4.0.0",
-  "description": "A highly scalable, offline-first foundation with the best DX and a focus on performance and best practices",
+  "description": "A interactive code playground for developers to test out features on the Algorand blockchain.",
   "repository": {
     "type": "git",
-    "url": "git://github.com/react-boilerplate/react-boilerplate.git"
+    "url": ""
   },
   "engines": {
     "npm": ">=5",
     "node": ">=8.15.1"
   },
-  "author": "Max Stoiber",
+  "author": "RockX",
   "license": "MIT",
   "scripts": {
     "analyze:clean": "rimraf stats.json",
@@ -37,7 +37,8 @@
     "lint:eslint:fix": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts --fix",
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
-    "pretest": "npm run test:clean && npm run lint",
+    "pretest": "npm run test:clean",
+    "pretest:lint": "npm run test:clean && npm run lint",
     "test:clean": "rimraf ./coverage",
     "test": "cross-env NODE_ENV=test jest --coverage",
     "test:watch": "cross-env NODE_ENV=test jest --watchAll",

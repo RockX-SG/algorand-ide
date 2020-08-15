@@ -28,7 +28,9 @@ import {
   ADD_ACCOUNT_ERROR,
   TOGGLE_DROPDOWN,
   SELECT_PAGE,
-  RECAPTCHA_CHANGE
+  RECAPTCHA_CHANGE,
+  MNEMONIC_REGENERATE,
+  MNEMONIC_REGENERATE_SUCCESS
 } from './constants';
 
 export function generateAccountPrimary() {
@@ -229,6 +231,26 @@ export function recaptchaChange(captchaData) {
   return {
     type: RECAPTCHA_CHANGE,
     captchaData
+  };
+}
+
+export function mnemonicRegenerate(accountNum) {
+  console.log("accountNum", accountNum)
+  return {
+    type: MNEMONIC_REGENERATE,
+    accountNum
+  };
+}
+
+export function mnemonicRegenerateSuccess(accountNum, address, addressShorten, mnemonic, balance) {
+  console.log(accountNum, address, addressShorten, mnemonic, balance)
+  return {
+    type: MNEMONIC_REGENERATE_SUCCESS,
+    accountNum,
+    address,
+    addressShorten,
+    mnemonic,
+    balance
   };
 }
 

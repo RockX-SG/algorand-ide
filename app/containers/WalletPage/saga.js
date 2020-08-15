@@ -7,7 +7,8 @@ import {
   RESTORE_ACCOUNT_SECONDARY,
   SEND_TRANSACTION,
   GET_FAUCET_BALANCE,
-  ADD_ACCOUNT
+  ADD_ACCOUNT,
+  MNEMONIC_REGENERATE
 } from 'containers/WalletPage/constants';
 
 import {
@@ -19,7 +20,8 @@ import {
   getFaucetBalanceSuccess,
   getFaucetBalanceError,
   addAccountSuccess,
-  addAccountError
+  addAccountError,
+  mnemonicRegenerateSuccess
 } from 'containers/WalletPage/actions';
 
 import {
@@ -27,8 +29,8 @@ import {
 } from 'containers/WalletPage/selectors';
 
 import {
-  makeSelectSmartContractPage
-} from 'containers/SmartContractPage/selectors';
+  makeSelectExplorerPage
+} from 'containers/ExplorerPage/selectors';
 
 var algosdk = require('algosdk')
 
@@ -50,6 +52,7 @@ export default function* walletPageSaga() {
   yield takeLatest(SEND_TRANSACTION, sendTransaction);
   yield takeLatest(GET_FAUCET_BALANCE, getFaucetBalance);
   yield takeLatest(ADD_ACCOUNT, addAccount);
+  yield takeLatest(MNEMONIC_REGENERATE, mnemonicRegenerate);
   
 }
 
@@ -123,7 +126,7 @@ function shortenAddress(addr){
 
 export function* sendTransaction(data) {
   console.log(data["sendFrom"]);
-  let smartContractInfo = yield select(makeSelectSmartContractPage());
+  let explorerInfo = yield select(makeSelectExplorerPage());
   let walletInfo = yield select(makeSelectWalletPage());
 
   let addressTo;
@@ -164,7 +167,7 @@ export function* sendTransaction(data) {
 
       keys = keysFaucet;
     }else if(data["sendFrom"] == "faucetContract"){
-      addressTo = smartContractInfo["codeCompileAddress"];
+      addressTo = explorerInfo["codeCompileAddress"];
       amount = 5 * 1000000;
 
       keys = keysFaucet;
@@ -220,9 +223,9 @@ export function* sendTransaction(data) {
 
 export function* getFaucetBalance() {
   // let mnemonicFaucet = "core alone rain law scout guitar immense tag kit dice negative inject crew unfold acquire buzz notice scene outer leisure soccer treat family abstract sign"
-  let addr = "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM"
+  // let addr = "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM"
 
-  let accountInfo = yield call(algodclient.accountInformation, addr);
+  let accountInfo = yield call(algodclient.accountInformation, "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM");
 
   yield put(getFaucetBalanceSuccess(accountInfo["amount"]));
 }
@@ -252,3 +255,33 @@ export function* addAccount() {
   
   yield put(addAccountSuccess(keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
 }
+
+
+export function* mnemonicRegenerate(data) {
+  console.log(data["accountNum"]);
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  var keys = algosdk.generateAccount();
+  
+  console.log("keys", keys["addr"]);
+  
+  var mnemonic = algosdk.secretKeyToMnemonic(keys.sk);
+  console.log("mnemonic", mnemonic);
+  
+  // retrieve num of account here
+  let n = data["accountNum"];
+  
+  localStorage.setItem('address'+n, keys["addr"]);
+  
+  localStorage.setItem('mnemonic'+n, mnemonic);
+  
+  localStorage.setItem('totalAccount', n);
+  
+  let accountInfo = yield call(algodclient.accountInformation, keys["addr"]);
+  let addressShorten = shortenAddress(keys["addr"]);
+  
+  yield put(mnemonicRegenerateSuccess(data["accountNum"], keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
+}
+
+
+
