@@ -32,6 +32,12 @@ import {
   makeSelectExplorerPage
 } from 'containers/ExplorerPage/selectors';
 
+import {
+  makeSelectTransactionPage
+} from 'containers/TransactionPage/selectors';
+
+
+
 var algosdk = require('algosdk')
 
 const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
@@ -128,6 +134,7 @@ export function* sendTransaction(data) {
   console.log(data["sendFrom"]);
   let explorerInfo = yield select(makeSelectExplorerPage());
   let walletInfo = yield select(makeSelectWalletPage());
+  let transactionInfo = yield select(makeSelectTransactionPage());
 
   let addressTo;
   let amount;
@@ -158,7 +165,7 @@ export function* sendTransaction(data) {
 
     if(data["sendFrom"] == "user"){
       addressTo = walletInfo["inputAddress"];
-      amount = walletInfo["inputAmount"] * 1000000;
+      amount = transactionInfo["inputSendAmount"] * 1000000;
 
       keys = keysUser;
     }else if(data["sendFrom"] == "faucet"){
