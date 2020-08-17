@@ -39,7 +39,7 @@ const FaucetForm = props => {
     reset, 
     submitting, 
     faucetBalance, 
-    onChangeReceiverAddress,
+    onChangeAddress,
     addressArray,
     onRecaptchaChange,
     captchaData
@@ -82,7 +82,7 @@ const FaucetForm = props => {
             <div className="selectComponent">
               <CreatableSelect
                 isClearable
-                onChange={onChangeReceiverAddress}
+                onChange={onChangeAddress}
                 defaultValue={addressOption[0]}
                 options={addressOption}
               />

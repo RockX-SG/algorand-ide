@@ -112,7 +112,7 @@ export function WalletPage({
         
         <div className="faucet">
           
-          <FaucetForm onSubmit={onFaucetSend} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          <FaucetForm onSubmit={onFaucetSend} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData}  onChangeAddress={onChangeAddress} onRecaptchaChange={onRecaptchaChange} />
           
           
           <div className="assetResponse">
@@ -165,7 +165,7 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(getFaucetBalance());
     },
-    onChangeAddress: evt => dispatch(changeAddress(evt.target.value)),
+    onChangeAddress: evt => dispatch(changeAddress(evt.value)),
     onChangeAmount: evt => dispatch(changeAmount(evt.target.value)),
     onSendTransaction: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
