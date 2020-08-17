@@ -78,8 +78,28 @@ const FileExplorerStyles = styled.div`
     padding-left: 55px;
   }
   
-  .newFilePopup{
-    padding: 20px;
+  .popupContent{
+    padding: 30px 40px;
+  }
+  
+  .popupContentTitle{
+    color: black;
+    padding-bottom: 20px;
+    font-size: 16px;
+  }
+  
+  .popupContentInput{
+    margin-bottom: 20px;
+  }
+  
+  .popupContentLeft{
+    float: left;
+    padding-bottom: 20px;
+  }
+  
+  .popupContentRight{
+    float: right;
+    padding-bottom: 20px;
   }
 `;
 

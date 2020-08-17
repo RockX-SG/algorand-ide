@@ -34,15 +34,18 @@ function FileExplorer(props) {
     onAddNewFile,
     onToggleFolder,
     explorerPage,
-    onChangeContract,
+    onChangeFile,
     onChangeNewFileName,
+    onDeleteFile,
+    newFileName,
+    mode
   } = props;
   
   console.log("explorerPage.explorerFileStatus", explorerPage.explorerFileStatus)
   
   const tutorialFolder = filePreset.map((folder, index) =>
     <div key={index}>
-      <FileExplorerFolder folderStatus={explorerPage.explorerFileStatus[index]} onToggleFolder={onToggleFolder} folderType="tutorial" folderName={folder["name"]} folderIndex={index} files={folder["files"]} onChangeContract={onChangeContract} selectedFolderId={explorerPage.selectedFolderId} selectedFileIndex={explorerPage.selectedFileIndex} />
+      <FileExplorerFolder folderStatus={explorerPage.explorerFileStatus[index]} onToggleFolder={onToggleFolder} folderType="tutorial" folderName={folder["name"]} folderIndex={index} files={folder["files"]} onChangeFile={onChangeFile} selectedFolderId={explorerPage.selectedFolderId} selectedFileIndex={explorerPage.selectedFileIndex} mode={mode} />
     </div>
   );
   
@@ -54,40 +57,52 @@ function FileExplorer(props) {
           <div className="title">
             Files
           </div>
-          <Popup
-            trigger={
-              <div className="headerAction" data-tip="New File" data-for="explorer">
-                {iconPlus}
+          <div className={(explorerPage.userFiles.length < 5) ? "" : "hide"}>
+            <Popup
+              trigger={
+                <div className="headerAction" data-tip="New File" data-for="explorer">
+                  {iconPlus}
+                </div>
+              }
+              modal
+              closeOnDocumentClick
+              closeOnEscape
+            >
+            {close => (
+              <div className="popupContent">
+                <div className="popupContentTitle">
+                  Enter your file name:
+                </div>
+                <div className="popupContentInput">
+                  <Input
+                    id="newFileName"
+                    type="text"
+                    placeholder="Please enter your file name (do not include .teal)"
+                    value={newFileName}
+                    onChange={onChangeNewFileName}
+                  />
+                </div>
+                <div className="popupContentLeft">
+                  <button className={(explorerPage.userFiles.length < 5) ? "" : "hide"} onClick={() => onAddNewFile([mode])}>
+                    Create File
+                  </button>
+                </div>
+                <div className="popupContentRight">
+                  <button className="error" onClick={close}>
+                    Cancel
+                  </button>
+                </div>
               </div>
-            }
-            modal
-            closeOnDocumentClick
-            closeOnEscape
-          >
-            <div className="newFilePopup">
-              <div>
-                <Input
-                  id="newFileName"
-                  type="text"
-                  placeholder="Please enter your file name"
-                  value={explorerPage.newFileName}
-                  onChange={onChangeNewFileName}
-                />
-              </div>
-              <div>
-                <button onClick={() => onAddNewFile()}>
-                  Create File
-                </button>
-              </div>
-            </div>
-          </Popup>
+            )}
+            </Popup>
+          </div>
           <div className="clear"></div>
         </div>
         <div className="explorerBoundary">
           
           {tutorialFolder}
           
-          <FileExplorerFolder folderStatus={explorerPage.userFolderStatus} onToggleFolder={onToggleFolder} folderType="user" folderIndex="0" folderName="Your Folder" files={explorerPage.userFiles} onChangeContract={onChangeContract} selectedFolderId={explorerPage.selectedFolderId} selectedFileIndex={explorerPage.selectedFileIndex} />
+          <FileExplorerFolder folderStatus={explorerPage.userFolderStatus} onToggleFolder={onToggleFolder} folderType="user" folderIndex="0" folderName="Your Folder" files={explorerPage.userFiles} onChangeFile={onChangeFile} selectedFolderId={explorerPage.selectedFolderId} selectedFileIndex={explorerPage.selectedFileIndex} onDeleteFile={onDeleteFile} mode={mode} />
         </div>
       </div>
     </FileExplorerStyles>

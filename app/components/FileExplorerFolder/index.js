@@ -30,10 +30,12 @@ function FileExplorerFolder(props) {
     folderName,
     folderIndex,
     files,
-    onChangeContract,
+    onChangeFile,
     selectedFolderId,
     selectedFileIndex,
-    userFiles
+    userFiles,
+    onDeleteFile,
+    mode
   } = props;
   
   let renderedFiles;
@@ -45,12 +47,12 @@ function FileExplorerFolder(props) {
   if(folderType =="user"){
     renderedFiles = files.map((file, index) =>
       <div key={file.toString()}>
-        <div className={(selectedFolderId == 999 && selectedFileIndex == index) ? "entry file indent2 entrySelected" : "entry file indent2"} onClick={() => onChangeContract(["contract1", 999, index])}>
+        <div className={(selectedFolderId == 999 && selectedFileIndex == index) ? "entry file indent2 entrySelected" : "entry file indent2"} onClick={() => onChangeFile([mode, file, 999, index])}>
           <div className="file">
             <div className="fileName">
               {file}
             </div>
-            <div className="fileDelete" data-tip="Delete file" data-for="fileDelete">
+            <div className="fileDelete" data-tip="Delete file" data-for="fileDelete" onClick={() => onDeleteFile([mode, index])}>
               {(selectedFolderId == 999 && selectedFileIndex == index) ? iconDeleteBlack : iconDelete}
             </div>
             <div className="clear"></div>
@@ -61,7 +63,7 @@ function FileExplorerFolder(props) {
   }else if(folderType =="tutorial"){
     renderedFiles = files.map((file, index) =>
       <div key={file.toString()}>
-        <div className={(selectedFolderId == folderIndex && selectedFileIndex == index) ? "entry file indent2 entrySelected" : "entry file indent2"} onClick={() => onChangeContract(["contract1", folderIndex, index])}>
+        <div className={(selectedFolderId == folderIndex && selectedFileIndex == index) ? "entry file indent2 entrySelected" : "entry file indent2"} onClick={() => onChangeFile([mode, file, folderIndex, index])}>
           <div className="file">
             <div className="fileName">
               {file}
@@ -76,7 +78,7 @@ function FileExplorerFolder(props) {
   return (
     <div>
       <ReactTooltip id="fileDelete" place="right" type="light" effect="float"/>
-      <div className="entry folder indent1" onClick={() => onToggleFolder([folderType, folderIndex])}>
+      <div className="entry folder indent1" onClick={() => onToggleFolder([mode, folderType, folderIndex])}>
         {(folderStatus == true) ? iconArrowDown : iconArrowRight} {folderName}
       </div>
       <div className={(folderStatus == true) ? "" : "hide"}>
