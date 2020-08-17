@@ -92,7 +92,6 @@ export function ExplorerPage({
       <div className="pageName">
         Explorer & Smart Contract IDE
       </div>
-      <ReactTooltip id="bash" place="bottom" type="light" effect="float"/>
       
       <Tabs>
         <TabList>
@@ -101,6 +100,7 @@ export function ExplorerPage({
         </TabList>
         
         <TabPanel>
+          <ReactTooltip id="teal" place="bottom" type="light" effect="float"/>
           <div className="ideContent">
             <div className="pageLeft">
               <FileExplorer filePreset={explorerPage.teal.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage.teal} onChangeFile={onChangeFile} onChangeNewFileName={onChangeNewFileName} onDeleteFile={onDeleteFile} newFileName={explorerPage.newFileName} mode="teal" />
@@ -138,21 +138,21 @@ export function ExplorerPage({
               <div className="actionPanel">
                 <div className="actionPanelButton">
                   <div className={(explorerPage.teal.codeCompileAddress == "-") ? "" : "disabled"}>
-                    <button data-tip="Compiling outputs a deterministic address" data-for="bash" onClick={onCodeCompile}>
+                    <button data-tip="Compiling outputs a deterministic address" data-for="teal" onClick={onCodeCompile}>
                       Compile
                     </button>
                   </div>
                 </div>
                 <div className="actionPanelButton">
                   <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
-                    <button data-tip="Funds address from faucet" data-for="bash" onClick={onFundContract}>
+                    <button data-tip="Funds address from faucet" data-for="teal" onClick={onFundContract}>
                       Fund Contract Address
                     </button>
                   </div>
                 </div>
                 <div className="actionPanelButton">
                   <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
-                    <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="bash" onClick={onCodeDeploy}>
+                    <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="teal" onClick={onCodeDeploy}>
                       Execute Transaction
                     </button>
                   </div>
@@ -169,6 +169,7 @@ export function ExplorerPage({
           </div>
         </TabPanel>
         <TabPanel>
+          <ReactTooltip id="js" place="bottom" type="light" effect="float"/>
           <div className="ideContent">
             <div className="pageLeft">
               <FileExplorer filePreset={explorerPage.javascript.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage.javascript} onChangeFile={onChangeFile} onChangeNewFileName={onChangeNewFileName} onDeleteFile={onDeleteFile} newFileName={explorerPage.newFileName} mode="js" />
@@ -194,8 +195,8 @@ export function ExplorerPage({
               </div>
               <div className="actionPanel">
                 <div className="actionPanelButton">
-                  <div className={(explorerPage.javascript.codeCompileAddress == "-") ? "" : "disabled"}>
-                    <button data-tip="Compiling outputs a deterministic address" data-for="bash" onClick={onCodeCompile}>
+                  <div>
+                    <button data-tip="Execute code" data-for="js" onClick={onCodeCompile}>
                       Run Script
                     </button>
                   </div>
