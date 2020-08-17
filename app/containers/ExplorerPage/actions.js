@@ -11,6 +11,10 @@ import {
   JS_CHANGE_FILE,
   JS_DELETE_FILE,
   
+  JS_EXECUTE_CODE,
+  JS_EXECUTE_CODE_SUCCESS,
+  JS_EXECUTE_CODE_ERROR,
+  
   TEAL_UPDATE_CODE_VALUE,
   TEAL_ADD_NEW_FILE,
   TEAL_TOGGLE_FOLDER,
@@ -119,12 +123,36 @@ export function deleteFile(response) {
 }
 
 
+///////////////////
 
+
+export function jsCodeExecute() {
+  console.log("jsCodeExecute");
+  return {
+    type: JS_EXECUTE_CODE,
+  };
+}
+
+export function jsCodeExecuteSuccess(response) {
+ console.log("response", response);
+ return {
+   type: JS_EXECUTE_CODE_SUCCESS,
+   response: response
+ };
+}
+
+export function jsCodeExecuteError(error) {
+  return {
+    type: JS_EXECUTE_CODE_ERROR,
+    error: error["response_status"],
+  };
+}
 
 ///////////////////
 
 
 export function codeCompile() {
+  console.log("codeCompile");
   return {
     type: CODE_COMPILE,
   };
@@ -150,3 +178,4 @@ export function codeDeploy() {
     type: CODE_DEPLOY,
   };
 }
+

@@ -13,6 +13,9 @@ export const JS_CHANGE_FILE = 'app/ExplorerPage/JS_CHANGE_FILE';
 export const JS_CODE_DEPLOY = 'app/ExplorerPage/JS_CODE_DEPLOY';
 
 export const JS_DELETE_FILE = 'app/ExplorerPage/JS_DELETE_FILE';
+export const JS_EXECUTE_CODE = 'app/ExplorerPage/JS_EXECUTE_CODE';
+export const JS_EXECUTE_CODE_SUCCESS = 'app/ExplorerPage/JS_EXECUTE_CODE_SUCCESS';
+export const JS_EXECUTE_CODE_ERROR = 'app/ExplorerPage/JS_EXECUTE_CODE_ERROR';
 
 
 

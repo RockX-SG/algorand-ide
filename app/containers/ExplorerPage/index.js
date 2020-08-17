@@ -39,6 +39,7 @@ import {
   changeNewFileName,
   deleteFile,
   editFileContent,
+  jsCodeExecute,
 } from './actions';
 
 import {
@@ -72,7 +73,8 @@ export function ExplorerPage({
   onCodeDeploy,
   onChangeNewFileName,
   onDeleteFile,
-  onEditFileContent
+  onEditFileContent,
+  onCodeExecuteJs,
 }) {
   useInjectReducer({ key: 'explorerPage', reducer });
   useInjectSaga({ key: 'explorerPage', saga });
@@ -196,7 +198,7 @@ export function ExplorerPage({
               <div className="actionPanel">
                 <div className="actionPanelButton">
                   <div>
-                    <button data-tip="Execute code" data-for="js" onClick={onCodeCompile}>
+                    <button data-tip="Execute code" data-for="js" onClick={onCodeExecuteJs}>
                       Run Script
                     </button>
                   </div>
@@ -239,6 +241,10 @@ function mapDispatchToProps(dispatch) {
     onCodeCompile: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(codeCompile(evt));
+    },
+    onCodeExecuteJs: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(jsCodeExecute(evt));
     },
     onFundContract: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();

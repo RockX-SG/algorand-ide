@@ -11,6 +11,10 @@ import {
   JS_CHANGE_FILE,
   JS_DELETE_FILE,
   
+  JS_EXECUTE_CODE,
+  JS_EXECUTE_CODE_SUCCESS,
+  JS_EXECUTE_CODE_ERROR,
+  
   TEAL_UPDATE_CODE_VALUE,
   TEAL_ADD_NEW_FILE,
   TEAL_TOGGLE_FOLDER,
@@ -255,6 +259,20 @@ const explorerPageReducer = (state = initialState, action) =>
         draft.teal.selectedFolderId = action.folderIndex;
         draft.teal.selectedFileIndex = action.fileIndex;
         
+        break;
+        
+        
+      case JS_EXECUTE_CODE_SUCCESS:
+        console.log("response", action.response);
+        draft.javascript.bashResponse.unshift(JSON.stringify(action.response));
+
+        break;
+        
+      case JS_EXECUTE_CODE_ERROR:
+        // draft.teal.codeCompileFileName = "";
+        // draft.teal.codeCompileAddress = "";
+        // draft.teal.codeCompileStatus = "false";
+
         break;
         
         
