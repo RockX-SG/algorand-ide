@@ -169,8 +169,15 @@ const walletPageReducer = (state = initialState, action) =>
         break;
 
       case SEND_TRANSACTION_SUCCESS:
-        draft.faucetSendTxHash = action.txHash;
-        draft.userSendTxHash = action.txHash;
+        if(action.sendFrom == "user"){
+          draft.faucetSendTxHash = "-";
+          draft.userSendTxHash = action.txHash;
+        }else if(action.sendFrom == "faucet"){
+          draft.faucetSendTxHash = action.txHash;
+          draft.userSendTxHash = "-";
+        }else{
+          
+        }
 
         break;
 

@@ -214,7 +214,7 @@ export function* sendTransaction(data) {
     }
     console.log("done");
 
-    yield put(sendTransactionSuccess(tx.txId));
+    yield put(sendTransactionSuccess(tx.txId, data["sendFrom"]));
   }
 }
 
