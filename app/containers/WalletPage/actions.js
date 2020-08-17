@@ -122,10 +122,11 @@ export function sendTransaction() {
   };
 }
 
-export function sendTransactionSuccess(txHash) {
+export function sendTransactionSuccess(txHash, sendFrom) {
   return {
     type: SEND_TRANSACTION_SUCCESS,
-    txHash
+    txHash,
+    sendFrom
   };
 }
 
