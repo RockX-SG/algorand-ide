@@ -159,7 +159,7 @@ export function* sendTransaction(data) {
 
       keys = keysUser;
     }else if(data["sendFrom"] == "faucet"){
-      // addressTo = keysUser["addr"];
+      // addressTo = keysUser["addr"]; 
       addressTo = walletInfo["inputAddress"];
       amount = 5 * 1000000;
 
