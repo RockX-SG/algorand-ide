@@ -36,6 +36,9 @@ export const CHANGE_NEW_FILE_NAME = 'app/ExplorerPage/CHANGE_NEW_FILE_NAME';
 
 
 
+export const TEAL_ADD_TO_BASH = 'app/ExplorerPage/TEAL_ADD_TO_BASH';
+export const TEAL_GET_CONTRACT_BALANCE = 'app/ExplorerPage/TEAL_GET_CONTRACT_BALANCE';
+
 
 export const CODE_COMPILE = 'app/ExplorerPage/CODE_COMPILE';
 export const CODE_COMPILE_SUCCESS = 'app/ExplorerPage/CODE_COMPILE_SUCCESS';

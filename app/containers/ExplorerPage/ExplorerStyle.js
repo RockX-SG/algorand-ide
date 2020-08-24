@@ -56,6 +56,21 @@ const ExplorerStyle = styled.div`
     margin: 5px;
   }
   
+  .actionPanelBalance{
+    float: right;
+    margin: 5px;
+  }
+  
+  .actionPanelBalance button{
+    background-color: #DDD;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    border-radius: 0px;
+  }
+  
   .bashConsole{
     height: 150px;
     background-color: #040404;
@@ -78,13 +93,13 @@ const ExplorerStyle = styled.div`
   }
   
   
-  .actionPanel button{
+  .actionPanelButton button{
     background-color: #222;
     color: #CCC;
     padding: 5px 10px;
     font-size: 12px;
   }
-  .actionPanel button:hover{
+  .actionPanelButton button:hover{
     background-color: #000;
   }
 `;

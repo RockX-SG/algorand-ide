@@ -3,6 +3,9 @@
  * WalletPage constants
  *
  */
+ 
+ export const LOADING = 'app/WalletPage/LOADING';
+ export const LOADED = 'app/WalletPage/LOADED';
 
 export const GENERATE_ACCOUNT_PRIMARY = 'app/WalletPage/GENERATE_ACCOUNT_PRIMARY';
 export const GENERATE_ACCOUNT_SECONDARY = 'app/WalletPage/GENERATE_ACCOUNT_SECONDARY';
@@ -40,4 +43,8 @@ export const RECAPTCHA_CHANGE = 'app/WalletPage/RECAPTCHA_CHANGE';
 
 export const MNEMONIC_REGENERATE = 'app/WalletPage/MNEMONIC_REGENERATE';
 export const MNEMONIC_REGENERATE_SUCCESS = 'app/WalletPage/MNEMONIC_REGENERATE_SUCCESS';
+
+export const GET_ADDRESS_BALANCE = 'app/WalletPage/GET_ADDRESS_BALANCE';
+export const GET_ADDRESS_BALANCE_SUCCESS = 'app/WalletPage/GET_ADDRESS_BALANCE_SUCCESS';
+export const GET_ADDRESS_BALANCE_ERROR = 'app/WalletPage/GET_ADDRESS_BALANCE_ERROR';
 

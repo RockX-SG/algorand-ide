@@ -23,12 +23,17 @@ import {
   
   CHANGE_NEW_FILE_NAME,
   
+  TEAL_ADD_TO_BASH,
+  TEAL_GET_CONTRACT_BALANCE,
   CODE_DEPLOY,
   CODE_COMPILE_SUCCESS,
   CODE_COMPILE_ERROR,
 } from './constants';
-
-
+  
+import fileDynamicFee from './teal/dynamic-fee.js';
+import fileHashTimeLock from './teal/hash-time-lock.js';
+import filePeriodicPayment from './teal/periodic-payment.js';
+  
 import templateContract1 from './teal/templateContract1.js';
 import templateContract2 from './teal/templateContract2.js';
 import templateContract3 from './teal/templateContract3.js';
@@ -45,6 +50,7 @@ import fileHashTimeLockContract from './js/hash-time-lock-contract.js';
 export const initialState = {
   newFileName: "",
   teal: {
+    contractBalance: 0,
     codeValue: "",
     codeCompileStatus: "",
     codeCompileFileName: "-",
@@ -52,28 +58,28 @@ export const initialState = {
     explorerFilePreset: [
       {
         "id": 1,
-        "name": "folder 1",
+        "name": "TEAL templates",
         "status": true,
-        "files": ["file1.teal", "file2.teal"]
+        "files": ["dynamic-fee.teal", "hash-time-lock.teal", "periodic-payment.teal"]
       },
-      {
-        "id": 2,
-        "name": "folder 2",
-        "status": true,
-        "files": ["file1.teal", "file2.teal", "file3.teal"]
-      },
-      {
-        "id": 3,
-        "name": "folder 3",
-        "status": true,
-        "files": ["file1.teal", "file2.teal", "file3.teal", "file4.teal"]
-      },
-      {
-        "id": 4,
-        "name": "folder 4",
-        "status": true,
-        "files": ["file1.teal"]
-      },
+      // {
+      //   "id": 2,
+      //   "name": "folder 2",
+      //   "status": true,
+      //   "files": ["file1.teal", "file2.teal", "file3.teal"]
+      // },
+      // {
+      //   "id": 3,
+      //   "name": "folder 3",
+      //   "status": true,
+      //   "files": ["file1.teal", "file2.teal", "file3.teal", "file4.teal"]
+      // },
+      // {
+      //   "id": 4,
+      //   "name": "folder 4",
+      //   "status": true,
+      //   "files": ["file1.teal"]
+      // },
     ],
     explorerFileStatus: [
       true,
@@ -225,6 +231,11 @@ const explorerPageReducer = (state = initialState, action) =>
         
         break;
         
+      case TEAL_GET_CONTRACT_BALANCE:
+        draft.teal.contractBalance = action.balance/1000000;
+        
+        break;
+        
       case TEAL_TOGGLE_FOLDER:
         // draft.codeValue = action.codeValue;
         // change array state
@@ -242,9 +253,15 @@ const explorerPageReducer = (state = initialState, action) =>
       case TEAL_CHANGE_FILE:
         console.log("action.contract", action.contract)
         console.log("action.fileIndex", action.fileIndex)
-        console.log("draft.javascript.userFilesContent", draft.javascript.userFilesContent)
+        console.log("draft.teal.userFilesContent", draft.teal.userFilesContent)
         
-        if(action.contract == "file1.teal"){
+        if(action.contract == "dynamic-fee.teal"){
+          draft.teal.codeValue = fileDynamicFee;
+        }else if(action.contract == "hash-time-lock.teal"){
+          draft.teal.codeValue = fileHashTimeLock;
+        }else if(action.contract == "periodic-payment.teal"){
+          draft.teal.codeValue = filePeriodicPayment;
+        }else if(action.contract == "file1.teal"){
           draft.teal.codeValue = templateContract1;
         }else if(action.contract == "file2.teal"){
           draft.teal.codeValue = templateContract2;
@@ -256,14 +273,22 @@ const explorerPageReducer = (state = initialState, action) =>
           draft.teal.codeValue = draft.teal.userFilesContent[action.fileIndex];
         }
         
+        draft.teal.codeCompileAddress = "-";
         draft.teal.selectedFolderId = action.folderIndex;
         draft.teal.selectedFileIndex = action.fileIndex;
         
         break;
         
         
+      case TEAL_ADD_TO_BASH:
+        draft.teal.bashResponse.unshift(JSON.stringify(action.response));
+
+        break;
+        
+        
+        
+        
       case JS_EXECUTE_CODE_SUCCESS:
-        console.log("response", action.response);
         draft.javascript.bashResponse.unshift(JSON.stringify(action.response));
 
         break;

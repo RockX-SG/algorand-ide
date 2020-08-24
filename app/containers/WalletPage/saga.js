@@ -1,4 +1,4 @@
-import { take, call, put, select, takeLatest } from 'redux-saga/effects';
+import { take, call, put, select, takeLatest, takeEvery } from 'redux-saga/effects';
 
 import {
   GENERATE_ACCOUNT_PRIMARY,
@@ -8,10 +8,12 @@ import {
   SEND_TRANSACTION,
   GET_FAUCET_BALANCE,
   ADD_ACCOUNT,
-  MNEMONIC_REGENERATE
+  MNEMONIC_REGENERATE,
+  GET_ADDRESS_BALANCE
 } from 'containers/WalletPage/constants';
 
 import {
+  loaded,
   generateAccountPrimarySuccess,
   generateAccountSecondarySuccess,
   generateAccountError,
@@ -21,8 +23,15 @@ import {
   getFaucetBalanceError,
   addAccountSuccess,
   addAccountError,
-  mnemonicRegenerateSuccess
+  mnemonicRegenerateSuccess,
+  getAddressBalanceSuccess,
+  getAddressBalanceError,
 } from 'containers/WalletPage/actions';
+
+import {
+  tealAddToBash,
+  tealGetContractBalance,
+} from 'containers/ExplorerPage/actions';
 
 import {
   makeSelectWalletPage
@@ -57,7 +66,8 @@ export default function* walletPageSaga() {
   yield takeLatest(RESTORE_ACCOUNT_SECONDARY, restoreAccountSecondary);
   yield takeLatest(SEND_TRANSACTION, sendTransaction);
   yield takeLatest(GET_FAUCET_BALANCE, getFaucetBalance);
-  yield takeLatest(ADD_ACCOUNT, addAccount);
+  yield takeLatest(GET_ADDRESS_BALANCE, getAddressBalance);
+  yield takeEvery(ADD_ACCOUNT, addAccount);
   yield takeLatest(MNEMONIC_REGENERATE, mnemonicRegenerate);
   
 }
@@ -131,6 +141,7 @@ function shortenAddress(addr){
 
 
 export function* sendTransaction(data) {
+  console.log("sendTransaction");
   console.log(data["sendFrom"]);
   let explorerInfo = yield select(makeSelectExplorerPage());
   let walletInfo = yield select(makeSelectWalletPage());
@@ -158,7 +169,7 @@ export function* sendTransaction(data) {
   
   let captchaData = walletInfo["captchaData"];
   
-  if(captchaData == "" || captchaData == undefined || captchaData == null){
+  if((data["sendFrom"] !== "faucetContract") && (captchaData == "" || captchaData == undefined || captchaData == null)){
     console.log("recaptcha error")
     yield put(sendTransactionError("recaptcha"));
   }else{
@@ -175,7 +186,8 @@ export function* sendTransaction(data) {
 
       keys = keysFaucet;
     }else if(data["sendFrom"] == "faucetContract"){
-      addressTo = explorerInfo["codeCompileAddress"];
+      console.log("teal address", explorerInfo["teal"]["codeCompileAddress"])
+      addressTo = explorerInfo["teal"]["codeCompileAddress"];
       amount = 5 * 1000000;
 
       keys = keysFaucet;
@@ -224,8 +236,15 @@ export function* sendTransaction(data) {
       yield call(algodclient.statusAfterBlock, lastround);
     }
     console.log("done");
-
-    yield put(sendTransactionSuccess(tx.txId, data["sendFrom"]));
+    
+    if(data["sendFrom"] == "faucetContract"){
+      yield put(tealAddToBash(tx.txId));
+    }else{
+      yield put(sendTransactionSuccess(tx.txId, data["sendFrom"]));
+    }
+    
+    
+    yield put(loaded());
   }
 }
 
@@ -236,6 +255,17 @@ export function* getFaucetBalance() {
   let accountInfo = yield call(algodclient.accountInformation, "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM");
 
   yield put(getFaucetBalanceSuccess(accountInfo["amount"]));
+}
+
+export function* getAddressBalance(data) {
+  console.log("data", data)
+  let accountInfo = yield call(algodclient.accountInformation, data["address"]);
+  
+  if(data["sendFrom"] == "contract"){
+    yield put(tealGetContractBalance(accountInfo["amount"]));
+  }else{
+    yield put(getAddressBalanceSuccess(accountInfo["amount"]));
+  }
 }
 
 
@@ -261,6 +291,7 @@ export function* addAccount() {
   let accountInfo = yield call(algodclient.accountInformation, keys["addr"]);
   let addressShorten = shortenAddress(keys["addr"]);
   
+  yield put(loaded());
   yield put(addAccountSuccess(keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
 }
 

@@ -16,6 +16,16 @@ import {
   SEND_ASA_TRANSACTION_SUCCESS,
   SEND_ASA_TRANSACTION_ERROR,
   OPT_IN_ASA_SUCCESS,
+  CHANGE_ATOMIC_AMOUNT,
+  CHANGE_ATOMIC_SENDER_ADDRESS,
+  CHANGE_ATOMIC_RECEIVER_ADDRESS,
+  CONFIRM_ATOMIC_ROUTE,
+  CONFIRM_ATOMIC_ROUTE_SUCCESS,
+  CONFIRM_ATOMIC_ROUTE_ERROR,
+  SIGN_ROUTE,
+  SIGN_ROUTE_SUCCESS,
+  SEND_ATOMIC_TRANSFER,
+  SEND_ATOMIC_TRANSFER_SUCCESS
 } from './constants';
 
 export const initialState = {
@@ -28,19 +38,16 @@ export const initialState = {
   inputAssetId: "",
   sendTxHash: "-",
   sendAsaTxHash: "-",
+  sendAtomicTxHash: "-",
   optInTxHash: "-",
   routeSenders: [
-    {},
-    {}
+    [],
+    [],
   ],
-  routeReceivers: [
-    {},
-    {}
-  ],
-  routeAmount: [
-    {},
-    {}
-  ],
+  atomicTxn: [],
+  atomicKey: [],
+  atomicTxGroup: "",
+  atomicSignedTxn: [],
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -49,13 +56,55 @@ const transactionPageReducer = (state = initialState, action) =>
     switch (action.type) {
       case ADD_ROUTE:
         if(draft.routeSenders.length < 10){
-          draft.routeSenders.push({})
+          draft.routeSenders.push([])
         }
+      
+        break;
+        
+      case SIGN_ROUTE:
+        // draft.routeSenders[action.entryIndex][2] = action.amount;
+      
+        break;
+        
+      case SIGN_ROUTE_SUCCESS:
+        draft.atomicSignedTxn[action.index] = action.signedTx;
+        console.log("draft.atomicSignedTxn", draft.atomicSignedTxn);
+      
+        break;
+        
+      case SEND_ATOMIC_TRANSFER_SUCCESS:
+        draft.sendAtomicTxHash = action.txHash;
+      
+        break;
+        
+        
+      case CHANGE_ATOMIC_AMOUNT:
+        draft.routeSenders[action.entryIndex][2] = action.amount;
+      
+        break;
+        
+      case CHANGE_ATOMIC_SENDER_ADDRESS:
+        draft.routeSenders[action.entryIndex][0] = action.address;
+      
+        break;
+      case CHANGE_ATOMIC_RECEIVER_ADDRESS:
+        draft.routeSenders[action.entryIndex][1] = action.address;
       
         break;
         
       case CONFIRM_ASSET_ID:
         draft.sendAsaStep = 2;
+      
+        break;
+        
+      case CONFIRM_ATOMIC_ROUTE:
+        draft.atomicStep = 2;
+      
+        break;
+        
+      case CONFIRM_ATOMIC_ROUTE_SUCCESS:
+        draft.atomicTxn = action.atomicTxn;
+        draft.atomicKey = action.atomicKey;
       
         break;
         

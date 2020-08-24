@@ -14,6 +14,11 @@ import {
 } from 'containers/ExplorerPage/actions';
 
 import {
+  loaded,
+  getAddressBalance,
+} from 'containers/WalletPage/actions';
+
+import {
   makeSelectExplorerPage
 } from 'containers/ExplorerPage/selectors';
 
@@ -102,6 +107,7 @@ export function* codeCompile() {
   
   const data = yield response.json()
   console.log(data)
+  console.log(data["address"])
   // create a transaction
   // let txn = {
   //     "from": lsig.address(),
@@ -123,8 +129,11 @@ export function* codeCompile() {
   
   if(data["response_status"] !== 400){
     yield put(codeCompileSuccess(data));
+    yield put(getAddressBalance(data["address"], "contract"));
+    yield put(loaded());
   }else{
     yield put(codeCompileError(data));
+    yield put(loaded());
   }
 }
 
@@ -145,7 +154,7 @@ export function* jsCodeExecute() {
   })
 
   const data = yield response.json()
-  console.log(data)
+  console.log("data123", data)
   // create a transaction
   // let txn = {
   //     "from": lsig.address(),
@@ -164,11 +173,15 @@ export function* jsCodeExecute() {
   // send raw LogicSigTransaction to network
   // let tx = (await algodclient.sendRawTransaction(rawSignedTxn.blob));
   // console.log("Transaction : " + tx.txId);
-
+  
   if(data["response_status"] !== 400){
-    console.log("data", data);
-    yield put(jsCodeExecuteSuccess(data));
+    console.log("data", data["response"]);
+    for(var i = 0; i < data["response"].length; i++){
+      yield put(jsCodeExecuteSuccess(data["response"][i]));
+    }
+    yield put(loaded());
   }else{
     yield put(jsCodeExecuteError(data));
+    yield put(loaded());
   }
 }

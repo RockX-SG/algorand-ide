@@ -19,6 +19,8 @@ const RouteSignStyle = styled.div`
   .routeContentPath{
     float: left;
     padding: 15px 0px;
+    width: calc(100% - 90px);
+    font-size: 12px;
   }
   
   .routeSign{

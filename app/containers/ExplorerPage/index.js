@@ -43,6 +43,7 @@ import {
 } from './actions';
 
 import {
+  loading,
   faucetContractSend,
 } from '../WalletPage/actions';
 
@@ -146,7 +147,7 @@ export function ExplorerPage({
                   </div>
                 </div>
                 <div className="actionPanelButton">
-                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                  <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance > 1) ? "disabled" : ""}>
                     <button data-tip="Funds address from faucet" data-for="teal" onClick={onFundContract}>
                       Fund Contract Address
                     </button>
@@ -158,6 +159,11 @@ export function ExplorerPage({
                       Execute Transaction
                     </button>
                   </div>
+                </div>
+                <div className="actionPanelBalance">
+                  <button className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                    {explorerPage.teal.contractBalance} ALGO
+                  </button>
                 </div>
                 <div className="clear"></div>
               </div>
@@ -240,14 +246,17 @@ function mapDispatchToProps(dispatch) {
     },
     onCodeCompile: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(codeCompile(evt));
     },
     onCodeExecuteJs: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(jsCodeExecute(evt));
     },
     onFundContract: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(faucetContractSend(evt));
     },
     onChangeNewFileName: evt => dispatch(changeNewFileName(evt.target.value)),

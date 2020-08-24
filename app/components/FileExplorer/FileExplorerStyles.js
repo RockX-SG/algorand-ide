@@ -31,6 +31,7 @@ const FileExplorerStyles = styled.div`
   .entry{
     padding: 5px 0px;
     cursor: pointer;
+    color: #DDD;
   }
   
   
@@ -50,6 +51,8 @@ const FileExplorerStyles = styled.div`
   .folder{
     padding-bottom: 3px;
     text-transform: capitalize;
+    font-weight: bold;
+    color: white;
   }
   
   .file{

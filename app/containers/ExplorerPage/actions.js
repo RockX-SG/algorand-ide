@@ -23,6 +23,9 @@ import {
   
   CHANGE_NEW_FILE_NAME,
   
+  TEAL_ADD_TO_BASH,
+  TEAL_GET_CONTRACT_BALANCE,
+  
   CODE_DEPLOY,
   CODE_COMPILE,
   CODE_COMPILE_SUCCESS,
@@ -149,6 +152,25 @@ export function jsCodeExecuteError(error) {
 }
 
 ///////////////////
+
+
+
+export function tealAddToBash(response) {
+  console.log("tealAddToBash");
+  return {
+    type: TEAL_ADD_TO_BASH,
+    response
+  };
+}
+
+
+export function tealGetContractBalance(balance) {
+  return {
+    type: TEAL_GET_CONTRACT_BALANCE,
+    balance
+  };
+}
+
 
 
 export function codeCompile() {

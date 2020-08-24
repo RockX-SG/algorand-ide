@@ -41,9 +41,9 @@ console.log("Add funds to all of these accounts using the TestNet Dispenser at h
 console.log("");
 console.log("Copy off these 3 lines of code and they will be pasted in the subsequent Tutorial code");
 console.log("");
-console.log("var account1_mnemonic = \"" + account1_mnemonic + "\"");
-console.log("var account2_mnemonic = \"" + account2_mnemonic + "\"");
-console.log("var account3_mnemonic = \"" + account3_mnemonic + "\"");
+console.log("var account1_mnemonic = " + account1_mnemonic);
+console.log("var account2_mnemonic = " + account2_mnemonic);
+console.log("var account3_mnemonic = " + account3_mnemonic);
 
 // sandbox
 const token = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";

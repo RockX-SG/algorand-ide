@@ -10,6 +10,10 @@ import {
 } from 'containers/SmartAssetPage/actions';
 
 import {
+  loaded,
+} from 'containers/WalletPage/actions';
+
+import {
   makeSelectSmartAssetPage
 } from 'containers/SmartAssetPage/selectors';
 
@@ -86,6 +90,7 @@ export function* createAsset() {
     console.log("AssetID = " + assetID);
 
     yield put(createAssetSuccess(tx.txId, assetID));
+    yield put(loaded());
   }
 }
 

@@ -42,6 +42,7 @@ import TutorialJsTransferAssetPage from 'containers/TutorialJsTransferAssetPage/
 import Navigation from '../../components/Navigation';
 import NavigationSide from '../../components/NavigationSide';
 import Footer from '../../components/Footer';
+import LoadingScreen from '../../components/LoadingScreen';
 
 import MainnetDisclaimer from '../../components/MainnetDisclaimer';
 import CustomNetworkDisclaimer from '../../components/CustomNetworkDisclaimer';
@@ -105,6 +106,7 @@ export function App({
 
   return (
     <div>
+      <LoadingScreen loading={walletPage.loading} />
       <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} dropdownStatus={walletPage.dropdownStatus}  onShowDropdown={onShowDropdown} onHideDropdown={onHideDropdown} addressArray={walletPage.addressArray} addressShortenArray={walletPage.addressShortenArray} mnemonicArray={walletPage.mnemonicArray} balanceArray={walletPage.balanceArray} onSelectAccount={onSelectAccount} />
       <MainnetDisclaimer network={walletPage.network} />
       <CustomNetworkDisclaimer network={walletPage.network} />

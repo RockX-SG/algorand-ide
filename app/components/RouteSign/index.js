@@ -16,11 +16,13 @@ import RouteSignStyle from './RouteSignStyle';
 function RouteSign(props) {
   const {
     walletPage,
-    addressArray
+    addressArray,
+    transactionPage,
+    onSignRoute
   } = props;
   
-  const path = addressArray.map((address, index) =>
-    <div key={address.toString()}>
+  const path = transactionPage.atomicTxn.map((address, index) =>
+    <div key={"routeSign" + index}>
       <div>
         <div className="route">
           <div className="title">
@@ -28,17 +30,19 @@ function RouteSign(props) {
           </div>
           <div className="routeContent">
             <div className="routeContentPath">
-              sender > receiver > amount
+              {transactionPage.routeSenders[index][0]} > 
+              {transactionPage.routeSenders[index][1]} > 
+              {transactionPage.routeSenders[index][2]}
             </div>
             <div className="routeSign">
-              <button className="mini">
+              <button className="mini" onClick={() => onSignRoute(index)}>
                 Sign
               </button>
             </div>
             <div className="clear"></div>
           </div>
           <div className="routeSignature">
-            <span>Signature: </span> xxx
+            <span>Signature: </span> {transactionPage.atomicSignedTxn[index]}
           </div>
           <div className="clear"></div>
         </div>

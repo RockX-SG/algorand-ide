@@ -5,6 +5,8 @@
  */
 
 import {
+  LOADING,
+  LOADED,
   GENERATE_ACCOUNT_PRIMARY,
   GENERATE_ACCOUNT_SECONDARY,
   GENERATE_ACCOUNT_PRIMARY_SUCCESS,
@@ -30,8 +32,23 @@ import {
   SELECT_PAGE,
   RECAPTCHA_CHANGE,
   MNEMONIC_REGENERATE,
-  MNEMONIC_REGENERATE_SUCCESS
+  MNEMONIC_REGENERATE_SUCCESS,
+  GET_ADDRESS_BALANCE,
+  GET_ADDRESS_BALANCE_SUCCESS,
+  GET_ADDRESS_BALANCE_ERROR
 } from './constants';
+
+export function loading() {
+  return {
+    type: LOADING,
+  };
+}
+
+export function loaded() {
+  return {
+    type: LOADED,
+  };
+}
 
 export function generateAccountPrimary() {
   console.log("generateAccountPrimary")
@@ -170,6 +187,28 @@ export function getFaucetBalanceSuccess(balance) {
 export function getFaucetBalanceError() {
   return {
     type: GET_FAUCET_BALANCE_ERROR,
+  };
+}
+
+
+export function getAddressBalance(address, sendFrom) {
+  return {
+    type: GET_ADDRESS_BALANCE,
+    address,
+    sendFrom
+  };
+}
+
+export function getAddressBalanceSuccess(balance) {
+  return {
+    type: GET_ADDRESS_BALANCE_SUCCESS,
+    balance
+  };
+}
+
+export function getAddressBalanceError() {
+  return {
+    type: GET_ADDRESS_BALANCE_ERROR,
   };
 }
 
