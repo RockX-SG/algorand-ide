@@ -93,21 +93,21 @@ export function* tealCodeDeploy() {
   let rawSignedTxn = algosdk.signLogicSigTransaction(txn, lsig);
   console.log("rawSignedTxn : " + rawSignedTxn.blob);
   
-  let txns = [{
-      lsig: lsig,
-      txn: txn,
-  }];  
-  const dr = new algosdk.modelsv2.DryrunRequest({
-      txns: txns,
-      sources: sources,
-  });
-  
-  // let dryrunResponse = await algodclient.dryrun(dr).do();
-  let dryrunResponse = yield call(algodclient.dryrun(dr).do);
-  console.log("dryrunResponse : " + dryrunResponse);
-  // send raw LogicSigTransaction to network
-  // console.log("This is expected to fail as the program is int 0 and will return false : ");     
-  // let tx = (await algodclient.sendRawTransaction(rawSignedTxn.blob));
+  // let txns = [{
+  //     lsig: lsig,
+  //     txn: txn,
+  // }];  
+  // const dr = new algosdk.modelsv2.DryrunRequest({
+  //     txns: txns,
+  //     sources: sources,
+  // });
+  // 
+  // // let dryrunResponse = await algodclient.dryrun(dr).do();
+  // let dryrunResponse = yield call(algodclient.dryrun(dr).do);
+  // console.log("dryrunResponse : " + dryrunResponse);
+  // // send raw LogicSigTransaction to network
+  // // console.log("This is expected to fail as the program is int 0 and will return false : ");     
+  // // let tx = (await algodclient.sendRawTransaction(rawSignedTxn.blob));
   
   
   let tx = yield call(algodclient.sendRawTransaction, rawSignedTxn.blob);
