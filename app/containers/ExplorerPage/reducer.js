@@ -11,6 +11,10 @@ import {
   JS_CHANGE_FILE,
   JS_DELETE_FILE,
   
+  JS_EXECUTE_CODE,
+  JS_EXECUTE_CODE_SUCCESS,
+  JS_EXECUTE_CODE_ERROR,
+  
   TEAL_UPDATE_CODE_VALUE,
   TEAL_ADD_NEW_FILE,
   TEAL_TOGGLE_FOLDER,
@@ -19,12 +23,18 @@ import {
   
   CHANGE_NEW_FILE_NAME,
   
-  CODE_DEPLOY,
+  TEAL_ADD_TO_BASH,
+  TEAL_GET_CONTRACT_BALANCE,
+  TEAL_CODE_DEPLOY,
   CODE_COMPILE_SUCCESS,
   CODE_COMPILE_ERROR,
 } from './constants';
 
-
+import fileSimpleSuccess from './teal/simple-success.js';
+import fileDynamicFee from './teal/dynamic-fee.js';
+import fileHashTimeLock from './teal/hash-time-lock.js';
+import filePeriodicPayment from './teal/periodic-payment.js';
+  
 import templateContract1 from './teal/templateContract1.js';
 import templateContract2 from './teal/templateContract2.js';
 import templateContract3 from './teal/templateContract3.js';
@@ -41,6 +51,8 @@ import fileHashTimeLockContract from './js/hash-time-lock-contract.js';
 export const initialState = {
   newFileName: "",
   teal: {
+    contractBalance: 0,
+    contractBase64: "",
     codeValue: "",
     codeCompileStatus: "",
     codeCompileFileName: "-",
@@ -48,28 +60,28 @@ export const initialState = {
     explorerFilePreset: [
       {
         "id": 1,
-        "name": "folder 1",
+        "name": "TEAL templates",
         "status": true,
-        "files": ["file1.teal", "file2.teal"]
+        "files": ["simple-success.teal", "dynamic-fee.teal", "hash-time-lock.teal", "periodic-payment.teal"]
       },
-      {
-        "id": 2,
-        "name": "folder 2",
-        "status": true,
-        "files": ["file1.teal", "file2.teal", "file3.teal"]
-      },
-      {
-        "id": 3,
-        "name": "folder 3",
-        "status": true,
-        "files": ["file1.teal", "file2.teal", "file3.teal", "file4.teal"]
-      },
-      {
-        "id": 4,
-        "name": "folder 4",
-        "status": true,
-        "files": ["file1.teal"]
-      },
+      // {
+      //   "id": 2,
+      //   "name": "folder 2",
+      //   "status": true,
+      //   "files": ["file1.teal", "file2.teal", "file3.teal"]
+      // },
+      // {
+      //   "id": 3,
+      //   "name": "folder 3",
+      //   "status": true,
+      //   "files": ["file1.teal", "file2.teal", "file3.teal", "file4.teal"]
+      // },
+      // {
+      //   "id": 4,
+      //   "name": "folder 4",
+      //   "status": true,
+      //   "files": ["file1.teal"]
+      // },
     ],
     explorerFileStatus: [
       true,
@@ -221,6 +233,11 @@ const explorerPageReducer = (state = initialState, action) =>
         
         break;
         
+      case TEAL_GET_CONTRACT_BALANCE:
+        draft.teal.contractBalance = action.balance/1000000;
+        
+        break;
+        
       case TEAL_TOGGLE_FOLDER:
         // draft.codeValue = action.codeValue;
         // change array state
@@ -238,9 +255,17 @@ const explorerPageReducer = (state = initialState, action) =>
       case TEAL_CHANGE_FILE:
         console.log("action.contract", action.contract)
         console.log("action.fileIndex", action.fileIndex)
-        console.log("draft.javascript.userFilesContent", draft.javascript.userFilesContent)
+        console.log("draft.teal.userFilesContent", draft.teal.userFilesContent)
         
-        if(action.contract == "file1.teal"){
+        if(action.contract == "simple-success.teal"){
+          draft.teal.codeValue = fileSimpleSuccess;
+        }else if(action.contract == "dynamic-fee.teal"){
+          draft.teal.codeValue = fileDynamicFee;
+        }else if(action.contract == "hash-time-lock.teal"){
+          draft.teal.codeValue = fileHashTimeLock;
+        }else if(action.contract == "periodic-payment.teal"){
+          draft.teal.codeValue = filePeriodicPayment;
+        }else if(action.contract == "file1.teal"){
           draft.teal.codeValue = templateContract1;
         }else if(action.contract == "file2.teal"){
           draft.teal.codeValue = templateContract2;
@@ -252,9 +277,32 @@ const explorerPageReducer = (state = initialState, action) =>
           draft.teal.codeValue = draft.teal.userFilesContent[action.fileIndex];
         }
         
+        draft.teal.codeCompileAddress = "-";
         draft.teal.selectedFolderId = action.folderIndex;
         draft.teal.selectedFileIndex = action.fileIndex;
+        draft.teal.contractBalance = 0;
         
+        break;
+        
+        
+      case TEAL_ADD_TO_BASH:
+        draft.teal.bashResponse.unshift(JSON.stringify(action.response));
+
+        break;
+        
+        
+        
+        
+      case JS_EXECUTE_CODE_SUCCESS:
+        draft.javascript.bashResponse.unshift(JSON.stringify(action.response));
+
+        break;
+        
+      case JS_EXECUTE_CODE_ERROR:
+        // draft.teal.codeCompileFileName = "";
+        // draft.teal.codeCompileAddress = "";
+        // draft.teal.codeCompileStatus = "false";
+
         break;
         
         
@@ -269,6 +317,7 @@ const explorerPageReducer = (state = initialState, action) =>
       case CODE_COMPILE_SUCCESS:
         draft.teal.codeCompileFileName = action.fileName;
         draft.teal.codeCompileAddress = action.address;
+        draft.teal.contractBase64 = action.contractBase64;
         draft.teal.codeCompileStatus = "true";
         draft.teal.bashResponse.unshift(action.address);
 

@@ -28,10 +28,17 @@ import {
   changeSendAmount,
   changeSendAsaAmount,
   sendAsaTransaction,
-  optInAsa
+  optInAsa,
+  changeAtomicAmount,
+  changeAtomicSenderAddress,
+  changeAtomicReceiverAddress,
+  confirmAtomicRoute,
+  signRoute,
+  sendAtomicTransfer
 } from './actions';
 
 import {
+  loading,
   sendTransaction,
   changeAddress,
   changeAmount,
@@ -68,10 +75,15 @@ export function TransactionPage({
   onConfirmAssetId,
   walletPage,
   transactionPage,
-  onConfirmAtomic,
+  onConfirmAtomicRoute,
   onAddRoute,
   onRecaptchaChange,
-  onOptInAsa
+  onOptInAsa,
+  onChangeAtomicAmount,
+  onChangeAtomicSenderAddress,
+  onChangeAtomicReceiverAddress,
+  onSignRoute,
+  onSendAtomicTransfer
 }) {
   useInjectReducer({ key: 'transactionPage', reducer });
   useInjectSaga({ key: 'transactionPage', saga });
@@ -148,17 +160,17 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAddress={onChangeAddress} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onConfirmAtomicRoute={onConfirmAtomicRoute} onSignRoute={onSignRoute} onSendAtomicTransfer={onSendAtomicTransfer} />
           
           <div className="assetResponse">
-            <div className={(walletPage.userSendTxHash == "-") ? "disabled" : ""}>
+            <div className={(transactionPage.sendAtomicTxHash == "-") ? "disabled" : ""}>
               <div className="assetResponseSection">
                 <div className="assetResponseTitle">
                   Transaction ID:
                 </div>
                 <div className="assetResponseOutput">
-                  <a href={"https://testnet.algoexplorer.io/tx/"+walletPage.userSendTxHash} target="_blank">
-                    {walletPage.userSendTxHash}
+                  <a href={"https://testnet.algoexplorer.io/tx/"+transactionPage.sendAtomicTxHash} target="_blank">
+                    {transactionPage.sendAtomicTxHash}
                   </a>
                 </div>
               </div>
@@ -205,23 +217,38 @@ function mapDispatchToProps(dispatch) {
     onChangeAddress: evt => dispatch(changeAddress(evt.value)),
     onChangeSendAmount: evt => dispatch(changeSendAmount(evt.target.value)),
     onChangeSendAsaAmount: evt => dispatch(changeSendAsaAmount(evt.target.value)),
+    
+    onChangeAtomicAmount: evt => dispatch(changeAtomicAmount(evt)),
+    onChangeAtomicSenderAddress: evt => dispatch(changeAtomicSenderAddress(evt)),
+    onChangeAtomicReceiverAddress: evt => dispatch(changeAtomicReceiverAddress(evt)),
+    
+    onSignRoute: evt => dispatch(signRoute(evt)),
+    onSendAtomicTransfer: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
+      dispatch(sendAtomicTransfer(evt));
+    },
+    
     onChangeAssetId: evt => dispatch(changeAssetId(evt.target.value)),
     onConfirmAssetId: evt => dispatch(confirmAssetId()),
     onSendTransaction: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(sendTransaction(evt));
     },
     onSendAsaTransaction: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(sendAsaTransaction(evt));
     },
     onOptInAsa: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(optInAsa(evt));
     },
-    onConfirmAtomic: evt => {
+    onConfirmAtomicRoute: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(sendTransaction(evt));
+      dispatch(confirmAtomicRoute(evt));
     },
     onAddRoute: evt => dispatch(addRoute()),
     onRecaptchaChange: evt => {

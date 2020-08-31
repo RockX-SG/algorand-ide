@@ -13,6 +13,9 @@ export const JS_CHANGE_FILE = 'app/ExplorerPage/JS_CHANGE_FILE';
 export const JS_CODE_DEPLOY = 'app/ExplorerPage/JS_CODE_DEPLOY';
 
 export const JS_DELETE_FILE = 'app/ExplorerPage/JS_DELETE_FILE';
+export const JS_EXECUTE_CODE = 'app/ExplorerPage/JS_EXECUTE_CODE';
+export const JS_EXECUTE_CODE_SUCCESS = 'app/ExplorerPage/JS_EXECUTE_CODE_SUCCESS';
+export const JS_EXECUTE_CODE_ERROR = 'app/ExplorerPage/JS_EXECUTE_CODE_ERROR';
 
 
 
@@ -23,6 +26,8 @@ export const TEAL_TOGGLE_FOLDER = 'app/ExplorerPage/TEAL_TOGGLE_FOLDER';
 export const TEAL_CHANGE_FILE = 'app/ExplorerPage/TEAL_CHANGE_FILE';
 
 export const TEAL_CODE_DEPLOY = 'app/ExplorerPage/TEAL_CODE_DEPLOY';
+export const CODE_DEPLOY_SUCCESS = 'app/ExplorerPage/CODE_DEPLOY_SUCCESS';
+export const TEAL_CODE_DEPLOY_ERROR = 'app/ExplorerPage/TEAL_CODE_DEPLOY_ERROR';
 
 export const TEAL_DELETE_FILE = 'app/ExplorerPage/TEAL_DELETE_FILE';
 
@@ -32,6 +37,9 @@ export const CHANGE_NEW_FILE_NAME = 'app/ExplorerPage/CHANGE_NEW_FILE_NAME';
 
 
 
+
+export const TEAL_ADD_TO_BASH = 'app/ExplorerPage/TEAL_ADD_TO_BASH';
+export const TEAL_GET_CONTRACT_BALANCE = 'app/ExplorerPage/TEAL_GET_CONTRACT_BALANCE';
 
 
 export const CODE_COMPILE = 'app/ExplorerPage/CODE_COMPILE';

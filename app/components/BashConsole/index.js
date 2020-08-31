@@ -17,7 +17,7 @@ function BashConsole(props) {
   } = props;
   
   let renderedBash = bashResponse.map((resp, index) =>
-    <div key={resp.toString()}>
+    <div key={index}>
       <div className="bashConsoleLine">
         {resp}
       </div>

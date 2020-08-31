@@ -26,6 +26,7 @@ import messages from './messages';
 
 
 import {
+  loading,
   generateAccountPrimary,
   restoreAccountPrimary,
   generateAccountSecondary,
@@ -173,6 +174,7 @@ function mapDispatchToProps(dispatch) {
     },
     onFaucetSend: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(faucetSend(evt));
     },
     onToggleSelectedAccount: evt => {
@@ -185,6 +187,7 @@ function mapDispatchToProps(dispatch) {
     },
     onAddAccount: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(addAccount(evt));
     },
     onChangeMnemonicRestore: evt => {

@@ -49,7 +49,8 @@ import {
 } from '../SmartAssetPage/actions';
 
 import {
-  recaptchaChange
+  loading,
+  recaptchaChange,
 } from '../WalletPage/actions';
 
 import Input from './Input';
@@ -357,6 +358,7 @@ function mapDispatchToProps(dispatch) {
     dispatch,
     onCreateAsset: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(createAsset(evt));
     },
     onChangeNote: evt => dispatch(changeNote(evt.target.value)),

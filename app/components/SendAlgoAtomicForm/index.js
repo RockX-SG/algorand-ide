@@ -42,14 +42,18 @@ function SendAlgoAtomicForm(props) {
     addressOption,
     onRecaptchaChange,
     captchaData,
-    onChangeAddress,
-    onChangeAmount,
-    onChangeAssetId
+    onChangeAssetId,
+    onChangeAtomicAmount,
+    onChangeAtomicSenderAddress,
+    onChangeAtomicReceiverAddress,
+    onConfirmAtomicRoute,
+    onSignRoute,
+    onSendAtomicTransfer
   } = props;
   
   
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       <div className="sectionStep">
         Step 1
       </div>
@@ -71,10 +75,10 @@ function SendAlgoAtomicForm(props) {
               <div className="clear"></div>
             </div>
             <div className="route">
-              <RoutePath routeSenders={transactionPage.routeSenders} onChangeAddress={onChangeAddress} onChangeAmount={onChangeAmount} addressOption={addressOption} walletPage={walletPage} />
+              <RoutePath routeSenders={transactionPage.routeSenders} addressOption={addressOption} walletPage={walletPage} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} />
             </div>
             <div>
-              <button onClick={() => onConfirmAtomic()}>
+              <button onClick={() => onConfirmAtomicRoute()}>
                 Confirm Atomic Transfer
               </button>
             </div>
@@ -86,7 +90,7 @@ function SendAlgoAtomicForm(props) {
       </div>
       <div className={(transactionPage.atomicStep == 2) ? "sectionStepContent" : "sectionStepContent disabled"}>
         <div className="sectionGroup">
-          <div className="section">
+          <div className="section hide">
             <div className="sectionTitle">
               Transaction Routes Group Id:
             </div>
@@ -98,7 +102,7 @@ function SendAlgoAtomicForm(props) {
             <div className="sectionTitle">
               Sign Transactions:
             </div>
-            <RouteSign walletPage={walletPage} addressArray={addressArray} />
+            <RouteSign walletPage={walletPage} addressArray={addressArray} transactionPage={transactionPage} onSignRoute={onSignRoute} />
           </div>
         </div>
       </div>
@@ -106,12 +110,11 @@ function SendAlgoAtomicForm(props) {
         <div>
           <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
         </div>
-        <button>
+        <button onClick={() => onSendAtomicTransfer()}>
           Send
         </button>
       </div>
-    </form>
-    
+    </div>
   );
 };
 // <div>

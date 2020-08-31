@@ -34,14 +34,16 @@ import {
   addNewFile,
   toggleFolder,
   changeFile,
-  codeDeploy,
+  tealCodeDeploy,
   codeCompile,
   changeNewFileName,
   deleteFile,
   editFileContent,
+  jsCodeExecute,
 } from './actions';
 
 import {
+  loading,
   faucetContractSend,
 } from '../WalletPage/actions';
 
@@ -72,7 +74,8 @@ export function ExplorerPage({
   onCodeDeploy,
   onChangeNewFileName,
   onDeleteFile,
-  onEditFileContent
+  onEditFileContent,
+  onCodeExecuteJs,
 }) {
   useInjectReducer({ key: 'explorerPage', reducer });
   useInjectSaga({ key: 'explorerPage', saga });
@@ -144,18 +147,23 @@ export function ExplorerPage({
                   </div>
                 </div>
                 <div className="actionPanelButton">
-                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                  <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance > 1) ? "disabled" : ""}>
                     <button data-tip="Funds address from faucet" data-for="teal" onClick={onFundContract}>
                       Fund Contract Address
                     </button>
                   </div>
                 </div>
                 <div className="actionPanelButton">
-                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                  <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance <= 1) ? "disabled" : ""}>
                     <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="teal" onClick={onCodeDeploy}>
                       Execute Transaction
                     </button>
                   </div>
+                </div>
+                <div className="actionPanelBalance">
+                  <button className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                    {explorerPage.teal.contractBalance} ALGO
+                  </button>
                 </div>
                 <div className="clear"></div>
               </div>
@@ -175,7 +183,7 @@ export function ExplorerPage({
               <FileExplorer filePreset={explorerPage.javascript.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage.javascript} onChangeFile={onChangeFile} onChangeNewFileName={onChangeNewFileName} onDeleteFile={onDeleteFile} newFileName={explorerPage.newFileName} mode="js" />
             </div>
             <div className="pageRight">
-              <div className="ide">
+              <div className="ide ideJs">
                 <CodeMirror
                   value={explorerPage.javascript.codeValue}
                   options={optionsCode}
@@ -196,7 +204,7 @@ export function ExplorerPage({
               <div className="actionPanel">
                 <div className="actionPanelButton">
                   <div>
-                    <button data-tip="Execute code" data-for="js" onClick={onCodeCompile}>
+                    <button data-tip="Execute code" data-for="js" onClick={onCodeExecuteJs}>
                       Run Script
                     </button>
                   </div>
@@ -234,14 +242,22 @@ function mapDispatchToProps(dispatch) {
     onChangeFile: evt => dispatch(changeFile(evt)),
     onCodeDeploy: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(codeDeploy(evt));
+      dispatch(loading());
+      dispatch(tealCodeDeploy(evt));
     },
     onCodeCompile: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(codeCompile(evt));
+    },
+    onCodeExecuteJs: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
+      dispatch(jsCodeExecute(evt));
     },
     onFundContract: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
       dispatch(faucetContractSend(evt));
     },
     onChangeNewFileName: evt => dispatch(changeNewFileName(evt.target.value)),

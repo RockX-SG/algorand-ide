@@ -21,3 +21,19 @@ export const SEND_ASA_TRANSACTION_ERROR = 'app/TransactionPage/SEND_ASA_TRANSACT
 
 export const OPT_IN_ASA = 'app/TransactionPage/OPT_IN_ASA';
 export const OPT_IN_ASA_SUCCESS = 'app/TransactionPage/OPT_IN_ASA_SUCCESS';
+
+export const CHANGE_ATOMIC_AMOUNT = 'app/TransactionPage/CHANGE_ATOMIC_AMOUNT';
+export const CHANGE_ATOMIC_SENDER_ADDRESS = 'app/TransactionPage/CHANGE_ATOMIC_SENDER_ADDRESS';
+export const CHANGE_ATOMIC_RECEIVER_ADDRESS = 'app/TransactionPage/CHANGE_ATOMIC_RECEIVER_ADDRESS';
+
+export const CONFIRM_ATOMIC_ROUTE = 'app/TransactionPage/CONFIRM_ATOMIC_ROUTE';
+export const CONFIRM_ATOMIC_ROUTE_SUCCESS = 'app/TransactionPage/CONFIRM_ATOMIC_ROUTE_SUCCESS';
+export const CONFIRM_ATOMIC_ROUTE_ERROR = 'app/TransactionPage/CONFIRM_ATOMIC_ROUTE_ERROR';
+
+export const SIGN_ROUTE = 'app/TransactionPage/SIGN_ROUTE';
+export const SIGN_ROUTE_SUCCESS = 'app/TransactionPage/SIGN_ROUTE_SUCCESS';
+export const SIGN_ROUTE_ERROR = 'app/TransactionPage/SIGN_ROUTE_ERROR';
+
+export const SEND_ATOMIC_TRANSFER = 'app/TransactionPage/SEND_ATOMIC_TRANSFER';
+export const SEND_ATOMIC_TRANSFER_SUCCESS = 'app/TransactionPage/SEND_ATOMIC_TRANSFER_SUCCESS';
+export const SEND_ATOMIC_TRANSFER_ERROR = 'app/TransactionPage/SEND_ATOMIC_TRANSFER_ERROR';

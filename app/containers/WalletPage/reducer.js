@@ -18,10 +18,13 @@ import {
   TOGGLE_DROPDOWN,
   SELECT_PAGE,
   RECAPTCHA_CHANGE,
-  MNEMONIC_REGENERATE_SUCCESS
+  MNEMONIC_REGENERATE_SUCCESS,
+  LOADING,
+  LOADED,
 } from './constants';
 
 export const initialState = {
+  loading: false,
   selectedAccount: "",
   address: "",
   addressShorten: "",
@@ -60,6 +63,16 @@ export const initialState = {
 const walletPageReducer = (state = initialState, action) =>
   produce(state, draft => {
     switch (action.type) {
+      case LOADING:
+        draft.loading = true;
+
+        break;
+        
+      case LOADED:
+        draft.loading = false;
+
+        break;
+        
       case GENERATE_ACCOUNT_PRIMARY_SUCCESS:
         draft.addressPrimary = action.address;
         draft.addressShortenPrimary = action.addressShorten;

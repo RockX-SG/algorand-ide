@@ -27,7 +27,10 @@ function RoutePath(props) {
     onChangeAmount,
     addressOption,
     walletPage,
-    routeSenders
+    routeSenders,
+    onChangeAtomicAmount,
+    onChangeAtomicSenderAddress,
+    onChangeAtomicReceiverAddress
   } = props;
   
   // console.log();
@@ -42,8 +45,10 @@ function RoutePath(props) {
           <div className="routeEntry">
             <div className="selectComponent">
               <Select
-                onChange={onChangeAddress}
+                name={"sender_" + index}
+                onChange={(evt) => onChangeAtomicSenderAddress([evt, index])}
                 options={addressOption}
+                value={{ label: address[0], value: address[0] }}
               />
             </div>
           </div>
@@ -59,8 +64,10 @@ function RoutePath(props) {
             <div className="selectComponent">
               <CreatableSelect
                 isClearable
-                onChange={onChangeAddress}
+                name={"receiver_" + index}
+                onChange={(evt) => onChangeAtomicReceiverAddress([evt, index])}
                 options={addressOption}
+                value={{ label: address[1], value: address[1] }}
               />
             </div>
           </div>
@@ -76,8 +83,9 @@ function RoutePath(props) {
             <Input
               id="amount"
               type="text"
-              value={walletPage.inputAmount}
-              onChange={onChangeAmount}
+              name={"amount_" + index}
+              onChange={onChangeAtomicAmount}
+              value={address[2]}
             />
           </div>
         </div>

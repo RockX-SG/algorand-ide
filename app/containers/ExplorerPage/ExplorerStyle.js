@@ -45,6 +45,18 @@ const ExplorerStyle = styled.div`
     max-height: 400px;
   }
   
+  .ideJs{
+    min-height: 453px;
+    max-height: 453px;
+  }
+  
+  .ideJs .CodeMirror{
+    padding: 10px;
+    
+    min-height: 453px;
+    max-height: 453px;
+  }
+  
   .actionPanel{
     height: 50px;
     background-color: #111;
@@ -54,6 +66,21 @@ const ExplorerStyle = styled.div`
   .actionPanelButton{
     float: left;
     margin: 5px;
+  }
+  
+  .actionPanelBalance{
+    float: right;
+    margin: 5px;
+  }
+  
+  .actionPanelBalance button{
+    background-color: #DDD;
+    color: #333;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    border-radius: 0px;
   }
   
   .bashConsole{
@@ -78,13 +105,13 @@ const ExplorerStyle = styled.div`
   }
   
   
-  .actionPanel button{
+  .actionPanelButton button{
     background-color: #222;
     color: #CCC;
     padding: 5px 10px;
     font-size: 12px;
   }
-  .actionPanel button:hover{
+  .actionPanelButton button:hover{
     background-color: #000;
   }
 `;
