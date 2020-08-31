@@ -25,11 +25,12 @@ import {
   
   TEAL_ADD_TO_BASH,
   TEAL_GET_CONTRACT_BALANCE,
-  CODE_DEPLOY,
+  TEAL_CODE_DEPLOY,
   CODE_COMPILE_SUCCESS,
   CODE_COMPILE_ERROR,
 } from './constants';
-  
+
+import fileSimpleSuccess from './teal/simple-success.js';
 import fileDynamicFee from './teal/dynamic-fee.js';
 import fileHashTimeLock from './teal/hash-time-lock.js';
 import filePeriodicPayment from './teal/periodic-payment.js';
@@ -51,6 +52,7 @@ export const initialState = {
   newFileName: "",
   teal: {
     contractBalance: 0,
+    contractBase64: "",
     codeValue: "",
     codeCompileStatus: "",
     codeCompileFileName: "-",
@@ -60,7 +62,7 @@ export const initialState = {
         "id": 1,
         "name": "TEAL templates",
         "status": true,
-        "files": ["dynamic-fee.teal", "hash-time-lock.teal", "periodic-payment.teal"]
+        "files": ["simple-success.teal", "dynamic-fee.teal", "hash-time-lock.teal", "periodic-payment.teal"]
       },
       // {
       //   "id": 2,
@@ -255,7 +257,9 @@ const explorerPageReducer = (state = initialState, action) =>
         console.log("action.fileIndex", action.fileIndex)
         console.log("draft.teal.userFilesContent", draft.teal.userFilesContent)
         
-        if(action.contract == "dynamic-fee.teal"){
+        if(action.contract == "simple-success.teal"){
+          draft.teal.codeValue = fileSimpleSuccess;
+        }else if(action.contract == "dynamic-fee.teal"){
           draft.teal.codeValue = fileDynamicFee;
         }else if(action.contract == "hash-time-lock.teal"){
           draft.teal.codeValue = fileHashTimeLock;
@@ -276,6 +280,7 @@ const explorerPageReducer = (state = initialState, action) =>
         draft.teal.codeCompileAddress = "-";
         draft.teal.selectedFolderId = action.folderIndex;
         draft.teal.selectedFileIndex = action.fileIndex;
+        draft.teal.contractBalance = 0;
         
         break;
         
@@ -312,6 +317,7 @@ const explorerPageReducer = (state = initialState, action) =>
       case CODE_COMPILE_SUCCESS:
         draft.teal.codeCompileFileName = action.fileName;
         draft.teal.codeCompileAddress = action.address;
+        draft.teal.contractBase64 = action.contractBase64;
         draft.teal.codeCompileStatus = "true";
         draft.teal.bashResponse.unshift(action.address);
 

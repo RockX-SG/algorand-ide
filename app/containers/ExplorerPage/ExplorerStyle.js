@@ -45,6 +45,18 @@ const ExplorerStyle = styled.div`
     max-height: 400px;
   }
   
+  .ideJs{
+    min-height: 453px;
+    max-height: 453px;
+  }
+  
+  .ideJs .CodeMirror{
+    padding: 10px;
+    
+    min-height: 453px;
+    max-height: 453px;
+  }
+  
   .actionPanel{
     height: 50px;
     background-color: #111;

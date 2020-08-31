@@ -34,7 +34,7 @@ import {
   addNewFile,
   toggleFolder,
   changeFile,
-  codeDeploy,
+  tealCodeDeploy,
   codeCompile,
   changeNewFileName,
   deleteFile,
@@ -154,7 +154,7 @@ export function ExplorerPage({
                   </div>
                 </div>
                 <div className="actionPanelButton">
-                  <div className={(explorerPage.teal.codeCompileAddress == "-") ? "disabled" : ""}>
+                  <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance <= 1) ? "disabled" : ""}>
                     <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="teal" onClick={onCodeDeploy}>
                       Execute Transaction
                     </button>
@@ -183,7 +183,7 @@ export function ExplorerPage({
               <FileExplorer filePreset={explorerPage.javascript.explorerFilePreset} onAddNewFile={onAddNewFile} onToggleFolder={onToggleFolder} explorerPage={explorerPage.javascript} onChangeFile={onChangeFile} onChangeNewFileName={onChangeNewFileName} onDeleteFile={onDeleteFile} newFileName={explorerPage.newFileName} mode="js" />
             </div>
             <div className="pageRight">
-              <div className="ide">
+              <div className="ide ideJs">
                 <CodeMirror
                   value={explorerPage.javascript.codeValue}
                   options={optionsCode}
@@ -242,7 +242,8 @@ function mapDispatchToProps(dispatch) {
     onChangeFile: evt => dispatch(changeFile(evt)),
     onCodeDeploy: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      dispatch(codeDeploy(evt));
+      dispatch(loading());
+      dispatch(tealCodeDeploy(evt));
     },
     onCodeCompile: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();

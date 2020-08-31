@@ -26,7 +26,10 @@ import {
   TEAL_ADD_TO_BASH,
   TEAL_GET_CONTRACT_BALANCE,
   
-  CODE_DEPLOY,
+  TEAL_CODE_DEPLOY,
+  TEAL_CODE_DEPLOY_SUCCESS,
+  TEAL_CODE_DEPLOY_ERROR,
+  
   CODE_COMPILE,
   CODE_COMPILE_SUCCESS,
   CODE_COMPILE_ERROR,
@@ -184,7 +187,8 @@ export function codeCompileSuccess(response) {
  return {
    type: CODE_COMPILE_SUCCESS,
    fileName: response["file_name"],
-   address: response["address"]
+   address: response["address"],
+   contractBase64: response["contractBase64"],
  };
 }
 
@@ -195,9 +199,23 @@ export function codeCompileError(error) {
   };
 }
 
-export function codeDeploy() {
+export function tealCodeDeploy() {
+  console.log("tealCodeDeploy");
   return {
-    type: CODE_DEPLOY,
+    type: TEAL_CODE_DEPLOY,
   };
 }
 
+export function tealCodeDeploySuccess(txHash) {
+ return {
+   type: TEAL_CODE_DEPLOY_SUCCESS,
+   txHash
+ };
+}
+
+export function tealCodeDeployError(error) {
+  return {
+    type: TEAL_CODE_DEPLOY_ERROR,
+    error: error["response_status"],
+  };
+}
