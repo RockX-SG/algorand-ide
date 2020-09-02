@@ -38,7 +38,8 @@ function SendAlgoAsaForm(props) {
     onChangeAddress,
     onChangeSendAsaAmount,
     onChangeAssetId,
-    onConfirmAssetId
+    onConfirmAssetId,
+    onSendAsaTransaction
   } = props;
   
   
@@ -73,7 +74,7 @@ function SendAlgoAsaForm(props) {
       <div className="sectionStep">
         Step 2
       </div>
-      <form onSubmit={handleSubmit}>
+      <div>
         <div className={(transactionPage.sendAsaStep == 2) ? "sectionStepContent" : "sectionStepContent disabled"}>
           <div className="sectionGroup">
             <div className="section">
@@ -141,11 +142,11 @@ function SendAlgoAsaForm(props) {
           <div>
             <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
           </div>
-          <button>
+          <button onClick={() => onSendAsaTransaction()}>
             Send
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
