@@ -49,6 +49,9 @@ import CustomNetworkDisclaimer from '../../components/CustomNetworkDisclaimer';
 
 import GlobalStyle from '../../global-styles';
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import {
   generateAccountPrimary,
   restoreAccountPrimary,
@@ -131,6 +134,17 @@ export function App({
           <Route component={NotFoundPage} />
         </Switch>
       </div>
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnVisibilityChange
+        draggable
+        pauseOnHover
+      />
       <Footer />
       <GlobalStyle />
     </div>
