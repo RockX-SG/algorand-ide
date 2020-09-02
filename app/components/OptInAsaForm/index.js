@@ -38,13 +38,14 @@ function OptInAsaForm(props) {
     onChangeAddress,
     onChangeSendAsaAmount,
     onChangeAssetId,
-    onConfirmAssetId
+    onConfirmAssetId,
+    onOptInAsa
   } = props;
   
   
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <div>
         <div className="sectionStepContent">
           <div className="sectionGroup">
             <div className="section">
@@ -67,11 +68,11 @@ function OptInAsaForm(props) {
           <div>
             <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
           </div>
-          <button>
+          <button onClick={() => onOptInAsa()}>
             Opt In
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

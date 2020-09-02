@@ -140,7 +140,7 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoAsaForm onSubmit={onSendAsaTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          <SendAlgoAsaForm onSubmit={onSendAsaTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onSendAsaTransaction={onSendAsaTransaction} />
           
           <div className="assetResponse">
             <div className={(transactionPage.sendAsaTxHash == "-") ? "disabled" : ""}>
@@ -180,7 +180,7 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <OptInAsaForm onSubmit={onOptInAsa} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          <OptInAsaForm onSubmit={onOptInAsa} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onOptInAsa={onOptInAsa} />
           
           <div className="assetResponse">
             <div className={(transactionPage.optInTxHash == "-") ? "disabled" : ""}>
