@@ -11,7 +11,8 @@ import {
   codeCompileError,
   jsCodeExecuteSuccess,
   jsCodeExecuteError,
-  tealAddToBash
+  tealAddToBash,
+  tealCodeDeployError
 } from 'containers/ExplorerPage/actions';
 
 import {
@@ -63,8 +64,6 @@ export function* tealCodeDeploy() {
   // always eval to true
   let program = new Uint8Array(Buffer.from(contractBase64 , "base64"));
   
-  
-  
   let lsig = algosdk.makeLogicSig(program);
   console.log("lsig", lsig);
   
@@ -110,35 +109,47 @@ export function* tealCodeDeploy() {
   // // let tx = (await algodclient.sendRawTransaction(rawSignedTxn.blob));
   
   
-  let tx = yield call(algodclient.sendRawTransaction, rawSignedTxn.blob);
-  console.log("Transaction : " + tx.txId);
-        
-  
-
-  let status = yield call(algodclient.status);
-  console.log("status : " + status);
-  let lastround = status.lastRound;
-  console.log("lastround : " + lastround);
-  while (true) {
-    let pendingInfo = yield call(algodclient.pendingTransactionInformation, tx.txId);
-    if (pendingInfo.round !== null && pendingInfo.round > 0) {
-      //Got the completed Transaction
-      console.log("Transaction " + pendingInfo.tx + " confirmed in round " + pendingInfo.round);
-      break;
+  console.log("----");
+  try {
+    let tx = yield call(algodclient.sendRawTransaction, rawSignedTxn.blob);
+    console.log("----");
+    console.log("Transaction : " + tx.txId);
+    console.log("----");
+            
+    let status = yield call(algodclient.status);
+    console.log("status : " + status);
+    let lastround = status.lastRound;
+    console.log("lastround : " + lastround);
+    while (true) {
+      let pendingInfo = yield call(algodclient.pendingTransactionInformation, tx.txId);
+      if (pendingInfo.round !== null && pendingInfo.round > 0) {
+        //Got the completed Transaction
+        console.log("Transaction " + pendingInfo.tx + " confirmed in round " + pendingInfo.round);
+        break;
+      }
+      lastround++;
+      yield call(algodclient.statusAfterBlock, lastround);
     }
-    lastround++;
-    yield call(algodclient.statusAfterBlock, lastround);
+    console.log("done");
+    
+    console.log("----");
+    // if(data["sendFrom"] == "faucetContract"){
+    yield put(tealAddToBash(tx.txId));
+    // }else{
+    //   yield put(sendTransactionSuccess(tx.txId, data["sendFrom"]));
+    // }
+    
+    console.log("----");
+    
+    yield put(loaded());
+    console.log("----");
   }
-  console.log("done");
+  catch(err) {
+    yield put(tealCodeDeployError());
+    
+    yield put(loaded());
+  }
   
-  // if(data["sendFrom"] == "faucetContract"){
-  yield put(tealAddToBash(tx.txId));
-  // }else{
-  //   yield put(sendTransactionSuccess(tx.txId, data["sendFrom"]));
-  // }
-  
-  
-  yield put(loaded());
 }
 
 // function dryrunDebugging(lsig, txn, data) {

@@ -35,6 +35,8 @@ import {
   CODE_COMPILE_ERROR,
 } from './constants';
 
+import { toast } from "react-toastify";
+
 export function updateCodeValue(response) {
   if(response[0] == "js"){
     return {
@@ -214,8 +216,17 @@ export function tealCodeDeploySuccess(txHash) {
 }
 
 export function tealCodeDeployError(error) {
+  toast.error('Your TEAL code has errors. Please edit it and try to deploy again.', {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  });
+  
   return {
     type: TEAL_CODE_DEPLOY_ERROR,
-    error: error["response_status"],
+    // error: error["response_status"],
   };
 }

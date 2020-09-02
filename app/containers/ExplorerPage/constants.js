@@ -26,8 +26,10 @@ export const TEAL_TOGGLE_FOLDER = 'app/ExplorerPage/TEAL_TOGGLE_FOLDER';
 export const TEAL_CHANGE_FILE = 'app/ExplorerPage/TEAL_CHANGE_FILE';
 
 export const TEAL_CODE_DEPLOY = 'app/ExplorerPage/TEAL_CODE_DEPLOY';
-export const CODE_DEPLOY_SUCCESS = 'app/ExplorerPage/CODE_DEPLOY_SUCCESS';
+export const TEAL_CODE_DEPLOY_SUCCESS = 'app/ExplorerPage/TEAL_CODE_DEPLOY_SUCCESS';
 export const TEAL_CODE_DEPLOY_ERROR = 'app/ExplorerPage/TEAL_CODE_DEPLOY_ERROR';
+
+export const CODE_DEPLOY_SUCCESS = 'app/ExplorerPage/CODE_DEPLOY_SUCCESS';
 
 export const TEAL_DELETE_FILE = 'app/ExplorerPage/TEAL_DELETE_FILE';
 
