@@ -129,6 +129,7 @@ export function changeAtomicReceiverAddress(response) {
 }
 
 export function changeAssetId(id) {
+  console.log("id", id);
   return {
     type: CHANGE_ASSET_ID,
     id

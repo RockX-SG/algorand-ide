@@ -4,10 +4,14 @@
  *
  */
 
-import { DEFAULT_ACTION } from './constants';
+import { 
+  CHANGE_FAUCET_DESTINATION_ADDRESS
+} from './constants';
 
-export function defaultAction() {
+export function changeFaucetDestinationAddress(address) {
+  console.log("address", address);
   return {
-    type: DEFAULT_ACTION,
+    type: CHANGE_FAUCET_DESTINATION_ADDRESS,
+    address
   };
 }

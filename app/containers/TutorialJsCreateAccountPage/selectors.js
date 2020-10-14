@@ -22,5 +22,8 @@ const makeSelectTutorialJsCreateAccountPage = () =>
     substate => substate,
   );
 
-export default makeSelectTutorialJsCreateAccountPage;
-export { selectTutorialJsCreateAccountPageDomain };
+// export default makeSelectTutorialJsCreateAccountPage;
+export { 
+  selectTutorialJsCreateAccountPageDomain,
+  makeSelectTutorialJsCreateAccountPage
+};

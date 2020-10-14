@@ -10,6 +10,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     // font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-family: 'Overpass', sans-serif;
+    position: relative;
+    padding-bottom: 6rem;
+    min-height: 100%;
   }
 
   body.fontLoaded {
@@ -35,14 +38,17 @@ const GlobalStyle = createGlobalStyle`
   // }
 
   .page{
-    max-width: 1200px;
+    // max-width: 1200px;
     width: calc(100% - 70px);
-    margin: auto;
+    // margin: auto;
     // padding: 0px 0px;
     overflow: auto;
     min-height: 700px;
     padding-top: 70px;
     padding-left: 70px;
+    
+    margin: 0 auto;
+    // width: 94%;
   }
   
   .pagePadTop{
@@ -116,6 +122,27 @@ const GlobalStyle = createGlobalStyle`
   .selectComponent{
     font-size: 12px !important;
     text-transform: uppercase;
+  }
+  
+  .bashConsole{
+    height: 150px;
+    background-color: #040404;
+    color: #999;
+    padding: 10px 20px;
+    font-size: 12px;
+    
+    font-family: 'PT Serif', serif;
+    overflow-y: scroll;
+  }
+  
+  .bashConsoleLine{
+    padding-bottom: 2px;
+    line-height: 14px;
+  }
+  
+  .bashConsoleLine:before{
+    content: ">";
+    padding-right: 10px;
   }
 `;
 

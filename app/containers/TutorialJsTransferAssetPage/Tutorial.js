@@ -26,6 +26,10 @@ const Tutorial = styled.div`
     padding-bottom: 5px;
   }
   
+  .tutorialSectionLink{
+    text-decoration: underline;
+  }
+  
   .InputSection{
     padding: 10px 0px;
   }

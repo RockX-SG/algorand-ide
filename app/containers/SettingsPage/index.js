@@ -3,8 +3,8 @@
  * SettingsPage
  *
  */
-
-import React from 'react';
+ 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -20,6 +20,10 @@ import {
   changeServerPort,
   changeAlgodToken,
 } from './actions';
+
+import {
+  selectPage
+} from '../WalletPage/actions';
 
 import reducer from './reducer';
 import saga from './saga';
@@ -38,9 +42,14 @@ export function SettingsPage({
   onChangeAlgodToken,
   settingsPage,
   enablePureStake,
+  onSelectPage,
 }) {
   useInjectReducer({ key: 'settingsPage', reducer });
   useInjectSaga({ key: 'settingsPage', saga });
+
+  useEffect(() => {
+    onSelectPage("setting");
+  });
 
   return (
     <SettingsStyle>
@@ -115,6 +124,10 @@ function mapDispatchToProps(dispatch) {
       dispatch(changeServerAddress(evt.target.value)),
     onChangeServerPort: evt => dispatch(changeServerPort(evt.target.value)),
     onChangeAlgodToken: evt => dispatch(changeAlgodToken(evt.target.value)),
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
+    },
   };
 }
 
