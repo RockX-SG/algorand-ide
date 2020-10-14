@@ -3,8 +3,8 @@
  * TutorialPage
  *
  */
-
-import React from 'react';
+ 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -13,7 +13,7 @@ import { compose } from 'redux';
 
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
-import makeSelectTutorialPage from './selectors';
+import {makeSelectTutorialPage} from './selectors';
 import reducer from './reducer';
 import saga from './saga';
 import messages from './messages';
@@ -36,9 +36,19 @@ import Input from './Input';
 
 import TutorialSelect from '../../components/TutorialSelect';
 
-export function TutorialPage() {
+import {
+  selectPage
+} from '../WalletPage/actions';
+
+export function TutorialPage({
+  onSelectPage,
+}) {
   useInjectReducer({ key: 'tutorialPage', reducer });
   useInjectSaga({ key: 'tutorialPage', saga });
+
+  useEffect(() => {
+    onSelectPage("tutorial");
+  });
 
   var optionsCode = {
 		lineNumbers: true,
@@ -127,12 +137,6 @@ Account Two: CYY47X6CZNO2HY4VCW5QLLIZL4UN7IZP6NALUQFRZKO7MCZ2YSZPSS5HZQ
 Account Three: WCQNTSIKNAYRWYQBJBRWUG7QEBLSNQRKEQI7FDYKAIHG555ZZ5FGNNIUJY
 Asset Creation Txn : LISSHM5YU2EU6OERZJTJWYTVKJZ22MK4AG4SYMGCOTWZO4VHARFA`
 
-const options = [
-  { value: 'contract1', label: 'Create an Account on TestNet using JavaScript' },
-  { value: 'contract2', label: 'Create an Asset using JavaScript' },
-  { value: 'contract3', label: 'LimitOrder Contract with JavaScript' },
-  { value: 'contract4', label: 'Transfer an Asset using JavaScript' },
-]
 
   return (
     <Tutorial>
@@ -140,259 +144,57 @@ const options = [
         Tutorials
       </div>
       <div>
-        <div className="pageLeft">
-          <TutorialSelect />
-        </div>
-
-        <div className="pageRight">
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              Tutorial Source:
+        <div>
+          <Link to="/tutorial/create-account">
+            <div className="tutorialEntry">
+                Create an Account on TestNet using JavaScript
             </div>
-            <div>
-              <a href="https://developer.algorand.org/tutorials/create-asset-javascript/" target="_blank">
-                https://developer.algorand.org/tutorials/create-asset-javascript/
-              </a>
+          </Link>
+          <Link to="/tutorial/create-asset">
+            <div className="tutorialEntry">
+                Create an Asset using JavaScript
             </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              1. Instantiate Algod Wrapper
+          </Link>
+          <Link to="/tutorial/limit-order-contract">
+            <div className="tutorialEntry">
+                LimitOrder Contract with JavaScript
             </div>
-            <div className="tutorialSectionDescription">
-              <p>
-                In this step, we are passing in the token, server, and port values from a local node or local sandbox instance. You can also connect to remote node using a third-party service.
-              </p>
+          </Link>
+          <Link to="/tutorial/transfer-asset">
+            <div className="tutorialEntry">
+                Transfer an Asset using JavaScript
             </div>
-            <div>
-              <CodeMirror
-                value={step1Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
+          </Link>
+          <Link to="/tutorial/hash-time-lock">
+            <div className="tutorialEntry">
+                Hash Time Lock Contract Template With JavaScript
             </div>
-            <div>
-              <div className="InputSection">
-                <div className="InputSectionTitle">
-                  Algo Token:
-                </div>
-                <div>
-                  <Input
-                    id="assetURL"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div className="InputSection">
-                <div className="InputSectionTitle">
-                  Algod Address:
-                </div>
-                <div>
-                  <Input
-                    id="assetURL"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
-              <div className="InputSection">
-                <div className="InputSectionTitle">
-                  Algod Port:
-                </div>
-                <div>
-                  <Input
-                    id="assetURL"
-                    type="text"
-                    value=""
-                  />
-                </div>
-              </div>
+          </Link>
+          <Link to="/tutorial/destroy-asset">
+            <div className="tutorialEntry">
+                Destroy an Asset using JavaScript
             </div>
-            <div>
-              <button>
-                Run & Compile
-              </button>
+          </Link>
+          <Link to="/tutorial/revoke-asset">
+            <div className="tutorialEntry">
+                Revoke an Asset using JavaScript
             </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              2. Recover, Define and Print Accounts
+          </Link>
+          <Link to="/tutorial/opt-in-asset">
+            <div className="tutorialEntry">
+                Opt-In to an Asset using JavaScript
             </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Hardcoding and recovering accounts in this way is not advised, for security purposes, but is sufficient for this tutorial.
-                          </p>
-                <p>
-  Note: If you have not already done so, use this tutorial to Create Accounts
-              </p>
-    <p>
-  This tutorial will use TestNet accounts that have been pre-created from the Create Accounts tutorial. Be sure to dispense Algos to these accounts before continuing, using the TestNet Dispenser.
-              </p>
+          </Link>
+          <Link to="/tutorial/freeze-asset">
+            <div className="tutorialEntry">
+                Freeze an Asset using JavaScript
             </div>
-            <div>
-              <CodeMirror
-                value={step2Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
+          </Link>
+          <Link to="/tutorial/write-transaction-note">
+            <div className="tutorialEntry">
+                Read and Write to the Transaction Note Field with JavaScript
             </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              3. Define Asset Create Transaction Parameters
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Here we structure the changing blockchain parameters and include a utility function to update parameters from the blockchain. This will come in handy in the following tutorials where we will need to pass in these same parameters several times.
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step3Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Create an async function and write all the logic in there.
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step3bCode}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              4. Create ASA transaction object
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Use this code to create an asset transaction.
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step4Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              5. Sign Transaction
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Sign the transaction.
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step5Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              6. Send Create ASA Transaction to the Blockchain and print the Tx ID
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Broadcast the transaction to the Blockchain.
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step6Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-          </div>
-          <div className="tutorialSection">
-            <div className="tutorialSectionTitle">
-              7. Check the transaction on a block explorer
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              Once you’ve completed these steps you’re output should look like this:
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step7Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-            <div className="tutorialSectionDescription">
-              <p>
-              You can check the asset creation transaction on a block explorer for reference.
-              </p>
-            </div>
-          </div>
-          <div className="tutorialSection">
-            <button>
-              Complete Example
-            </button>
-          </div>
+          </Link>
         </div>
         <div className="clear"></div>
       </div>
@@ -411,6 +213,10 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
+    },
   };
 }
 

@@ -3,8 +3,8 @@
  * TutorialJsTransferAssetPage
  *
  */
-
-import React from 'react';
+ 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -14,8 +14,17 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectTutorialJsTransferAssetPage from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+
+
+import {
+  makeSelectTutorialPage
+} from '../TutorialPage/selectors';
+
+// import reducer from './reducer';
+import reducer from '../TutorialPage/reducer';
+// import saga from './saga';
+import saga from '../TutorialPage/saga';
+
 import messages from './messages';
 
 import {
@@ -34,11 +43,32 @@ require("codemirror/theme/dracula.css");
 import Tutorial from './Tutorial';
 import Input from './Input';
 
+import BashConsole from '../../components/BashConsole';
+
 import TutorialSelect from '../../components/TutorialSelect';
 
-export function TutorialJsTransferAssetPage() {
-  useInjectReducer({ key: 'tutorialJsTransferAssetPage', reducer });
-  useInjectSaga({ key: 'tutorialJsTransferAssetPage', saga });
+import {
+  loading,
+  selectPage
+} from '../WalletPage/actions';
+
+import {
+  jsCodeExecuteTutorial,
+} from '../TutorialPage/actions';
+
+export function TutorialJsTransferAssetPage({
+  onCodeExecuteJs,
+  tutorialPage,
+  onSelectPage,
+}) {
+  // useInjectReducer({ key: 'tutorialJsTransferAssetPage', reducer });
+  // useInjectSaga({ key: 'tutorialJsTransferAssetPage', saga });
+  useInjectReducer({ key: 'tutorialPage', reducer });
+  useInjectSaga({ key: 'tutorialPage', saga });
+
+  useEffect(() => {
+    onSelectPage("tutorial");
+  });
 
   var optionsCode = {
 		lineNumbers: true,
@@ -83,219 +113,217 @@ var step6Code = `Asset Transfer Transaction id : RG2GNMT7ZF3Y4OFWE6ZLARRDBHPAGW2
 Transaction RG2GNMT7ZF3Y4OFWE6ZLARRDBHPAGW2AKUUCUTYLJCN24V4GYIZA confirmed in round 6007998
 Account Information for: {"creator":"THQHGD4HEESOPSJJYYF34MWKOI57HXBX4XR63EPBKCWPOJG5KUPDJ7QJCM","amount":10,"frozen":false}`
 
-const options = [
-  { value: 'contract1', label: 'Create an Account on TestNet using JavaScript' },
-  { value: 'contract2', label: 'Create an Asset using JavaScript' },
-  { value: 'contract3', label: 'LimitOrder Contract with JavaScript' },
-  { value: 'contract4', label: 'Transfer an Asset using JavaScript' },
-]
 
   return (
     <Tutorial>
-      <div className="pageLeft">
-        <TutorialSelect />
+      <div className="pageName">
+        Tutorials
       </div>
-
-      <div className="pageRight">
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            Tutorial Source:
-          </div>
-          <div>
-            <a href="https://developer.algorand.org/tutorials/transfer-asset-javascript/" target="_blank">
-              https://developer.algorand.org/tutorials/transfer-asset-javascript/
-            </a>
-          </div>
+      <div>
+        <div className="pageLeft">
+          <TutorialSelect />
         </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            1. Define Transfer Parameters
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            This code has Account 1 sending 10 assets to Account 3. Set assetID, Asset Amount, sender and recipient. We set revocationTarget to undefined as this is not a revocation operation. closeReaminderTo is set to undefined as we are not closing out an asset.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step1Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-          <div>
-            <div className="InputSection">
-              <div className="InputSectionTitle">
-                Algo Token:
-              </div>
-              <div>
-                <Input
-                  id="assetURL"
-                  type="text"
-                  value=""
-                />
-              </div>
+
+        <div className="pageRight">
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              Tutorial Source:
             </div>
-            <div className="InputSection">
-              <div className="InputSectionTitle">
-                Algod Address:
-              </div>
-              <div>
-                <Input
-                  id="assetURL"
-                  type="text"
-                  value=""
-                />
-              </div>
-            </div>
-            <div className="InputSection">
-              <div className="InputSectionTitle">
-                Algod Port:
-              </div>
-              <div>
-                <Input
-                  id="assetURL"
-                  type="text"
-                  value=""
-                />
-              </div>
+            <div className="tutorialSectionLink">
+              <a href="https://developer.algorand.org/tutorials/transfer-asset-javascript/" target="_blank">
+                https://developer.algorand.org/tutorials/transfer-asset-javascript/
+              </a>
             </div>
           </div>
-          <div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              1. Define Transfer Parameters
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+              This code has Account 1 sending 10 assets to Account 3. Set assetID, Asset Amount, sender and recipient. We set revocationTarget to undefined as this is not a revocation operation. closeReaminderTo is set to undefined as we are not closing out an asset.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step1Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+            <div>
+              <div className="InputSection">
+                <div className="InputSectionTitle">
+                  Algo Token:
+                </div>
+                <div>
+                  <Input
+                    id="assetURL"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div className="InputSection">
+                <div className="InputSectionTitle">
+                  Algod Address:
+                </div>
+                <div>
+                  <Input
+                    id="assetURL"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+              <div className="InputSection">
+                <div className="InputSectionTitle">
+                  Algod Port:
+                </div>
+                <div>
+                  <Input
+                    id="assetURL"
+                    type="text"
+                    value=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <button>
+                Run & Compile
+              </button>
+            </div>
+          </div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              2. Create Asset Transfer Transaction
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+              Using the same method that was used in the previous Asset Opt-In Tutorial makeAssetTransferTxn
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step2Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+          </div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              3. Sign Transfer Transaction
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+              The transaction must be signed by the sender account.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step3Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+          </div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              4. Send Transfer Transaction
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+              Submit the transaction and list the account amount for acct3.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step4Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+          </div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              5. Print Account Information
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+              You should see that Account 3 now has 10 of the new asset.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step5Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+          </div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              6. Check the transaction on a block explorer
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+              Once you’ve completed these steps you’re output should look something like this:
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step6Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+          </div>
+          <div className="tutorialSection">
             <button>
-              Run & Compile
+              Complete Example
             </button>
           </div>
         </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            2. Create Asset Transfer Transaction
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            Using the same method that was used in the previous Asset Opt-In Tutorial makeAssetTransferTxn
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step2Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            3. Sign Transfer Transaction
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            The transaction must be signed by the sender account.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step3Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            4. Send Transfer Transaction
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            Submit the transaction and list the account amount for acct3.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step4Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            5. Print Account Information
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            You should see that Account 3 now has 10 of the new asset.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step5Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            6. Check the transaction on a block explorer
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            Once you’ve completed these steps you’re output should look something like this:
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step6Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <button>
-            Complete Example
-          </button>
-        </div>
+        <div className="clear"></div>
       </div>
-      <div className="clear"></div>
-
     </Tutorial>
   );
 }
@@ -306,11 +334,21 @@ TutorialJsTransferAssetPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   tutorialJsTransferAssetPage: makeSelectTutorialJsTransferAssetPage(),
+  tutorialPage: makeSelectTutorialPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    onCodeExecuteJs: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
+      dispatch(jsCodeExecuteTutorial(evt));
+    },
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
+    },
   };
 }
 

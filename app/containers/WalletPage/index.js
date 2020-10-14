@@ -40,7 +40,8 @@ import {
   selectAccount,
   addAccount,
   recaptchaChange,
-  mnemonicRegenerate
+  mnemonicRegenerate,
+  selectPage
 } from '../WalletPage/actions';
 
 import Input from './Input';
@@ -71,7 +72,8 @@ export function WalletPage({
   walletPage,
   onChangeMnemonicRestore,
   onRecaptchaChange,
-  onMnemonicRegenerate
+  onMnemonicRegenerate,
+  onSelectPage,
 }) {
   useInjectReducer({ key: 'walletPage', reducer });
   useInjectSaga({ key: 'walletPage', saga });
@@ -95,6 +97,8 @@ export function WalletPage({
     }
 
     onGetFaucetBalance();
+    onSelectPage("wallet");
+    
   });
   
 
@@ -183,7 +187,7 @@ function mapDispatchToProps(dispatch) {
     },
     onSelectAccount: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
-      // dispatch(selectAccount(evt));
+      dispatch(selectAccount(evt));
     },
     onAddAccount: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
@@ -201,6 +205,10 @@ function mapDispatchToProps(dispatch) {
     onMnemonicRegenerate: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(mnemonicRegenerate(evt));
+    },
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
     },
   };
 }

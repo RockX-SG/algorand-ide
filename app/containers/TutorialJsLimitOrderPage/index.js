@@ -4,8 +4,8 @@
  * TutorialJsLimitOrderPage
  *
  */
-
-import React from 'react';
+ 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -15,8 +15,17 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import makeSelectTutorialJsLimitOrderPage from './selectors';
-import reducer from './reducer';
-import saga from './saga';
+
+
+import {
+  makeSelectTutorialPage
+} from '../TutorialPage/selectors';
+
+// import reducer from './reducer';
+import reducer from '../TutorialPage/reducer';
+// import saga from './saga';
+import saga from '../TutorialPage/saga';
+
 import messages from './messages';
 
 import {
@@ -35,11 +44,32 @@ require("codemirror/theme/dracula.css");
 import Tutorial from './Tutorial';
 import Input from './Input';
 
+import BashConsole from '../../components/BashConsole';
+
 import TutorialSelect from '../../components/TutorialSelect';
 
-export function TutorialJsLimitOrderPage() {
-  useInjectReducer({ key: 'tutorialJsLimitOrderPage', reducer });
-  useInjectSaga({ key: 'tutorialJsLimitOrderPage', saga });
+import {
+  loading,
+  selectPage
+} from '../WalletPage/actions';
+
+import {
+  jsCodeExecuteTutorial,
+} from '../TutorialPage/actions';
+
+export function TutorialJsLimitOrderPage({
+  onCodeExecuteJs,
+  tutorialPage,
+  onSelectPage,
+}) {
+  // useInjectReducer({ key: 'tutorialJsLimitOrderPage', reducer });
+  // useInjectSaga({ key: 'tutorialJsLimitOrderPage', saga });
+  useInjectReducer({ key: 'tutorialPage', reducer });
+  useInjectSaga({ key: 'tutorialPage', saga });
+
+  useEffect(() => {
+    onSelectPage("tutorial");
+  });
 
   var optionsCode = {
 		lineNumbers: true,
@@ -65,9 +95,12 @@ const limitTemplate = require("algosdk/src/logicTemplates/limitorder");
 
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-host>";
-const port = //<your-algod-port>;
+
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
@@ -95,9 +128,12 @@ const limitTemplate = require("algosdk/src/logicTemplates/limitorder");
 
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-host>";
-const port = //<your-algod-port>;
+
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
@@ -154,9 +190,12 @@ const limitTemplate = require("algosdk/src/logicTemplates/limitorder");
 
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-host>";
-const port = //<your-algod-port>;
+
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
@@ -228,189 +267,163 @@ let algodclient = new algosdk.Algod(token, server, port);
 });`
 
 
-const options = [
-  { value: 'contract1', label: 'Create an Account on TestNet using JavaScript' },
-  { value: 'contract2', label: 'Create an Asset using JavaScript' },
-  { value: 'contract3', label: 'LimitOrder Contract with JavaScript' },
-  { value: 'contract4', label: 'Transfer an Asset using JavaScript' },
-]
 
   return (
     <Tutorial>
-      <div className="pageLeft">
-        <TutorialSelect />
+      <div className="pageName">
+        Tutorials
       </div>
+      <div>
+        <div className="pageLeft">
+          <TutorialSelect />
+        </div>
 
-      <div className="pageRight">
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            Tutorial Source:
+        <div className="pageRight">
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              Tutorial Source:
+            </div>
+            <div className="tutorialSectionLink">
+              <a href="https://developer.algorand.org/tutorials/limitorder-contract-javascript/" target="_blank">
+                https://developer.algorand.org/tutorials/limitorder-contract-javascript/
+              </a>
+            </div>
           </div>
-          <div>
-            <a href="https://developer.algorand.org/tutorials/limitorder-contract-javascript/" target="_blank">
-              https://developer.algorand.org/tutorials/limitorder-contract-javascript/
-            </a>
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            1. Get Asset Owner and the Contract Owner Accounts
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            The Limit Order template can be instantiated with a set of predefined parameters that configure the Limit Order contract. These parameters should not be confused with Transaction parameters that are passed into the contract when using the Limit Order. These parameters configure how the Limit Order will function:
-                        </p>
-                        
-                          <p>
-                          <ul>
-                          <li>
-TMPL_ASSET: Integer ID of the asset
-</li>
-<li>
-TMPL_SWAPN: Numerator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
-</li>
-<li>
-TMPL_SWAPD: Denominator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
-</li>
-<li>
-TMPL_TIMEOUT: The round after which all of the algos in this contract may be closed back to TMPL_OWN
-</li>
-<li>
-TMPL_OWN: The recipient of the asset (if the order is filled), or of the contract’s algo balance (after TMPL_TIMEOUT)
-</li>
-<li>
-TMPL_FEE: The maximum fee used in any transaction spending out of this contract
-</li>
-<li>
-TMPL_MINTRD: The minimum number of microAlgos that may be spent out of this contract as part of a trade
-</li>
-</ul>
-            </p>
-            
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              1. Get Asset Owner and the Contract Owner Accounts
+            </div>
+            <div className="tutorialSectionDescription">
               <p>
-So for example, If you want to specify that the contact will approve a transaction where it is willing to spend 3000 microAlgos for 1 Asset with id of TMPL_ASSET, you would set the TMPL_SWAPN parameter to 1 and the TMPL_SWAPD to 3000. The TMPL_MINTRD should be set to 2999 in this example as it must be less than the amount of microAlgos for the one asset.
-            </p>
-            
+              The Limit Order template can be instantiated with a set of predefined parameters that configure the Limit Order contract. These parameters should not be confused with Transaction parameters that are passed into the contract when using the Limit Order. These parameters configure how the Limit Order will function:
+                          </p>
+                          
+                            <p>
+                            <ul>
+                            <li>
+  TMPL_ASSET: Integer ID of the asset
+  </li>
+  <li>
+  TMPL_SWAPN: Numerator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
+  </li>
+  <li>
+  TMPL_SWAPD: Denominator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
+  </li>
+  <li>
+  TMPL_TIMEOUT: The round after which all of the algos in this contract may be closed back to TMPL_OWN
+  </li>
+  <li>
+  TMPL_OWN: The recipient of the asset (if the order is filled), or of the contract’s algo balance (after TMPL_TIMEOUT)
+  </li>
+  <li>
+  TMPL_FEE: The maximum fee used in any transaction spending out of this contract
+  </li>
+  <li>
+  TMPL_MINTRD: The minimum number of microAlgos that may be spent out of this contract as part of a trade
+  </li>
+  </ul>
+              </p>
+              
+                <p>
+  So for example, If you want to specify that the contact will approve a transaction where it is willing to spend 3000 microAlgos for 1 Asset with id of TMPL_ASSET, you would set the TMPL_SWAPN parameter to 1 and the TMPL_SWAPD to 3000. The TMPL_MINTRD should be set to 2999 in this example as it must be less than the amount of microAlgos for the one asset.
+              </p>
+              
+                <p>
+  For this tutorial, we first need to define, the owner of the contract, and the owner of the asset with asset id = TMPL_ASSET.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step1Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["limit-order-contract", 1, step3Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.limitOrderContract["step1"]} />
+          </div>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              2. Create Limit Order Template
+            </div>
+            <div className="tutorialSectionDescription">
               <p>
-For this tutorial, we first need to define, the owner of the contract, and the owner of the asset with asset id = TMPL_ASSET.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step1Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-          <div>
-            <div className="InputSection">
-              <div className="InputSectionTitle">
-                Algo Token:
-              </div>
+              The template can now be created with the correct ratio for assets to microAlgos.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step2Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+            <div>
               <div>
-                <Input
-                  id="assetURL"
-                  type="text"
-                  value=""
-                />
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["limit-order-contract", 2, step3Code])}>
+                  Run Script
+                </button>
               </div>
             </div>
-            <div className="InputSection">
-              <div className="InputSectionTitle">
-                Algod Address:
-              </div>
-              <div>
-                <Input
-                  id="assetURL"
-                  type="text"
-                  value=""
-                />
-              </div>
-            </div>
-            <div className="InputSection">
-              <div className="InputSectionTitle">
-                Algod Port:
-              </div>
-              <div>
-                <Input
-                  id="assetURL"
-                  type="text"
-                  value=""
-                />
-              </div>
+            <BashConsole bashResponse={tutorialPage.limitOrderContract["step2"]} />
+            <div className="tutorialSectionDescription">
+              <p>
+                At this point, the Limit Order contract account must be funded before any transactions can be issued against it. Use the dispenser to do this now. Also, note that program bytes can be saved to use at a later time or in another application at this point.
+              </p>
             </div>
           </div>
-          <div>
-            <button>
-              Run & Compile
-            </button>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+              3. Create and Submit Transaction against Contract
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+                The Limit Order contract template offers a helper method to create the proper transactions against the contract called getSwapAssetsTransaction. This function takes an assetAmount and a microAlgoAmount for the total transaction and creates two transactions, one for each receiver and then groups these two transactions into an atomic transfer. The first transaction is signed with the program logic and the second transaction is signed with the secret key of the asset owner. The bytes of the grouped transactions to submit are returned. These bytes can then be submitted to the blockchain.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step3Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["limit-order-contract", 3, step3Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.limitOrderContract["step3"]} />
           </div>
         </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            2. Create Limit Order Template
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-            The template can now be created with the correct ratio for assets to microAlgos.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step2Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-              At this point, the Limit Order contract account must be funded before any transactions can be issued against it. Use the dispenser to do this now. Also, note that program bytes can be saved to use at a later time or in another application at this point.
-            </p>
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-            3. Create and Submit Transaction against Contract
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-              The Limit Order contract template offers a helper method to create the proper transactions against the contract called getSwapAssetsTransaction. This function takes an assetAmount and a microAlgoAmount for the total transaction and creates two transactions, one for each receiver and then groups these two transactions into an atomic transfer. The first transaction is signed with the program logic and the second transaction is signed with the secret key of the asset owner. The bytes of the grouped transactions to submit are returned. These bytes can then be submitted to the blockchain.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step3Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <button>
-            Complete Example
-          </button>
-        </div>
+        <div className="clear"></div>
       </div>
-      <div className="clear"></div>
-
     </Tutorial>
   );
 }
@@ -421,11 +434,21 @@ TutorialJsLimitOrderPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   tutorialJsLimitOrderPage: makeSelectTutorialJsLimitOrderPage(),
+  tutorialPage: makeSelectTutorialPage(),
 });
 
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
+    onCodeExecuteJs: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
+      dispatch(jsCodeExecuteTutorial(evt));
+    },
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
+    },
   };
 }
 

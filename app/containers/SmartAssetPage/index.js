@@ -51,6 +51,7 @@ import {
 import {
   loading,
   recaptchaChange,
+  selectPage
 } from '../WalletPage/actions';
 
 import Input from './Input';
@@ -71,6 +72,11 @@ require('codemirror/theme/neat.css');
 require('codemirror/mode/xml/xml.js');
 require('codemirror/mode/javascript/javascript.js');
 require("codemirror/theme/dracula.css");
+
+import ReactTooltip from "react-tooltip";
+
+let iconInfo = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAA50lEQVRIid2UTQ6CMBSEv2jgehJQuZKIxyCu9R66lqi49AK4Fhe0hpCWPn5WTDJJ8zKdafvawtzhAzFwBHLgo5ir2lZpBiECCqBy8AmEfYyXwEFg3GYKLCQBQ8w1E5d5NMJcM7CZ+9Tn2TVZo0vzwtL4WLA6SUAFbLSw2RTr1gzGLqxMxbtgZVLmpoBSMLG9ExtLLRTd2wH4mgLeEwb8vZoB1wkDLqaA04QBZ1PRAx6Mb3JBxw8bOiZLaHwDTaQjzHcuc6j7sh9gntDz2ge4e1IpjfNYbPCoP64MuFG/0FKNM2CtNDPGD2oP1wWSIKFFAAAAAElFTkSuQmCC"/>
+
 
 export function SmartAssetPage({
   onCreateAsset,
@@ -94,31 +100,16 @@ export function SmartAssetPage({
   // onRestoreAccountSecondary,
   walletPage,
   addressList,
+  onSelectPage,
 }) {
   useInjectReducer({ key: 'smartAssetPage', reducer: reducer });
   useInjectSaga({ key: 'smartAssetPage', saga: saga });
   // useInjectReducer({ key: 'walletPage', reducer: reducerWallet });
   // useInjectSaga({ key: 'walletPage', saga: sagaWallet });
 
-  // useEffect(() => {
-  //   let localMnemonicPrimary = localStorage.getItem('mnemonicPrimary');
-  //   let localAddressPrimary = localStorage.getItem('addressPrimary');
-  //   let localMnemonicSecondary = localStorage.getItem('mnemonicSecondary');
-  //   let localAddressSecondary = localStorage.getItem('addressSecondary');
-  //
-  //   if(localMnemonicPrimary == "" || localMnemonicPrimary == null){
-  //     onGenerateAccountPrimary();
-  //   }else{
-  //     onRestoreAccountPrimary([localMnemonicPrimary, localAddressPrimary]);
-  //   }
-  //
-  //   if(localMnemonicSecondary == "" || localMnemonicSecondary == null){
-  //     onGenerateAccountSecondary();
-  //   }else{
-  //     onRestoreAccountSecondary([localMnemonicSecondary, localAddressSecondary]);
-  //   }
-  //
-  // });
+  useEffect(() => {
+    onSelectPage("asset");
+  });
 
   var optionsResponse = {
 		lineNumbers: false,
@@ -138,6 +129,7 @@ export function SmartAssetPage({
 
   return (
     <SmartAsset>
+      <ReactTooltip id="asset" place="right" type="dark" effect="float"/>
       <div>
         <div className="pageName">
           Smart Asset Creator
@@ -146,7 +138,13 @@ export function SmartAssetPage({
           <div className="pageLeft">
             <div className="section">
               <div className="sectionTitle">
-                Note:
+                <div className="sectionTitleText">
+                  Note: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Transaction message to be included during asset creation" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -159,7 +157,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                address:
+                <div className="sectionTitleText">
+                  Address: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Address that will be the creator of the asset" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div className="selectComponent">
                 <Select
@@ -171,7 +175,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                defaultFrozen:
+                <div className="sectionTitleText">
+                  defaultFrozen: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="User accounts will need to be unfrozen before transacting" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -184,7 +194,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                totalIssuance:
+                <div className="sectionTitleText">
+                  totalIssuance: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Total number of this asset available for circulation   " data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -197,7 +213,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                unitName:
+                <div className="sectionTitleText">
+                  unitName: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Symbol of the asset" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -210,7 +232,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                assetName:
+                <div className="sectionTitleText">
+                  assetName: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Name of the asset" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -223,7 +251,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                assetURL:
+                <div className="sectionTitleText">
+                  assetURL: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Website URL relating to the asset" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -236,7 +270,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                assetMetaHash:
+                <div className="sectionTitleText">
+                  assetMetaHash: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Optional hash commitment of some sort relating to the asset" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div>
                 <Input
@@ -251,20 +291,34 @@ export function SmartAssetPage({
           <div className="pageRight">
             <div className="section">
               <div className="sectionTitle">
-                manager:
+                <div className="sectionTitleText">
+                  manager: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Specified address can change reserve, freeze, clawback, and manager" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div className="selectComponent">
                 <CreatableSelect
                   isClearable
                   onChange={onChangeManager}
-                  defaultValue={options[0]}
                   options={options}
                 />
+              </div>
+              <div className="sectionDisclaimer">
+                * If manager is empty during asset creation, manager can not be added after asset is created.
               </div>
             </div>
             <div className="section">
               <div className="sectionTitle">
-                reserve:
+                <div className="sectionTitleText">
+                  reserve: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Specified address is considered the asset reserve" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div className="selectComponent">
                 <CreatableSelect
@@ -277,7 +331,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                freeze:
+                <div className="sectionTitleText">
+                  freeze: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Specified address can freeze or unfreeze user asset holdings" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div className="selectComponent">
                 <CreatableSelect
@@ -290,7 +350,13 @@ export function SmartAssetPage({
             </div>
             <div className="section">
               <div className="sectionTitle">
-                clawback:
+                <div className="sectionTitleText">
+                  clawback: 
+                </div>
+                <div className="info sectionTitleInfo" data-tip="Specified address can revoke user asset holdings and send them to other addresses" data-for="asset">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
               </div>
               <div className="selectComponent">
                 <CreatableSelect
@@ -376,6 +442,10 @@ function mapDispatchToProps(dispatch) {
     onRecaptchaChange: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(recaptchaChange(evt));
+    },
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
     },
     // onGenerateAccountPrimary: evt => {
     //   if (evt !== undefined && evt.preventDefault) evt.preventDefault();

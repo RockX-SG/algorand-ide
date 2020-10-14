@@ -3,8 +3,8 @@
  * ExplorerPage
  *
  */
-
-import React from 'react';
+ 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -45,6 +45,7 @@ import {
 import {
   loading,
   faucetContractSend,
+  selectPage
 } from '../WalletPage/actions';
 
 import FileExplorer from '../../components/FileExplorer';
@@ -76,9 +77,14 @@ export function ExplorerPage({
   onDeleteFile,
   onEditFileContent,
   onCodeExecuteJs,
+  onSelectPage,
 }) {
   useInjectReducer({ key: 'explorerPage', reducer });
   useInjectSaga({ key: 'explorerPage', saga });
+
+  useEffect(() => {
+    onSelectPage("explorer");
+  });
   
   var optionsCode = {
 		lineNumbers: true,
@@ -86,7 +92,8 @@ export function ExplorerPage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
+		// mode: 'markdown',
     lineWrapping: true
 	};
     
@@ -269,7 +276,10 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(editFileContent(evt));
     },
-    
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
+    },
   };
 }
 

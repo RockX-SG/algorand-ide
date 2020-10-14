@@ -19,6 +19,8 @@ import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import './index.css';
 // import animate from 'css-animation';
 
+import SelectStyle from './SelectStyle';
+
 function TutorialSelect() {
   function handleClick(info) {
     console.log(`clicked ${info.key}`);
@@ -26,7 +28,7 @@ function TutorialSelect() {
   }
   
   return (
-    <div>
+    <SelectStyle>
       <Menu onClick={handleClick}>
         <SubMenu title="Select Tutorial">
           <MenuItem>
@@ -49,9 +51,39 @@ function TutorialSelect() {
               Transfer an Asset using JavaScript
             </Link>
           </MenuItem>
+          <MenuItem>
+            <Link to="/tutorial/hash-time-lock">
+              Hash Time Lock Contract Template With JavaScript
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/tutorial/destroy-asset">
+              Destroy an Asset using JavaScript
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/tutorial/revoke-asset">
+              Revoke an Asset using JavaScript
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/tutorial/opt-in-asset">
+              Opt-In to an Asset using JavaScript
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/tutorial/freeze-asset">
+              Freeze an Asset using JavaScript
+            </Link>
+          </MenuItem>
+          <MenuItem>
+            <Link to="/tutorial/write-transaction-note">
+              Read and Write to the Transaction Note Field with JavaScript
+            </Link>
+          </MenuItem>
         </SubMenu>
       </Menu>
-    </div>
+    </SelectStyle>
   );
 }
 

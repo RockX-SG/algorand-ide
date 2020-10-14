@@ -83,27 +83,6 @@ const ExplorerStyle = styled.div`
     border-radius: 0px;
   }
   
-  .bashConsole{
-    height: 150px;
-    background-color: #040404;
-    color: #999;
-    padding: 10px 20px;
-    font-size: 12px;
-    
-    font-family: 'PT Serif', serif;
-    overflow-y: scroll;
-  }
-  
-  .bashConsoleLine{
-    padding-bottom: 2px;
-    line-height: 14px;
-  }
-  
-  .bashConsoleLine:before{
-    content: ">";
-    padding-right: 10px;
-  }
-  
   
   .actionPanelButton button{
     background-color: #222;

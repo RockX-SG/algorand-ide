@@ -3,8 +3,8 @@
  * TransactionPage
  *
  */
-
-import React from 'react';
+ 
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -42,7 +42,8 @@ import {
   sendTransaction,
   changeAddress,
   changeAmount,
-  recaptchaChange
+  recaptchaChange,
+  selectPage
 } from '../WalletPage/actions';
 
 import Select from 'react-select';
@@ -83,10 +84,15 @@ export function TransactionPage({
   onChangeAtomicSenderAddress,
   onChangeAtomicReceiverAddress,
   onSignRoute,
-  onSendAtomicTransfer
+  onSendAtomicTransfer,
+  onSelectPage,
 }) {
   useInjectReducer({ key: 'transactionPage', reducer });
   useInjectSaga({ key: 'transactionPage', saga });
+
+  useEffect(() => {
+    onSelectPage("transaction");
+  });
   
   
   
@@ -254,6 +260,10 @@ function mapDispatchToProps(dispatch) {
     onRecaptchaChange: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(recaptchaChange(evt));
+    },
+    onSelectPage: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(selectPage(evt));
     },
   };
 }

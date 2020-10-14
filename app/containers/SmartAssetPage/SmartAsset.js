@@ -26,6 +26,26 @@ const SmartAsset = styled.div`
     padding-bottom: 5px;
   }
   
+  .sectionTitleText{
+    float: left;
+  }
+  
+  .sectionTitleInfo{
+    float: left;
+  }
+  
+  .info img{
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    margin-top: -4px;
+  }
+  
+  .sectionDisclaimer{
+    font-size: 11px;
+    padding: 10px 0px;
+  }
+  
   .assetResponse{
     border-top: 1px solid #333;
     margin-top: 20px;

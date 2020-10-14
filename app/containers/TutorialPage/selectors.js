@@ -21,5 +21,8 @@ const makeSelectTutorialPage = () =>
     substate => substate,
   );
 
-export default makeSelectTutorialPage;
-export { selectTutorialPageDomain };
+// export default makeSelectTutorialPage;
+export { 
+  selectTutorialPageDomain,
+  makeSelectTutorialPage
+};

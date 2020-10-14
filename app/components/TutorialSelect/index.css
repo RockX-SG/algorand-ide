@@ -89,6 +89,7 @@
 }
 .rc-menu-submenu-popup {
   position: absolute;
+  z-index: 99999;
 }
 .rc-menu-submenu-popup .submenu-title-wrapper {
   padding-right: 20px;

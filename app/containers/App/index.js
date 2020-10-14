@@ -26,7 +26,6 @@ import { Switch, Route } from 'react-router-dom';
 
 import HomePage from 'containers/HomePage/Loadable';
 import SmartAssetPage from 'containers/SmartAssetPage/Loadable';
-import TutorialPage from 'containers/TutorialPage/Loadable';
 import WalletPage from 'containers/WalletPage/Loadable';
 import ExplorerPage from 'containers/ExplorerPage/Loadable';
 import TransactionPage from 'containers/TransactionPage/Loadable';
@@ -34,10 +33,18 @@ import SettingsPage from 'containers/SettingsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 
 
+import TutorialPage from 'containers/TutorialPage/Loadable';
 import TutorialJsCreateAccountPage from 'containers/TutorialJsCreateAccountPage/Loadable';
 import TutorialJsCreateAssetPage from 'containers/TutorialJsCreateAssetPage/Loadable';
 import TutorialJsLimitOrderPage from 'containers/TutorialJsLimitOrderPage/Loadable';
 import TutorialJsTransferAssetPage from 'containers/TutorialJsTransferAssetPage/Loadable';
+
+import TutorialJsHashTimeLockPage from 'containers/TutorialJsHashTimeLockPage/Loadable';
+import TutorialJsDestroyAssetPage from 'containers/TutorialJsDestroyAssetPage/Loadable';
+import TutorialJsRevokeAssetPage from 'containers/TutorialJsRevokeAssetPage/Loadable';
+import TutorialJsOptInAssetPage from 'containers/TutorialJsOptInAssetPage/Loadable';
+import TutorialJsFreezeAssetPage from 'containers/TutorialJsFreezeAssetPage/Loadable';
+import TutorialJsWriteTransactionNotePage from 'containers/TutorialJsWriteTransactionNotePage/Loadable';
 
 import Navigation from '../../components/Navigation';
 import NavigationSide from '../../components/NavigationSide';
@@ -120,11 +127,20 @@ export function App({
           <Route exact path="/" component={ExplorerPage} />
           <Route exact path="/smart-asset" component={SmartAssetPage} />
           <Route exact path="/asset" component={SmartAssetPage} />
+          
           <Route exact path="/tutorials" component={TutorialPage} />
           <Route exact path="/tutorial/create-account" component={TutorialJsCreateAccountPage} />
           <Route exact path="/tutorial/create-asset" component={TutorialJsCreateAssetPage} />
           <Route exact path="/tutorial/limit-order-contract" component={TutorialJsLimitOrderPage} />
           <Route exact path="/tutorial/transfer-asset" component={TutorialJsTransferAssetPage} />
+          
+          <Route exact path="/tutorial/hash-time-lock" component={TutorialJsHashTimeLockPage} />
+          <Route exact path="/tutorial/destroy-asset" component={TutorialJsDestroyAssetPage} />
+          <Route exact path="/tutorial/revoke-asset" component={TutorialJsRevokeAssetPage} />
+          <Route exact path="/tutorial/opt-in-asset" component={TutorialJsOptInAssetPage} />
+          <Route exact path="/tutorial/freeze-asset" component={TutorialJsFreezeAssetPage} />
+          <Route exact path="/tutorial/write-transaction-note" component={TutorialJsWriteTransactionNotePage} />
+          
           <Route exact path="/wallet" component={WalletPage} />
           <Route exact path="/explorer" component={ExplorerPage} />
           <Route exact path="/transaction" component={TransactionPage} />

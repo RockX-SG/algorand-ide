@@ -5,7 +5,6 @@
  */
 
 import {
-  DEFAULT_ACTION,
   CHANGE_SERVER_ADDRESS,
   CHANGE_SERVER_PORT,
   CHANGE_ALGOD_TOKEN,
@@ -27,11 +26,5 @@ export function changeAlgodToken(algodToken) {
   return {
     type: CHANGE_ALGOD_TOKEN,
     algodToken,
-  };
-}
-
-export function defaultAction() {
-  return {
-    type: DEFAULT_ACTION,
   };
 }

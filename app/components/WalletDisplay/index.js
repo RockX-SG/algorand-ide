@@ -47,8 +47,8 @@ function WalletDisplay(props) {
   const walletContent = address.map((address, index) =>
     <div key={address.toString()}>
       <WalletArea>
-        <Wallet onClick={() => onSelectAccount(address)}>
-          <div className="selected">
+        <Wallet>
+          <div className="selected" onClick={() => onSelectAccount(address)}>
             <div className={(selectedAccount == address) ? "" : "hide"} data-tip="Selected Wallet" data-for="wallet">
               {iconSelected}
             </div>
