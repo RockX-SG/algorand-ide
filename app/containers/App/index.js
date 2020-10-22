@@ -64,11 +64,20 @@ import {
   restoreAccountPrimary,
   generateAccountSecondary,
   restoreAccountSecondary,
+  generateAccountTertiary,
+  restoreAccountTertiary,
+  generateAccountQuarternary,
+  restoreAccountQuarternary,
+  generateAccountQuinary,
+  restoreAccountQuinary,
   toggleSelectedAccount,
   changeNetwork,
   toggleDropdown,
   selectAccount,
-  selectPage
+  selectPage,
+  changeServerAddress,
+  changeServerPort,
+  changeAlgodToken,
 } from '../WalletPage/actions';
 
 import {
@@ -80,6 +89,12 @@ export function App({
   onRestoreAccountPrimary,
   onGenerateAccountSecondary,
   onRestoreAccountSecondary,
+  onGenerateAccountTertiary,
+  onRestoreAccountTertiary,
+  onGenerateAccountQuarternary,
+  onRestoreAccountQuarternary,
+  onGenerateAccountQuinary,
+  onRestoreAccountQuinary,
   onToggleSelectedAccount,
   onChangeNetwork,
   walletPage,
@@ -87,6 +102,9 @@ export function App({
   onHideDropdown,
   onSelectAccount,
   onSelectPage,
+  onRestoreServerAddress,
+  onRestoreServerPort,
+  onRestoreAlgodToken,
 }) {
   // useInjectReducer({ key: 'app', reducer });
   // useInjectSaga({ key: 'app', saga });
@@ -98,6 +116,12 @@ export function App({
     let localAddressPrimary = localStorage.getItem('addressPrimary');
     let localMnemonicSecondary = localStorage.getItem('mnemonicSecondary');
     let localAddressSecondary = localStorage.getItem('addressSecondary');
+    let localMnemonicTertiary = localStorage.getItem('mnemonicTertiary');
+    let localAddressTertiary = localStorage.getItem('addressTertiary');
+    let localMnemonicQuarternary = localStorage.getItem('mnemonicQuarternary');
+    let localAddressQuarternary = localStorage.getItem('addressQuarternary');
+    let localMnemonicQuinary = localStorage.getItem('mnemonicQuinary');
+    let localAddressQuinary = localStorage.getItem('addressQuinary');
 
     if(localMnemonicPrimary == "" || localMnemonicPrimary == null){
       onGenerateAccountPrimary();
@@ -109,6 +133,50 @@ export function App({
       onGenerateAccountSecondary();
     }else{
       onRestoreAccountSecondary([localMnemonicSecondary, localAddressSecondary]);
+    }
+
+    if(localMnemonicTertiary == "" || localMnemonicTertiary == null){
+      // onGenerateAccountTertiary();
+    }else{
+      // onRestoreAccountTertiary([localMnemonicTertiary, localAddressTertiary]);
+    }
+
+    if(localMnemonicQuarternary == "" || localMnemonicQuarternary == null){
+      // onGenerateAccountQuarternary();
+    }else{
+      // onRestoreAccountQuarternary([localMnemonicQuarternary, localAddressQuarternary]);
+    }
+
+    if(localMnemonicQuinary == "" || localMnemonicQuinary == null){
+      // onGenerateAccountQuinary();
+    }else{
+      // onRestoreAccountQuinary([localMnemonicQuinary, localAddressQuinary]);
+    }
+    
+    let serverAddress = localStorage.getItem('serverAddress');
+    let serverPort = localStorage.getItem('serverPort');
+    let algodToken = localStorage.getItem('algodToken');
+    
+    console.log("serverAddress", serverAddress)
+    console.log("serverPort", serverPort)
+    console.log("algodToken", algodToken)
+
+    if(serverAddress == "" || serverAddress == null){
+      
+    }else{
+      onRestoreServerAddress(serverAddress);
+    }
+
+    if(serverPort == "" || serverPort == null){
+      
+    }else{
+      onRestoreServerPort(serverPort);
+    }
+
+    if(algodToken == "" || algodToken == null){
+      
+    }else{
+      onRestoreAlgodToken(algodToken);
     }
 
   });
@@ -191,8 +259,23 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(generateAccountSecondary(evt));
     },
+    onGenerateAccountTertiary: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(generateAccountTertiary(evt));
+    },
+    onGenerateAccountQuarternary: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(generateAccountQuarternary(evt));
+    },
+    onGenerateAccountQuinary: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(generateAccountQuinary(evt));
+    },
     onRestoreAccountPrimary: evt => dispatch(restoreAccountPrimary(evt)),
     onRestoreAccountSecondary: evt => dispatch(restoreAccountSecondary(evt)),
+    onRestoreAccountTertiary: evt => dispatch(restoreAccountTertiary(evt)),
+    onRestoreAccountQuarternary: evt => dispatch(restoreAccountQuarternary(evt)),
+    onRestoreAccountQuinary: evt => dispatch(restoreAccountQuinary(evt)),
     onChangeNetwork: evt => dispatch(changeNetwork(evt.value)),
     onShowDropdown: evt => dispatch(toggleDropdown(true)),
     onHideDropdown: evt => dispatch(toggleDropdown(false)),
@@ -204,6 +287,9 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(selectPage(evt));
     },
+    onRestoreServerAddress: evt => dispatch(changeServerAddress(evt)),
+    onRestoreServerPort: evt => dispatch(changeServerPort(evt)),
+    onRestoreAlgodToken: evt => dispatch(changeAlgodToken(evt)),
   };
 }
 

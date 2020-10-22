@@ -139,7 +139,7 @@ function SendAlgoAsaForm(props) {
           {transactionPage.assetError}
         </div>
         <div className="section">
-          <div>
+          <div className="hide">
             <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
           </div>
           <button onClick={() => onSendAsaTransaction()}>

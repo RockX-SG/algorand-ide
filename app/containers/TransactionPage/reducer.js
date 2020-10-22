@@ -19,13 +19,16 @@ import {
   CHANGE_ATOMIC_AMOUNT,
   CHANGE_ATOMIC_SENDER_ADDRESS,
   CHANGE_ATOMIC_RECEIVER_ADDRESS,
+  CHANGE_ATOMIC_ASSET_TYPE,
+  CHANGE_ATOMIC_ASSET_ID,
   CONFIRM_ATOMIC_ROUTE,
   CONFIRM_ATOMIC_ROUTE_SUCCESS,
   CONFIRM_ATOMIC_ROUTE_ERROR,
   SIGN_ROUTE,
   SIGN_ROUTE_SUCCESS,
   SEND_ATOMIC_TRANSFER,
-  SEND_ATOMIC_TRANSFER_SUCCESS
+  SEND_ATOMIC_TRANSFER_SUCCESS,
+  CHANGE_ADDRESS
 } from './constants';
 
 export const initialState = {
@@ -48,6 +51,7 @@ export const initialState = {
   atomicKey: [],
   atomicTxGroup: "",
   atomicSignedTxn: [],
+  inputAddress: ""
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -77,6 +81,16 @@ const transactionPageReducer = (state = initialState, action) =>
       
         break;
         
+        
+      case CHANGE_ATOMIC_ASSET_ID:
+        draft.routeSenders[action.entryIndex][4] = action.assetId;
+      
+        break;
+        
+      case CHANGE_ATOMIC_ASSET_TYPE:
+        draft.routeSenders[action.entryIndex][3] = action.assetType;
+      
+        break;
         
       case CHANGE_ATOMIC_AMOUNT:
         draft.routeSenders[action.entryIndex][2] = action.amount;
@@ -142,7 +156,13 @@ const transactionPageReducer = (state = initialState, action) =>
         
       case SEND_ASA_TRANSACTION_SUCCESS:
         draft.sendAsaTxHash = action.txHash;
+        draft.assetBalance -= draft.inputSendAsaAmount;
       
+        break;
+        
+      case CHANGE_ADDRESS:
+        draft.inputAddress = action.address;
+
         break;
         
     }

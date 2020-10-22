@@ -20,6 +20,8 @@ import {
   CHANGE_ATOMIC_AMOUNT,
   CHANGE_ATOMIC_SENDER_ADDRESS,
   CHANGE_ATOMIC_RECEIVER_ADDRESS,
+  CHANGE_ATOMIC_ASSET_TYPE,
+  CHANGE_ATOMIC_ASSET_ID,
   CONFIRM_ATOMIC_ROUTE,
   CONFIRM_ATOMIC_ROUTE_SUCCESS,
   CONFIRM_ATOMIC_ROUTE_ERROR,
@@ -28,7 +30,8 @@ import {
   SIGN_ROUTE_ERROR,
   SEND_ATOMIC_TRANSFER,
   SEND_ATOMIC_TRANSFER_SUCCESS,
-  SEND_ATOMIC_TRANSFER_ERROR
+  SEND_ATOMIC_TRANSFER_ERROR,
+  CHANGE_ADDRESS
 } from './constants';
 
 export function addRoute() {
@@ -128,6 +131,30 @@ export function changeAtomicReceiverAddress(response) {
   };
 }
 
+export function changeAtomicAssetType(response) {
+  console.log("response", response);
+  
+  return {
+    type: CHANGE_ATOMIC_ASSET_TYPE,
+    entryIndex: response[1],
+    assetType: response[0]["value"],
+  };
+}
+
+export function changeAtomicAssetId(evt) {
+  console.log("evt", evt.target);
+  console.log("evt", evt.target.name);
+  console.log("evt", evt.target.value);
+  
+  let indexCheck = evt.target.name.split("_");
+  
+  return {
+    type: CHANGE_ATOMIC_ASSET_ID,
+    entryIndex: indexCheck[1],
+    assetId: evt.target.value,
+  };
+}
+
 export function changeAssetId(id) {
   console.log("id", id);
   return {
@@ -204,5 +231,12 @@ export function optInAsaSuccess(txHash) {
   };
 }
 
+export function changeAddress(address) {
+  console.log("CHANGE_ADDRESS", address)
+  return {
+    type: CHANGE_ADDRESS,
+    address
+  };
+}
 
 

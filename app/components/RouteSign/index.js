@@ -30,9 +30,11 @@ function RouteSign(props) {
           </div>
           <div className="routeContent">
             <div className="routeContentPath">
-              {transactionPage.routeSenders[index][0]} > 
-              {transactionPage.routeSenders[index][1]} > 
-              {transactionPage.routeSenders[index][2]}
+              {(transactionPage.routeSenders[index][0]) ? transactionPage.routeSenders[index][0] : ""}
+              {(transactionPage.routeSenders[index][1]) ? " > " + transactionPage.routeSenders[index][1] : ""}
+              {(transactionPage.routeSenders[index][2]) ? " > " + transactionPage.routeSenders[index][2] : ""}
+              {(transactionPage.routeSenders[index][3]) ? " > " + transactionPage.routeSenders[index][3] : ""}
+              {(transactionPage.routeSenders[index][4]) ? " > " + transactionPage.routeSenders[index][4] : ""}
             </div>
             <div className="routeSign">
               <button className="mini" onClick={() => onSignRoute(index)}>

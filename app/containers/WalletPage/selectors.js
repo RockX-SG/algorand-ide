@@ -69,10 +69,88 @@ const makeSelectBalanceSecondary = () =>
     substate => substate.balanceSecondary,
   );
 
+const makeSelectMnemonicTertiary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.mnemonicTertiary,
+  );
+
+const makeSelectAddressTertiary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressTertiary,
+  );
+
+const makeSelectAddressShortenTertiary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressShortenTertiary,
+  );
+
+const makeSelectBalanceTertiary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.balanceTertiary,
+  );
+
+const makeSelectMnemonicQuarternary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.mnemonicQuarternary,
+  );
+
+const makeSelectAddressQuarternary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressQuarternary,
+  );
+
+const makeSelectAddressShortenQuarternary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressShortenQuarternary,
+  );
+
+const makeSelectBalanceQuarternary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.balanceQuarternary,
+  );
+
+const makeSelectMnemonicQuinary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.mnemonicQuinary,
+  );
+
+const makeSelectAddressQuinary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressQuinary,
+  );
+
+const makeSelectAddressShortenQuinary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.addressShortenQuinary,
+  );
+
+const makeSelectBalanceQuinary = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.balanceQuinary,
+  );
+
 const makeSelectWalletAddressList = () =>
   createSelector(
     selectWalletPageDomain,
     substate => substate.addressList,
+  );
+
+const makeSelectWalletExplorer = () =>
+  createSelector(
+    selectWalletPageDomain,
+    substate => substate.explorer,
   );
   
   
@@ -100,5 +178,18 @@ export {
   makeSelectAddressSecondary,
   makeSelectAddressShortenSecondary,
   makeSelectBalanceSecondary,
-  makeSelectWalletAddressList
+  makeSelectMnemonicTertiary,
+  makeSelectAddressTertiary,
+  makeSelectAddressShortenTertiary,
+  makeSelectBalanceTertiary,
+  makeSelectMnemonicQuarternary,
+  makeSelectAddressQuarternary,
+  makeSelectAddressShortenQuarternary,
+  makeSelectBalanceQuarternary,
+  makeSelectMnemonicQuinary,
+  makeSelectAddressQuinary,
+  makeSelectAddressShortenQuinary,
+  makeSelectBalanceQuinary,
+  makeSelectWalletAddressList,
+  makeSelectWalletExplorer
 };

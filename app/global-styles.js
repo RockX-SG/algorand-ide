@@ -78,6 +78,11 @@ const GlobalStyle = createGlobalStyle`
     letter-spacing: 2px;
   }
   
+  .disclaimer{
+    font-size: 11px;
+    padding: 10px 0px;
+  }
+  
   button{
     padding: 15px 25px;
     background-color: #57A6D9;

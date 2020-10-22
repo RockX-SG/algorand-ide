@@ -7,7 +7,11 @@ import produce from 'immer';
 import {
   GENERATE_ACCOUNT_PRIMARY_SUCCESS,
   GENERATE_ACCOUNT_SECONDARY_SUCCESS,
+  GENERATE_ACCOUNT_TERTIARY_SUCCESS,
+  GENERATE_ACCOUNT_QUARTERNARY_SUCCESS,
+  GENERATE_ACCOUNT_QUINARY_SUCCESS,
   SEND_TRANSACTION_SUCCESS,
+  SEND_TRANSACTION_ERROR,
   CHANGE_ADDRESS,
   CHANGE_AMOUNT,
   GET_FAUCET_BALANCE_SUCCESS,
@@ -21,6 +25,10 @@ import {
   MNEMONIC_REGENERATE_SUCCESS,
   LOADING,
   LOADED,
+  CHANGE_SERVER_ADDRESS,
+  CHANGE_SERVER_PORT,
+  CHANGE_ALGOD_TOKEN,
+  CHANGE_SETTINGS,
 } from './constants';
 
 export const initialState = {
@@ -39,24 +47,42 @@ export const initialState = {
   balanceArray: [],
   addressPrimary: "",
   addressSecondary: "",
+  addressTertiary: "",
+  addressQuarternary: "",
+  addressQuinary: "",
   addressShortenPrimary: "",
   addressShortenSecondary: "",
+  addressShortenTertiary: "",
+  addressShortenQuarternary: "",
+  addressShortenQuinary: "",
   mnemonicPrimary: "",
   mnemonicSecondary: "",
+  mnemonicTertiary: "",
+  mnemonicQuarternary: "",
+  mnemonicQuinary: "",
   balancePrimary: 0,
   balanceSecondary: 0,
+  balanceTertiary: 0,
+  balanceQuarternary: 0,
+  balanceQuinary: 0,
   inputAddress: "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM",
   inputAmount: "",
   faucetBalance: 0,
   faucetSendTxHash: "-",
+  faucetSendError: "-",
   userSendTxHash: "-",
   addressList: [],
   network: "testnet",
+  explorer: "https://testnet.algoexplorer.io/",
   dropdownStatus: false,
   mnemonicRestore: "",
   currentPage: "explorer",
   captchaData: "",
-  assetId: ""
+  assetId: "",
+  serverAddress: '',
+  serverPort: '',
+  algodToken: '',
+  enablePureStake: false,
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -124,6 +150,84 @@ const walletPageReducer = (state = initialState, action) =>
 
         break;
 
+      case GENERATE_ACCOUNT_TERTIARY_SUCCESS:
+        draft.addressTertiary = action.address;
+        draft.addressShortenTertiary = action.addressShorten;
+        draft.mnemonicTertiary = action.mnemonic;
+        draft.balanceTertiary = action.balance/1000000;
+        draft.addressList[2] = action.address;
+        
+        
+        draft.addressArray[2] = action.address;
+        draft.addressShortenArray[2] = action.addressShorten;
+        draft.mnemonicArray[2] = action.mnemonic;
+        draft.balanceArray[2] = action.balance/1000000;
+        // draft.walletFullArray[1] = [action.address, action.addressShorten, action.mnemonic, action.balance/1000000];
+        
+        if(draft.selectedAccount == action.address){
+          draft.address = action.address;
+          draft.addressShorten = action.addressShorten;
+          draft.mnemonic = action.mnemonic;
+          draft.balance = action.balance/1000000;
+        }
+        
+
+        console.log("GENERATE_ACCOUNT_TERTIARY_SUCCESS");
+
+        break;
+
+      case GENERATE_ACCOUNT_QUARTERNARY_SUCCESS:
+        draft.addressQuarternary = action.address;
+        draft.addressShortenQuarternary = action.addressShorten;
+        draft.mnemonicQuarternary = action.mnemonic;
+        draft.balanceQuarternary = action.balance/1000000;
+        draft.addressList[3] = action.address;
+        
+        
+        draft.addressArray[3] = action.address;
+        draft.addressShortenArray[3] = action.addressShorten;
+        draft.mnemonicArray[3] = action.mnemonic;
+        draft.balanceArray[3] = action.balance/1000000;
+        // draft.walletFullArray[1] = [action.address, action.addressShorten, action.mnemonic, action.balance/1000000];
+        
+        if(draft.selectedAccount == action.address){
+          draft.address = action.address;
+          draft.addressShorten = action.addressShorten;
+          draft.mnemonic = action.mnemonic;
+          draft.balance = action.balance/1000000;
+        }
+        
+
+        console.log("GENERATE_ACCOUNT_QUARTERNARY_SUCCESS");
+
+        break;
+
+      case GENERATE_ACCOUNT_QUINARY_SUCCESS:
+        draft.addressQuinary = action.address;
+        draft.addressShortenQuinary = action.addressShorten;
+        draft.mnemonicQuinary = action.mnemonic;
+        draft.balanceQuinary = action.balance/1000000;
+        draft.addressList[4] = action.address;
+        
+        
+        draft.addressArray[4] = action.address;
+        draft.addressShortenArray[4] = action.addressShorten;
+        draft.mnemonicArray[4] = action.mnemonic;
+        draft.balanceArray[4] = action.balance/1000000;
+        // draft.walletFullArray[1] = [action.address, action.addressShorten, action.mnemonic, action.balance/1000000];
+        
+        if(draft.selectedAccount == action.address){
+          draft.address = action.address;
+          draft.addressShorten = action.addressShorten;
+          draft.mnemonic = action.mnemonic;
+          draft.balance = action.balance/1000000;
+        }
+        
+
+        console.log("GENERATE_ACCOUNT_QUINARY_SUCCESS");
+
+        break;
+
       case ADD_ACCOUNT_SUCCESS:
       
         // draft.walletArray[draft.walletArray.length] = action.address;
@@ -183,6 +287,7 @@ const walletPageReducer = (state = initialState, action) =>
 
       case SELECT_ACCOUNT:
         draft.selectedAccount = action.address;
+        draft.address = action.address;
 
         console.log("SELECT_ACCOUNT", action.address);
 
@@ -191,7 +296,11 @@ const walletPageReducer = (state = initialState, action) =>
       
 
       case CHANGE_ADDRESS:
-        draft.inputAddress = action.address;
+        try{
+          draft.inputAddress = action.address["value"];
+        }catch(err){
+          draft.inputAddress = "";
+        }
 
         break;
 
@@ -212,15 +321,50 @@ const walletPageReducer = (state = initialState, action) =>
         }
 
         break;
+        
+      case SEND_TRANSACTION_ERROR:
+        if(action.sendFrom == "user"){
+          
+        }else if(action.sendFrom == "faucet"){
+          draft.faucetSendError = action.error;
+        }else{
+          
+        }
+
+        break;
 
       case CHANGE_NETWORK:
         draft.network = action.network;
+        if(action.network == "mainnet"){
+          draft.explorer = "https://algoexplorer.io/";
+        }else if(action.network == "testnet"){
+          draft.explorer = "https://testnet.algoexplorer.io/";
+        }else if(action.network == "betanet"){
+          draft.explorer = "https://betanet.algoexplorer.io/";
+        }
 
         break;
 
       case RECAPTCHA_CHANGE:
         draft.captchaData = action.captchaData;
 
+        break;
+
+      case CHANGE_SERVER_ADDRESS:
+        console.log("action.serverAddress", action.serverAddress)
+        draft.serverAddress = action.serverAddress;
+        break;
+
+      case CHANGE_SERVER_PORT:
+        draft.serverPort = action.serverPort;
+        break;
+
+      case CHANGE_ALGOD_TOKEN:
+        draft.algodToken = action.algodToken;
+        break;
+
+      case CHANGE_SETTINGS:
+        draft.enablePureStake = !draft.enablePureStake;
         break;
         
         

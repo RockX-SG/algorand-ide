@@ -306,7 +306,7 @@ export function SmartAssetPage({
                   options={options}
                 />
               </div>
-              <div className="sectionDisclaimer">
+              <div className="disclaimer">
                 * If manager is empty during asset creation, manager can not be added after asset is created.
               </div>
             </div>
@@ -324,7 +324,6 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeReserve}
-                  defaultValue={options[0]}
                   options={options}
                 />
               </div>
@@ -343,7 +342,6 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeFreeze}
-                  defaultValue={options[0]}
                   options={options}
                 />
               </div>
@@ -362,7 +360,6 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeClawback}
-                  defaultValue={options[0]}
                   options={options}
                 />
               </div>
@@ -370,7 +367,7 @@ export function SmartAssetPage({
           </div>
           <div className="clear"></div>
           
-          <div className="section">
+          <div className="section hide">
             <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
           </div>
           <div className="section">
@@ -387,7 +384,7 @@ export function SmartAssetPage({
               Transaction ID:
             </div>
             <div className="assetResponseOutput">
-              <a href={"https://testnet.algoexplorer.io/tx/"+smartAssetPage.txID} target="_blank">
+              <a href={walletPage.explorer+"/tx/"+smartAssetPage.txID} target="_blank">
                 {smartAssetPage.txID}
               </a>
             </div>
@@ -397,7 +394,7 @@ export function SmartAssetPage({
               Asset ID:
             </div>
             <div className="assetResponseOutput">
-              <a href={"https://testnet.algoexplorer.io/asset/"+smartAssetPage.assetID} target="_blank">
+              <a href={walletPage.explorer+"/asset/"+smartAssetPage.assetID} target="_blank">
                 {smartAssetPage.assetID}
               </a>
             </div>
@@ -435,10 +432,10 @@ function mapDispatchToProps(dispatch) {
     onChangeAssetName: evt => dispatch(changeAssetName(evt.target.value)),
     onChangeAssetURL: evt => dispatch(changeAssetURL(evt.target.value)),
     onChangeAssetMetadataHash: evt => dispatch(changeAssetMetadataHash(evt.target.value)),
-    onChangeManager: evt => dispatch(changeManager(evt.value)),
-    onChangeReserve: evt => dispatch(changeReserve(evt.value)),
-    onChangeFreeze: evt => dispatch(changeFreeze(evt.value)),
-    onChangeClawback: evt => dispatch(changeClawback(evt.value)),
+    onChangeManager: evt => dispatch(changeManager(evt)),
+    onChangeReserve: evt => dispatch(changeReserve(evt)),
+    onChangeFreeze: evt => dispatch(changeFreeze(evt)),
+    onChangeClawback: evt => dispatch(changeClawback(evt)),
     onRecaptchaChange: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(recaptchaChange(evt));

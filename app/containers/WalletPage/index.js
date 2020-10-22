@@ -19,6 +19,12 @@ import {
   makeSelectAddressPrimary,
   makeSelectMnemonicSecondary,
   makeSelectAddressSecondary,
+  makeSelectMnemonicTertiary,
+  makeSelectAddressTertiary,
+  makeSelectMnemonicQuarternary,
+  makeSelectAddressQuarternary,
+  makeSelectMnemonicQuinary,
+  makeSelectAddressQuinary,
 } from './selectors';
 import reducer from './reducer';
 import saga from './saga';
@@ -31,6 +37,12 @@ import {
   restoreAccountPrimary,
   generateAccountSecondary,
   restoreAccountSecondary,
+  generateAccountTertiary,
+  restoreAccountTertiary,
+  generateAccountQuarternary,
+  restoreAccountQuarternary,
+  generateAccountQuinary,
+  restoreAccountQuinary,
   sendTransaction,
   faucetSend,
   changeAddress,
@@ -55,6 +67,12 @@ export function WalletPage({
   onRestoreAccountPrimary,
   onGenerateAccountSecondary,
   onRestoreAccountSecondary,
+  onGenerateAccountTertiary,
+  onRestoreAccountTertiary,
+  onGenerateAccountQuarternary,
+  onRestoreAccountQuarternary,
+  onGenerateAccountQuinary,
+  onRestoreAccountQuinary,
   onSendTransaction,
   onChangeAddress,
   onChangeAmount,
@@ -69,6 +87,12 @@ export function WalletPage({
   mnemonicPrimary,
   addressSecondary,
   mnemonicSecondary,
+  addressTertiary,
+  mnemonicTertiary,
+  addressQuarternary,
+  mnemonicQuarternary,
+  addressQuinary,
+  mnemonicQuinary,
   walletPage,
   onChangeMnemonicRestore,
   onRecaptchaChange,
@@ -83,18 +107,42 @@ export function WalletPage({
     let localAddressPrimary = localStorage.getItem('addressPrimary');
     let localMnemonicSecondary = localStorage.getItem('mnemonicSecondary');
     let localAddressSecondary = localStorage.getItem('addressSecondary');
-
-    if(localMnemonicPrimary == "" || localMnemonicPrimary == null){
-      onGenerateAccountPrimary();
-    }else{
-      onRestoreAccountPrimary([localMnemonicPrimary, localAddressPrimary]);
-    }
-
-    if(localMnemonicSecondary == "" || localMnemonicSecondary == null){
-      onGenerateAccountSecondary();
-    }else{
-      onRestoreAccountSecondary([localMnemonicSecondary, localAddressSecondary]);
-    }
+    let localMnemonicTertiary = localStorage.getItem('mnemonicTertiary');
+    let localAddressTertiary = localStorage.getItem('addressTertiary');
+    let localMnemonicQuarternary = localStorage.getItem('mnemonicQuarternary');
+    let localAddressQuarternary = localStorage.getItem('addressQuarternary');
+    let localMnemonicQuinary = localStorage.getItem('mnemonicQuinary');
+    let localAddressQuinary = localStorage.getItem('addressQuinary');
+    // 
+    // if(localMnemonicPrimary == "" || localMnemonicPrimary == null){
+    //   onGenerateAccountPrimary();
+    // }else{
+    //   onRestoreAccountPrimary([localMnemonicPrimary, localAddressPrimary]);
+    // }
+    // 
+    // if(localMnemonicSecondary == "" || localMnemonicSecondary == null){
+    //   onGenerateAccountSecondary();
+    // }else{
+    //   onRestoreAccountSecondary([localMnemonicSecondary, localAddressSecondary]);
+    // }
+    // 
+    // if(localMnemonicTertiary == "" || localMnemonicTertiary == null){
+    //   onGenerateAccountTertiary();
+    // }else{
+    //   onRestoreAccountTertiary([localMnemonicTertiary, localAddressTertiary]);
+    // }
+    // 
+    // if(localMnemonicQuarternary == "" || localMnemonicQuarternary == null){
+    //   onGenerateAccountQuarternary();
+    // }else{
+    //   onRestoreAccountQuarternary([localMnemonicQuarternary, localAddressQuarternary]);
+    // }
+    // 
+    // if(localMnemonicQuinary == "" || localMnemonicQuinary == null){
+    //   onGenerateAccountQuinary();
+    // }else{
+    //   onRestoreAccountQuinary([localMnemonicQuinary, localAddressQuinary]);
+    // }
 
     onGetFaucetBalance();
     onSelectPage("wallet");
@@ -117,7 +165,7 @@ export function WalletPage({
         
         <div className="faucet">
           
-          <FaucetForm onSubmit={onFaucetSend} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData}  onChangeAddress={onChangeAddress} onRecaptchaChange={onRecaptchaChange} />
+          <FaucetForm onSubmit={onFaucetSend} faucetSendError={walletPage.faucetSendError} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData}  onChangeAddress={onChangeAddress} onRecaptchaChange={onRecaptchaChange} />
           
           
           <div className="assetResponse">
@@ -127,7 +175,7 @@ export function WalletPage({
                   Transaction ID:
                 </div>
                 <div className="assetResponseOutput">
-                  <a href={"https://testnet.algoexplorer.io/tx/"+walletPage.faucetSendTxHash} target="_blank">
+                  <a href={walletPage.explorer+"/tx/"+walletPage.faucetSendTxHash} target="_blank">
                     {walletPage.faucetSendTxHash}
                   </a>
                 </div>
@@ -151,6 +199,12 @@ const mapStateToProps = createStructuredSelector({
   addressPrimary: makeSelectAddressPrimary(),
   mnemonicSecondary: makeSelectMnemonicSecondary(),
   addressSecondary: makeSelectAddressSecondary(),
+  mnemonicTertiary: makeSelectMnemonicTertiary(),
+  addressTertiary: makeSelectAddressTertiary(),
+  mnemonicQuarternary: makeSelectMnemonicQuarternary(),
+  addressQuarternary: makeSelectAddressQuarternary(),
+  mnemonicQuinary: makeSelectMnemonicQuinary(),
+  addressQuinary: makeSelectAddressQuinary(),
 });
 
 function mapDispatchToProps(dispatch) {
@@ -164,13 +218,28 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(generateAccountSecondary(evt));
     },
+    onGenerateAccountTertiary: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(generateAccountTertiary(evt));
+    },
+    onGenerateAccountQuarternary: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(generateAccountQuarternary(evt));
+    },
+    onGenerateAccountQuinary: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(generateAccountQuinary(evt));
+    },
     onRestoreAccountPrimary: evt => dispatch(restoreAccountPrimary(evt)),
     onRestoreAccountSecondary: evt => dispatch(restoreAccountSecondary(evt)),
+    onRestoreAccountTertiary: evt => dispatch(restoreAccountTertiary(evt)),
+    onRestoreAccountQuarternary: evt => dispatch(restoreAccountQuarternary(evt)),
+    onRestoreAccountQuinary: evt => dispatch(restoreAccountQuinary(evt)),
     onGetFaucetBalance: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(getFaucetBalance());
     },
-    onChangeAddress: evt => dispatch(changeAddress(evt.value)),
+    onChangeAddress: evt => dispatch(changeAddress(evt)),
     onChangeAmount: evt => dispatch(changeAmount(evt.target.value)),
     onSendTransaction: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();

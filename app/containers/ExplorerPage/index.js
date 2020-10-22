@@ -48,6 +48,10 @@ import {
   selectPage
 } from '../WalletPage/actions';
 
+import {
+  makeSelectWalletPage,
+} from '../WalletPage/selectors';
+
 import FileExplorer from '../../components/FileExplorer';
 import BashConsole from '../../components/BashConsole';
 
@@ -67,6 +71,7 @@ import ExplorerStyle from './ExplorerStyle';
 export function ExplorerPage({
   onUpdateCodeValue,
   explorerPage,
+  walletPage,
   onAddNewFile,
   onToggleFolder,
   onChangeFile,
@@ -121,7 +126,7 @@ export function ExplorerPage({
                   Contract Address:
                 </div>
                 <div className="contractAddressContent">
-                  <a href={"https://testnet.algoexplorer.io/address/" + explorerPage.teal.codeCompileAddress} target="_blank">
+                  <a href={walletPage.explorer+"/address/" + explorerPage.teal.codeCompileAddress} target="_blank">
                     {explorerPage.teal.codeCompileAddress}
                   </a>
                 </div>
@@ -238,6 +243,7 @@ ExplorerPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   explorerPage: makeSelectExplorerPage(),
+  walletPage: makeSelectWalletPage(),
 });
 
 function mapDispatchToProps(dispatch) {

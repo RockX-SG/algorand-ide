@@ -23,14 +23,6 @@ import {
 
 var algosdk = require('algosdk')
 
-const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
-const port = '';
-const token = {
-    'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
-}
-
-const algodclient = new algosdk.Algod(token, baseServer, port);
-
 // Individual exports for testing
 export default function* smartAssetPageSaga() {
   // See example in containers/HomePage/saga.js
@@ -40,6 +32,12 @@ export default function* smartAssetPageSaga() {
 export function* createAsset() {
   let smartAssetInfo = yield select(makeSelectSmartAssetPage());
   let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  const algodclient = new algosdk.Algod(token, baseServer, port);
 
   // let mnemonic = localStorage.getItem('mnemonic');
   let mnemonic = walletInfo["mnemonic"];
@@ -47,7 +45,7 @@ export function* createAsset() {
   
   console.log("mnemonic", mnemonic);
   
-  let captchaData = walletInfo["captchaData"];
+  let captchaData = true; //walletInfo["captchaData"];
   
   if(captchaData == "" || captchaData == undefined || captchaData == null){
     console.log("recaptcha error")
@@ -107,3 +105,50 @@ const waitForConfirmation = async function (algodclient, txId) {
     await algodclient.statusAfterBlock(lastround);
   }
 };
+
+function getServer(walletInfo){
+  let server;
+  
+  if(walletInfo["enablePureStake"] == true){
+    server = walletInfo["serverAddress"];
+  }else{
+    if(walletInfo["network"] == "mainnet"){
+      server = 'https://mainnet-algorand.api.purestake.io/ps1';
+    }else if(walletInfo["network"] == "testnet"){
+      server = 'https://testnet-algorand.api.purestake.io/ps1';
+    }else if(walletInfo["network"] == "betanet"){
+      server = 'https://betanet-algorand.api.purestake.io/ps1';
+    }
+  }
+  console.log("server", server);
+
+  return server;
+}
+function getPort(walletInfo){
+  let port;
+  
+  if(walletInfo["enablePureStake"] == true){
+    port = walletInfo["serverPort"];
+  }else{
+    port = '';
+  }
+  console.log("port", port);
+  
+  return port;
+}
+function getToken(walletInfo){
+  let token;
+  
+  if(walletInfo["enablePureStake"] == true){
+    token = {
+        'X-API-Key': walletInfo["algodToken"]
+    }
+  }else{
+    token = {
+        'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+    }
+  }
+  console.log("token", token);
+  
+  return token;
+}

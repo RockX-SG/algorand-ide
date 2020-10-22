@@ -3,17 +3,26 @@
  * WalletPage actions
  *
  */
-
+ 
 import {
   LOADING,
   LOADED,
   GENERATE_ACCOUNT_PRIMARY,
   GENERATE_ACCOUNT_SECONDARY,
+  GENERATE_ACCOUNT_TERTIARY,
+  GENERATE_ACCOUNT_QUARTERNARY,
+  GENERATE_ACCOUNT_QUINARY,
   GENERATE_ACCOUNT_PRIMARY_SUCCESS,
   GENERATE_ACCOUNT_SECONDARY_SUCCESS,
+  GENERATE_ACCOUNT_TERTIARY_SUCCESS,
+  GENERATE_ACCOUNT_QUARTERNARY_SUCCESS,
+  GENERATE_ACCOUNT_QUINARY_SUCCESS,
   GENERATE_ACCOUNT_ERROR,
   RESTORE_ACCOUNT_PRIMARY,
   RESTORE_ACCOUNT_SECONDARY,
+  RESTORE_ACCOUNT_TERTIARY,
+  RESTORE_ACCOUNT_QUARTERNARY,
+  RESTORE_ACCOUNT_QUINARY,
   SEND_TRANSACTION,
   SEND_TRANSACTION_SUCCESS,
   SEND_TRANSACTION_ERROR,
@@ -35,7 +44,11 @@ import {
   MNEMONIC_REGENERATE_SUCCESS,
   GET_ADDRESS_BALANCE,
   GET_ADDRESS_BALANCE_SUCCESS,
-  GET_ADDRESS_BALANCE_ERROR
+  GET_ADDRESS_BALANCE_ERROR,
+  CHANGE_SERVER_ADDRESS,
+  CHANGE_SERVER_PORT,
+  CHANGE_ALGOD_TOKEN,
+  CHANGE_SETTINGS,
 } from './constants';
 
 export function loading() {
@@ -64,6 +77,27 @@ export function generateAccountSecondary() {
   };
 }
 
+export function generateAccountTertiary() {
+  console.log("generateAccountTertiary")
+  return {
+    type: GENERATE_ACCOUNT_TERTIARY,
+  };
+}
+
+export function generateAccountQuarternary() {
+  console.log("generateAccountQuarternary")
+  return {
+    type: GENERATE_ACCOUNT_QUARTERNARY,
+  };
+}
+
+export function generateAccountQuinary() {
+  console.log("generateAccountQuinary")
+  return {
+    type: GENERATE_ACCOUNT_QUINARY,
+  };
+}
+
 export function generateAccountPrimarySuccess(address, addressShorten, mnemonic, balance) {
   console.log(address, addressShorten, mnemonic, balance)
   return {
@@ -79,6 +113,39 @@ export function generateAccountSecondarySuccess(address, addressShorten, mnemoni
   console.log(address, addressShorten, mnemonic, balance)
   return {
     type: GENERATE_ACCOUNT_SECONDARY_SUCCESS,
+    address,
+    addressShorten,
+    mnemonic,
+    balance
+  };
+}
+
+export function generateAccountTertiarySuccess(address, addressShorten, mnemonic, balance) {
+  console.log(address, addressShorten, mnemonic, balance)
+  return {
+    type: GENERATE_ACCOUNT_TERTIARY_SUCCESS,
+    address,
+    addressShorten,
+    mnemonic,
+    balance
+  };
+}
+
+export function generateAccountQuarternarySuccess(address, addressShorten, mnemonic, balance) {
+  console.log(address, addressShorten, mnemonic, balance)
+  return {
+    type: GENERATE_ACCOUNT_QUARTERNARY_SUCCESS,
+    address,
+    addressShorten,
+    mnemonic,
+    balance
+  };
+}
+
+export function generateAccountQuinarySuccess(address, addressShorten, mnemonic, balance) {
+  console.log(address, addressShorten, mnemonic, balance)
+  return {
+    type: GENERATE_ACCOUNT_QUINARY_SUCCESS,
     address,
     addressShorten,
     mnemonic,
@@ -105,6 +172,33 @@ export function restoreAccountSecondary(data) {
   console.log("restoreAccountSecondary")
   return {
     type: RESTORE_ACCOUNT_SECONDARY,
+    mnemonic: data[0],
+    address: data[1],
+  };
+}
+
+export function restoreAccountTertiary(data) {
+  console.log("restoreAccountTertiary")
+  return {
+    type: RESTORE_ACCOUNT_TERTIARY,
+    mnemonic: data[0],
+    address: data[1],
+  };
+}
+
+export function restoreAccountQuarternary(data) {
+  console.log("restoreAccountQuarternary")
+  return {
+    type: RESTORE_ACCOUNT_QUARTERNARY,
+    mnemonic: data[0],
+    address: data[1],
+  };
+}
+
+export function restoreAccountQuinary(data) {
+  console.log("restoreAccountQuinary")
+  return {
+    type: RESTORE_ACCOUNT_QUINARY,
     mnemonic: data[0],
     address: data[1],
   };
@@ -149,14 +243,16 @@ export function sendTransactionSuccess(txHash, sendFrom) {
   };
 }
 
-export function sendTransactionError(error) {
+export function sendTransactionError(error, sendFrom) {
   return {
     type: SEND_TRANSACTION_ERROR,
-    error
+    error,
+    sendFrom
   };
 }
 
 export function changeAddress(address) {
+  console.log("CHANGE_ADDRESS", address)
   return {
     type: CHANGE_ADDRESS,
     address
@@ -228,6 +324,7 @@ export function selectAccount(address) {
 }
 
 export function addAccount() {
+  console.log("ADD_ACCOUNT")
   console.log("addAccount")
   return {
     type: ADD_ACCOUNT,
@@ -235,6 +332,7 @@ export function addAccount() {
 }
 
 export function addAccountSuccess(address, addressShorten, mnemonic, balance) {
+  console.log("ADD_ACCOUNT_SUCCESS")
   console.log(address, addressShorten, mnemonic, balance)
   return {
     type: ADD_ACCOUNT_SUCCESS,
@@ -294,4 +392,31 @@ export function mnemonicRegenerateSuccess(accountNum, address, addressShorten, m
   };
 }
 
+export function changeServerAddress(serverAddress) {
+  console.log("CHANGE_SERVER_ADDRESS", serverAddress)
+  return {
+    type: CHANGE_SERVER_ADDRESS,
+    serverAddress,
+  };
+}
+export function changeServerPort(serverPort) {
+  console.log("CHANGE_SERVER_PORT", serverPort)
+  return {
+    type: CHANGE_SERVER_PORT,
+    serverPort,
+  };
+}
+export function changeAlgodToken(algodToken) {
+  console.log("CHANGE_ALGOD_TOKEN", algodToken)
+  return {
+    type: CHANGE_ALGOD_TOKEN,
+    algodToken,
+  };
+}
+
+export function changeSettings(status) {
+  return {
+    type: CHANGE_SETTINGS
+  };
+}
 

@@ -82,7 +82,7 @@ function SendAlgoForm(props) {
                 options={addressOption}
               />
             </div>
-            <div>
+            <div className="disclaimer">
               * Transaction will fail if destination address has 0 balance due to Algorand's account min. balance requirement
             </div>
           </div>
@@ -105,7 +105,7 @@ function SendAlgoForm(props) {
         </div>
       </div>
       <div className="section">
-        <div>
+        <div className="hide">
           <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
         </div>
         <button onClick={onSubmit}>
