@@ -25,6 +25,16 @@ const SettingsStyle = styled.div`
     text-transform: capitalize;
     padding-bottom: 5px;
   }
+  
+  .toggle{
+    float: left;
+  }
+  
+  .toggleText{
+    float: left;
+    padding-left: 15px;
+    padding-top: 5px;
+  }
 `;
 
 export default SettingsStyle;

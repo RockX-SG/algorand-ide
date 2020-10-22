@@ -23,6 +23,7 @@ import messages from './messages';
 
 import {
   addRoute,
+  changeAddress,
   confirmAssetId,
   changeAssetId,
   changeSendAmount,
@@ -32,6 +33,8 @@ import {
   changeAtomicAmount,
   changeAtomicSenderAddress,
   changeAtomicReceiverAddress,
+  changeAtomicAssetType,
+  changeAtomicAssetId,
   confirmAtomicRoute,
   signRoute,
   sendAtomicTransfer
@@ -40,7 +43,6 @@ import {
 import {
   loading,
   sendTransaction,
-  changeAddress,
   changeAmount,
   recaptchaChange,
   selectPage
@@ -83,6 +85,8 @@ export function TransactionPage({
   onChangeAtomicAmount,
   onChangeAtomicSenderAddress,
   onChangeAtomicReceiverAddress,
+  onChangeAtomicAssetType,
+  onChangeAtomicAssetId,
   onSignRoute,
   onSendAtomicTransfer,
   onSelectPage,
@@ -135,7 +139,7 @@ export function TransactionPage({
                   Transaction ID:
                 </div>
                 <div className="assetResponseOutput">
-                  <a href={"https://testnet.algoexplorer.io/tx/"+walletPage.userSendTxHash} target="_blank">
+                  <a href={walletPage.explorer+"/tx/"+walletPage.userSendTxHash} target="_blank">
                     {walletPage.userSendTxHash}
                   </a>
                 </div>
@@ -155,7 +159,7 @@ export function TransactionPage({
                   Transaction ID:
                 </div>
                 <div className="assetResponseOutput">
-                  <a href={"https://testnet.algoexplorer.io/tx/"+transactionPage.sendAsaTxHash} target="_blank">
+                  <a href={walletPage.explorer+"/tx/"+transactionPage.sendAsaTxHash} target="_blank">
                     {transactionPage.sendAsaTxHash}
                   </a>
                 </div>
@@ -166,7 +170,8 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onConfirmAtomicRoute={onConfirmAtomicRoute} onSignRoute={onSignRoute} onSendAtomicTransfer={onSendAtomicTransfer} />
+          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} 
+          onChangeAtomicAssetType={onChangeAtomicAssetType} onChangeAtomicAssetId={onChangeAtomicAssetId}  captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onConfirmAtomicRoute={onConfirmAtomicRoute} onSignRoute={onSignRoute} onSendAtomicTransfer={onSendAtomicTransfer} onAddRoute={onAddRoute} />
           
           <div className="assetResponse">
             <div className={(transactionPage.sendAtomicTxHash == "-") ? "disabled" : ""}>
@@ -175,7 +180,7 @@ export function TransactionPage({
                   Transaction ID:
                 </div>
                 <div className="assetResponseOutput">
-                  <a href={"https://testnet.algoexplorer.io/tx/"+transactionPage.sendAtomicTxHash} target="_blank">
+                  <a href={walletPage.explorer+"/tx/"+transactionPage.sendAtomicTxHash} target="_blank">
                     {transactionPage.sendAtomicTxHash}
                   </a>
                 </div>
@@ -195,7 +200,7 @@ export function TransactionPage({
                   Transaction ID:
                 </div>
                 <div className="assetResponseOutput">
-                  <a href={"https://testnet.algoexplorer.io/tx/"+transactionPage.optInTxHash} target="_blank">
+                  <a href={walletPage.explorer+"/tx/"+transactionPage.optInTxHash} target="_blank">
                     {transactionPage.optInTxHash}
                   </a>
                 </div>
@@ -227,6 +232,8 @@ function mapDispatchToProps(dispatch) {
     onChangeAtomicAmount: evt => dispatch(changeAtomicAmount(evt)),
     onChangeAtomicSenderAddress: evt => dispatch(changeAtomicSenderAddress(evt)),
     onChangeAtomicReceiverAddress: evt => dispatch(changeAtomicReceiverAddress(evt)),
+    onChangeAtomicAssetType: evt => dispatch(changeAtomicAssetType(evt)),
+    onChangeAtomicAssetId: evt => dispatch(changeAtomicAssetId(evt)),
     
     onSignRoute: evt => dispatch(signRoute(evt)),
     onSendAtomicTransfer: evt => {

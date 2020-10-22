@@ -46,9 +46,12 @@ function SendAlgoAtomicForm(props) {
     onChangeAtomicAmount,
     onChangeAtomicSenderAddress,
     onChangeAtomicReceiverAddress,
+    onChangeAtomicAssetType,
+    onChangeAtomicAssetId,
     onConfirmAtomicRoute,
     onSignRoute,
-    onSendAtomicTransfer
+    onSendAtomicTransfer,
+    onAddRoute
   } = props;
   
   
@@ -75,7 +78,9 @@ function SendAlgoAtomicForm(props) {
               <div className="clear"></div>
             </div>
             <div className="route">
-              <RoutePath routeSenders={transactionPage.routeSenders} addressOption={addressOption} walletPage={walletPage} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} />
+              <RoutePath routeSenders={transactionPage.routeSenders} addressOption={addressOption} walletPage={walletPage} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} 
+              onChangeAtomicAssetType={onChangeAtomicAssetType} 
+              onChangeAtomicAssetId={onChangeAtomicAssetId}  />
             </div>
             <div>
               <button onClick={() => onConfirmAtomicRoute()}>
@@ -107,7 +112,7 @@ function SendAlgoAtomicForm(props) {
         </div>
       </div>
       <div className="section">
-        <div>
+        <div className="hide">
           <Captcha recaptchaRef={recaptchaRef} onRecaptchaChange={onRecaptchaChange} />
         </div>
         <button onClick={() => onSendAtomicTransfer()}>

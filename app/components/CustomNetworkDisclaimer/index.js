@@ -21,7 +21,7 @@ function CustomNetworkDisclaimer(props) {
   return (
     <DisclaimerStyles className={(network == "custom") ? "" : "hide"}>
       <div>
-        Please enter your network configuration in the settings page.
+        Take note that betanet is different from testnet
       </div>
     </DisclaimerStyles>
   );

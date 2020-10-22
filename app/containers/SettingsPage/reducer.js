@@ -13,8 +13,8 @@ import {
 } from './constants';
 
 export const initialState = {
-  serverAddress: 'http://127.0.0.1',
-  serverPort: '5555',
+  serverAddress: '',
+  serverPort: '',
   algodToken: '',
   enablePureStake: false,
 };

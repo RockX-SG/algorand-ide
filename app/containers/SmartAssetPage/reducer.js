@@ -102,22 +102,38 @@ const smartAssetPageReducer = (state = initialState, action) =>
         break;
 
       case CHANGE_MANAGER:
-        draft.inputManager = action.manager;
-
+        try{
+          draft.inputManager = action.manager["value"];
+        }catch(err){
+          draft.inputManager = "";
+        }
+        
         break;
 
       case CHANGE_RESERVE:
-        draft.inputReserve = action.reserve;
+        try{
+          draft.inputReserve = action.reserve["value"];
+        }catch(err){
+          draft.inputReserve = "";
+        }
 
         break;
 
       case CHANGE_FREEZE:
-        draft.inputFreeze = action.freeze;
+        try{
+          draft.inputFreeze = action.freeze["value"];
+        }catch(err){
+          draft.inputFreeze = "";
+        }
 
         break;
 
       case CHANGE_CLAWBACK:
-        draft.inputClawback = action.clawback;
+        try{
+          draft.inputClawback = action.clawback["value"];
+        }catch(err){
+          draft.inputClawback = "";
+        }
 
         break;
     }

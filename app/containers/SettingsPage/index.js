@@ -14,19 +14,19 @@ import { compose } from 'redux';
 import { useInjectSaga } from 'utils/injectSaga';
 import { useInjectReducer } from 'utils/injectReducer';
 import { makeSelectSettingsPage, makeSelectPureStake } from './selectors';
+import { makeSelectWalletPage } from '../WalletPage/selectors';
 
 import {
   changeServerAddress,
   changeServerPort,
   changeAlgodToken,
-} from './actions';
-
-import {
-  selectPage
+  selectPage,
+  changeSettings
 } from '../WalletPage/actions';
 
-import reducer from './reducer';
-import saga from './saga';
+
+import reducer from '../WalletPage/reducer';
+import saga from '../WalletPage/saga';
 import messages from './messages';
 
 import SettingsStyle from './SettingsStyle';
@@ -41,11 +41,13 @@ export function SettingsPage({
   onChangeServerPort,
   onChangeAlgodToken,
   settingsPage,
+  walletPage,
   enablePureStake,
   onSelectPage,
+  onChangeSettings,
 }) {
-  useInjectReducer({ key: 'settingsPage', reducer });
-  useInjectSaga({ key: 'settingsPage', saga });
+  useInjectReducer({ key: 'walletPage', reducer });
+  useInjectSaga({ key: 'walletPage', saga });
 
   useEffect(() => {
     onSelectPage("setting");
@@ -54,8 +56,7 @@ export function SettingsPage({
   return (
     <SettingsStyle>
       <div className="pageName">Settings</div>
-      <div>
-        <div className="sectionTitle">Custom Network Parameters</div>
+      <div className={(walletPage.enablePureStake == true) ? "" : "disabled"}>
         <div className="section">
           <div className="sectionTitle">Server Address:</div>
           <div>
@@ -63,7 +64,7 @@ export function SettingsPage({
               id="serverAddress"
               type="text"
               placeholder="Please input server address"
-              value={settingsPage.serverAddress}
+              value={walletPage.serverAddress}
               onChange={onChangeServerAddress}
             />
           </div>
@@ -75,7 +76,7 @@ export function SettingsPage({
               id="serverPort"
               type="text"
               placeholder="Please input server port"
-              value={settingsPage.serverPort}
+              value={walletPage.serverPort}
               onChange={onChangeServerPort}
             />
           </div>
@@ -87,22 +88,21 @@ export function SettingsPage({
               id="algodToken"
               type="text"
               placeholder="Please input algod token"
-              value={settingsPage.algodToken}
+              value={walletPage.algodToken}
               onChange={onChangeAlgodToken}
             />
           </div>
         </div>
-        <div className="section">
-          <div>
-            <Toggle
-              defaultChecked={enablePureStake}
-              onChange={(editor, value) => {
-                console.log('controlled', { value });
-              }}
-            />
-            <span>Use PureStake API</span>
-          </div>
+      </div>
+      <div className="section">
+        <div className="toggle">
+          <Toggle
+            checked={walletPage.enablePureStake}
+            onChange={onChangeSettings}
+          />
         </div>
+        <div className="toggleText">Use custom settings</div>
+        <div className="clear"></div>
       </div>
     </SettingsStyle>
   );
@@ -114,6 +114,7 @@ SettingsPage.propTypes = {
 
 const mapStateToProps = createStructuredSelector({
   settingsPage: makeSelectSettingsPage(),
+  walletPage: makeSelectWalletPage(),
   enablePureStake: makeSelectPureStake(),
 });
 
@@ -128,6 +129,10 @@ function mapDispatchToProps(dispatch) {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(selectPage(evt));
     },
+    onChangeSettings: evt => dispatch(changeSettings(evt.target.value)),
+    // onRestoreServerAddress: evt => dispatch(restoreServerAddress(evt)),
+    // onRestoreServerPort: evt => dispatch(restoreServerPort(evt)),
+    // onRestoreAlgodToken: evt => dispatch(restoreAlgodToken(evt)),
   };
 }
 

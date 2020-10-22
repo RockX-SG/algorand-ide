@@ -25,6 +25,8 @@ export const OPT_IN_ASA_SUCCESS = 'app/TransactionPage/OPT_IN_ASA_SUCCESS';
 export const CHANGE_ATOMIC_AMOUNT = 'app/TransactionPage/CHANGE_ATOMIC_AMOUNT';
 export const CHANGE_ATOMIC_SENDER_ADDRESS = 'app/TransactionPage/CHANGE_ATOMIC_SENDER_ADDRESS';
 export const CHANGE_ATOMIC_RECEIVER_ADDRESS = 'app/TransactionPage/CHANGE_ATOMIC_RECEIVER_ADDRESS';
+export const CHANGE_ATOMIC_ASSET_TYPE = 'app/TransactionPage/CHANGE_ATOMIC_ASSET_TYPE';
+export const CHANGE_ATOMIC_ASSET_ID = 'app/TransactionPage/CHANGE_ATOMIC_ASSET_ID';
 
 export const CONFIRM_ATOMIC_ROUTE = 'app/TransactionPage/CONFIRM_ATOMIC_ROUTE';
 export const CONFIRM_ATOMIC_ROUTE_SUCCESS = 'app/TransactionPage/CONFIRM_ATOMIC_ROUTE_SUCCESS';
@@ -37,3 +39,5 @@ export const SIGN_ROUTE_ERROR = 'app/TransactionPage/SIGN_ROUTE_ERROR';
 export const SEND_ATOMIC_TRANSFER = 'app/TransactionPage/SEND_ATOMIC_TRANSFER';
 export const SEND_ATOMIC_TRANSFER_SUCCESS = 'app/TransactionPage/SEND_ATOMIC_TRANSFER_SUCCESS';
 export const SEND_ATOMIC_TRANSFER_ERROR = 'app/TransactionPage/SEND_ATOMIC_TRANSFER_ERROR';
+
+export const CHANGE_ADDRESS = 'app/TransactionPage/CHANGE_ADDRESS';

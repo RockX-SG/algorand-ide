@@ -74,6 +74,7 @@ const Transaction = styled.div`
   .route{
     
   }
+  
   .routePath{
     padding: 10px 20px;
     background-color: #DDD;
@@ -82,25 +83,37 @@ const Transaction = styled.div`
   .routeSender{
     float: left;
     width: 200px;
+    margin: 5px 0px;
   }
   .routeReceiver{
     float: left;
     width: 200px;
+    margin: 5px 0px;
+  }
+  .routeAssetType{
+    float: left;
+    width: 130px;
+    margin: 5px 0px;
   }
   .routeAmount{
     float: left;
     width: 100px;
+    margin: 5px 0px;
   }
   .routeArrow{
     float: left;
     padding: 2px 10px;
-    margin-top: 16px;
+    margin-top: 21px;
   }
   .routeStatus{
     float: right;
     width: 50px;
     text-align: right;
     margin-top: 10px;
+  }
+  
+  .assetType{
+    text-transform: uppercase;
   }
   
   .routeTitle{

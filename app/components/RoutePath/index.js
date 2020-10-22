@@ -30,10 +30,16 @@ function RoutePath(props) {
     routeSenders,
     onChangeAtomicAmount,
     onChangeAtomicSenderAddress,
-    onChangeAtomicReceiverAddress
+    onChangeAtomicReceiverAddress,
+    onChangeAtomicAssetType,
+    onChangeAtomicAssetId,
   } = props;
   
   // console.log();
+  const optionsAsset = [
+    { value: 'algo', label: 'ALGO' },
+    { value: 'asa', label: 'ASA' },
+  ]
   
   const path = routeSenders.map((address, index) =>
     <div key={index}>
@@ -75,21 +81,57 @@ function RoutePath(props) {
         <div className="routeArrow">
           {iconRouteArrow}
         </div>
-        <div className="routeAmount">
-          <div className="routeTitle">
-            Amount ALGO:
+        <div className="clear"></div>
+        <div>
+          <div className="routeAssetType">
+            <div className="routeTitle">
+              Asset Type:
+            </div>
+            <div className="routeEntry">
+              <Select
+                name={"assetType_" + index}
+                onChange={(evt) => onChangeAtomicAssetType([evt, index])}
+                options={optionsAsset}
+                defaultValue={optionsAsset[0]}
+              />
+            </div>
           </div>
-          <div className="routeEntry">
-            <Input
-              id="amount"
-              type="text"
-              name={"amount_" + index}
-              onChange={onChangeAtomicAmount}
-              value={address[2]}
-            />
+          <div className={(address[3] == "asa") ? "routeArrow" : "hide"}>
+            {iconRouteArrow}
+          </div>
+          <div className={(address[3] == "asa") ? "routeAmount" : "hide"}>
+            <div className="routeTitle">
+              ASA id:
+            </div>
+            <div className="routeEntry">
+              <Input
+                id="assetId"
+                type="text"
+                name={"assetId_" + index}
+                onChange={onChangeAtomicAssetId}
+                value={address[4]}
+              />
+            </div>
+          </div>
+          <div className="routeArrow">
+            {iconRouteArrow}
+          </div>
+          <div className="routeAmount">
+            <div className="routeTitle">
+              Amount <span className="assetType">{(!address[3]) ? "ALGO" : address[3]}</span>:
+            </div>
+            <div className="routeEntry">
+              <Input
+                id="amount"
+                type="text"
+                name={"amount_" + index}
+                onChange={onChangeAtomicAmount}
+                value={address[2]}
+              />
+            </div>
           </div>
         </div>
-        <div className="routeStatus">
+        <div className="routeStatus hide">
           {iconTick}
         </div>
         <div className="clear"></div>

@@ -54,9 +54,9 @@ function Navigation(props) {
   
 
   const options = [
-    { value: 'testnet', label: 'Test Net' },
-    { value: 'mainnet', label: 'Main Net' },
-    { value: 'custom', label: 'Beta Net ' },
+    { value: 'testnet', label: 'TestNet' },
+    { value: 'mainnet', label: 'MainNet' },
+    { value: 'betanet', label: 'BetaNet ' },
   ]
   
   const addressDropdown = addressArray.map((addr, index) =>

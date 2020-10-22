@@ -80,28 +80,49 @@ export function* confirmAtomicRoute() {
   // let params = yield call(algodclient.getTransactionParams().do);
   
   for(var i=0; i<route.length; i++){
-    let amount = route[i][2] * 1000000;
-    
-    // var txn = {
-    //     "from": route[i][0],
-    //     "to": route[i][1],
-    //     "fee": 10,
-    //     "amount": amount,
-    //     "firstRound": params.lastRound,
-    //     "lastRound": endRound,
-    //     "genesisID": params.genesisID,
-    //     "genesisHash": params.genesishashb64,
-    // };
-    // let txTest = algosdk.makePaymentTxnWithSuggestedParams(route[i][0], route[i][1], amount, undefined, undefined, params); 
-    // console.log("txTest", txTest);
-    // let txn = algosdk.makePaymentTxnWithSuggestedParams(route[i][0], route[i][1], amount, undefined, undefined, params);  
-    
-    let txn = algosdk.makePaymentTxn(route[i][0], 
-        route[i][1], 10, amount, undefined, 
-        params.lastRound, params.lastRound + 1000, new Uint8Array(0), 
-        params.genesishashb64, params.genesisID);
-    
-    atomicTxn.push(txn);
+    if(route[i][3] == "asa"){
+      console.log("------asa-----")
+      let amount = parseFloat(route[i][2]);
+      var revocationTarget = undefined;
+      var closeRemainderTo = undefined;
+      var assetId = parseFloat(route[i][4]);
+      
+      console.log(route[i][0], 
+          route[i][1], closeRemainderTo, revocationTarget, 10, amount, 
+          params.lastRound, params.lastRound + 1000, undefined, 
+          params.genesishashb64, params.genesisID, assetId)
+      
+      let txn = algosdk.makeAssetTransferTxn(route[i][0], 
+          route[i][1], closeRemainderTo, revocationTarget, 10, amount, 
+          params.lastRound, params.lastRound + 1000, undefined, 
+          params.genesishashb64, params.genesisID, assetId);
+      
+      atomicTxn.push(txn);
+    }else{
+      console.log("------algo-----")
+      let amount = route[i][2] * 1000000;
+      
+      // var txn = {
+      //     "from": route[i][0],
+      //     "to": route[i][1],
+      //     "fee": 10,
+      //     "amount": amount,
+      //     "firstRound": params.lastRound,
+      //     "lastRound": endRound,
+      //     "genesisID": params.genesisID,
+      //     "genesisHash": params.genesishashb64,
+      // };
+      // let txTest = algosdk.makePaymentTxnWithSuggestedParams(route[i][0], route[i][1], amount, undefined, undefined, params); 
+      // console.log("txTest", txTest);
+      // let txn = algosdk.makePaymentTxnWithSuggestedParams(route[i][0], route[i][1], amount, undefined, undefined, params);  
+      
+      let txn = algosdk.makePaymentTxn(route[i][0], 
+          route[i][1], 10, amount, undefined, 
+          params.lastRound, params.lastRound + 1000, new Uint8Array(0), 
+          params.genesishashb64, params.genesisID);
+      
+      atomicTxn.push(txn);
+    }
     
     for(var x=0; x<addressArray.length; x++){
       if(route[i][0] == addressArray[x]){
@@ -255,7 +276,7 @@ export function* sendAsaTransaction() {
   
   let keysUser = algosdk.mnemonicToSecretKey(mnemonic);
   
-  let captchaData = walletInfo["captchaData"];
+  let captchaData = true; //walletInfo["captchaData"];
   
   let assetId = parseInt(transactionInfo["inputAssetId"]);
   console.log("assetId", assetId);
@@ -271,19 +292,22 @@ export function* sendAsaTransaction() {
 
     keys = keysUser;
     //11069099
+    console.log("transactionInfo", transactionInfo);
 
     let params = yield call(algodclient.getTransactionParams);
     let endRound = params.lastRound + parseInt(1000);
     
     var sender = address; 
-    var recipient = walletInfo["inputAddress"];
+    var recipient = transactionInfo["inputAddress"];
     var revocationTarget = undefined;
     var closeRemainderTo = undefined;
     // let ​note = undefined;    
     
-    var amount = 10; //walletInfo["inputAmount"];
+    var amount = parseFloat(transactionInfo["inputSendAsaAmount"]);
     console.log("amount", amount);
     console.log("assetId", assetId);
+    console.log("sender", sender);
+    console.log("recipient", recipient);
     
     var xtxn = algosdk.makeAssetTransferTxn(sender, recipient, closeRemainderTo, revocationTarget, 10, amount, params.lastRound, endRound, undefined, params.genesishashb64, params.genesisID, assetId);
     
@@ -335,7 +359,7 @@ export function* optInAsa() {
   
   let keysUser = algosdk.mnemonicToSecretKey(mnemonic);
   
-  let captchaData = walletInfo["captchaData"];
+  let captchaData = true; //walletInfo["captchaData"];
   
   let assetId = parseInt(transactionInfo["inputAssetId"]);
   console.log("assetId", assetId);
