@@ -1,6 +1,6 @@
 /**
  *
- * CustomNetworkDisclaimer
+ * BetaNetDisclaimer
  *
  */
 
@@ -13,20 +13,20 @@ import messages from './messages';
 
 import DisclaimerStyles from './DisclaimerStyles';
 
-function CustomNetworkDisclaimer(props) {
+function BetaNetDisclaimer(props) {
   const {
-    enablePureStake
+    network
   } = props;
   
   return (
-    <DisclaimerStyles className={(enablePureStake == true) ? "" : "hide"}>
+    <DisclaimerStyles className={(network == "betanet") ? "" : "hide"}>
       <div>
-        Custom network is selected. Switch back to default network in settings.
+        BetaNet is where new protocol-level features are released for initial testing
       </div>
     </DisclaimerStyles>
   );
 }
 
-CustomNetworkDisclaimer.propTypes = {};
+BetaNetDisclaimer.propTypes = {};
 
-export default CustomNetworkDisclaimer;
+export default BetaNetDisclaimer;

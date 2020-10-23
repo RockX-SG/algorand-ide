@@ -163,7 +163,7 @@ export function WalletPage({
           Add more wallet
         </button>
         
-        <div className="faucet">
+        <div className={(walletPage.network == "mainnet") ? "hide" : "faucet"}>
           
           <FaucetForm onSubmit={onFaucetSend} faucetSendError={walletPage.faucetSendError} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData}  onChangeAddress={onChangeAddress} onRecaptchaChange={onRecaptchaChange} />
           

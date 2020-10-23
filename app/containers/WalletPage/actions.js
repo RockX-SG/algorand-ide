@@ -351,6 +351,12 @@ export function addAccountError() {
 
 
 export function changeNetwork(network) {
+  console.log("CHANGE_NETWORK");
+  console.log("CHANGE_NETWORK");
+  console.log("CHANGE_NETWORK");
+  console.log("CHANGE_NETWORK");
+  console.log("CHANGE_NETWORK");
+  console.log(network);
   return {
     type: CHANGE_NETWORK,
     network

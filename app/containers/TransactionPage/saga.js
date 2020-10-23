@@ -37,13 +37,13 @@ import {
 
 var algosdk = require('algosdk')
 
-const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
-const port = '';
-const token = {
-    'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
-}
-
-const algodclient = new algosdk.Algod(token, baseServer, port);
+// const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
+// const port = '';
+// const token = {
+//     'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+// }
+// 
+// const algodclient = new algosdk.Algod(token, baseServer, port);
 
 // Individual exports for testing
 export default function* transactionPageSaga() {
@@ -60,9 +60,16 @@ export default function* transactionPageSaga() {
 
 
 export function* confirmAtomicRoute() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   console.log("confirmAtomicRoute")
   let transactionInfo = yield select(makeSelectTransactionPage());
-  let walletInfo = yield select(makeSelectWalletPage());
   
   let atomicTxn = [];
   let atomicKey = [];
@@ -190,6 +197,14 @@ export function* signRoute(data) {
 
 
 export function* sendAtomicTransfer() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   console.log("sendAtomicTransfer")
   
   let transactionInfo = yield select(makeSelectTransactionPage());
@@ -228,9 +243,16 @@ export function* sendAtomicTransfer() {
 }
 
 export function* confirmAssetId() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   console.log("confirmAssetId")
   let transactionInfo = yield select(makeSelectTransactionPage());
-  let walletInfo = yield select(makeSelectWalletPage());
   
   //11069099
   
@@ -262,9 +284,16 @@ export function* confirmAssetId() {
 }
 
 export function* sendAsaTransaction() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   console.log("sendAsaTransaction")
   let transactionInfo = yield select(makeSelectTransactionPage());
-  let walletInfo = yield select(makeSelectWalletPage());
 
   let keys;
   
@@ -345,9 +374,16 @@ export function* sendAsaTransaction() {
 
 
 export function* optInAsa() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   console.log("sendAsaTransaction")
   let transactionInfo = yield select(makeSelectTransactionPage());
-  let walletInfo = yield select(makeSelectWalletPage());
 
   let keys;
   
@@ -423,4 +459,53 @@ export function* optInAsa() {
 }
 
 
+
+
+
+function getServer(walletInfo){
+  let server;
+  
+  if(walletInfo["enablePureStake"] == true){
+    server = walletInfo["serverAddress"];
+  }else{
+    if(walletInfo["network"] == "mainnet"){
+      server = 'https://mainnet-algorand.api.purestake.io/ps1';
+    }else if(walletInfo["network"] == "testnet"){
+      server = 'https://testnet-algorand.api.purestake.io/ps1';
+    }else if(walletInfo["network"] == "betanet"){
+      server = 'https://betanet-algorand.api.purestake.io/ps1';
+    }
+  }
+  console.log("server", server);
+
+  return server;
+}
+function getPort(walletInfo){
+  let port;
+  
+  if(walletInfo["enablePureStake"] == true){
+    port = walletInfo["serverPort"];
+  }else{
+    port = '';
+  }
+  console.log("port", port);
+  
+  return port;
+}
+function getToken(walletInfo){
+  let token;
+  
+  if(walletInfo["enablePureStake"] == true){
+    token = {
+        'X-API-Key': walletInfo["algodToken"]
+    }
+  }else{
+    token = {
+        'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+    }
+  }
+  console.log("token", token);
+  
+  return token;
+}
 

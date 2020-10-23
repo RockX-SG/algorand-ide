@@ -46,7 +46,8 @@ function Navigation(props) {
     dropdownStatus,
     onShowDropdown,
     onHideDropdown,
-    onSelectAccount
+    onSelectAccount,
+    enablePureStake
   } = props;
   
   console.log("addressArray", addressArray)
@@ -98,15 +99,17 @@ function Navigation(props) {
         </div>
         <div className="navRight">
           <NavNetwork onMouseEnter={() => onHideDropdown()}>
-            <div className="networkTitle">
-              Network
-            </div>
-            <div className="selectComponent">
-              <Select
-                defaultValue={options[0]}
-                options={options}
-                onChange={onChangeNetwork}
-              />
+            <div className={(enablePureStake == true) ? "disabled" : ""}>
+              <div className="networkTitle">
+                Network
+              </div>
+              <div className="selectComponent">
+                <Select
+                  defaultValue={options[0]}
+                  options={options}
+                  onChange={onChangeNetwork}
+                />
+              </div>
             </div>
           </NavNetwork>
           <div className="navRightUser" onMouseEnter={() => onShowDropdown()}>
