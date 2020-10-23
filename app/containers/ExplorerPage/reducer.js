@@ -34,6 +34,9 @@ import fileSimpleSuccess from './teal/simple-success.js';
 import fileDynamicFee from './teal/dynamic-fee.js';
 import fileHashTimeLock from './teal/hash-time-lock.js';
 import filePeriodicPayment from './teal/periodic-payment.js';
+import fileLowFee from './teal/low-fee.js';
+import fileSplit from './teal/split.js';
+
   
 import templateContract1 from './teal/templateContract1.js';
 import templateContract2 from './teal/templateContract2.js';
@@ -62,7 +65,7 @@ export const initialState = {
         "id": 1,
         "name": "TEAL templates",
         "status": true,
-        "files": ["simple-success.teal", "dynamic-fee.teal", "hash-time-lock.teal", "periodic-payment.teal"]
+        "files": ["simple-success.teal", "low-fee.teal", "split.teal", "dynamic-fee.teal", "hash-time-lock.teal", "periodic-payment.teal"]
       },
       // {
       //   "id": 2,
@@ -259,6 +262,10 @@ const explorerPageReducer = (state = initialState, action) =>
         
         if(action.contract == "simple-success.teal"){
           draft.teal.codeValue = fileSimpleSuccess;
+        }else if(action.contract == "low-fee.teal"){
+          draft.teal.codeValue = fileLowFee;
+        }else if(action.contract == "split.teal"){
+          draft.teal.codeValue = fileSplit;
         }else if(action.contract == "dynamic-fee.teal"){
           draft.teal.codeValue = fileDynamicFee;
         }else if(action.contract == "hash-time-lock.teal"){

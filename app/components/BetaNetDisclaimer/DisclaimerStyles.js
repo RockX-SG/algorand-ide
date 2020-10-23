@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const DisclaimerStyles = styled.div`
-  background-color: orange;
+  background-color: blue;
   color: white;
   margin-bottom: 30px;
   text-align: center;

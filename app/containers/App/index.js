@@ -52,6 +52,7 @@ import Footer from '../../components/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
 
 import MainnetDisclaimer from '../../components/MainnetDisclaimer';
+import BetaNetDisclaimer from '../../components/BetaNetDisclaimer';
 import CustomNetworkDisclaimer from '../../components/CustomNetworkDisclaimer';
 
 import GlobalStyle from '../../global-styles';
@@ -60,6 +61,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import {
+  loading,
   generateAccountPrimary,
   restoreAccountPrimary,
   generateAccountSecondary,
@@ -153,31 +155,60 @@ export function App({
       // onRestoreAccountQuinary([localMnemonicQuinary, localAddressQuinary]);
     }
     
-    let serverAddress = localStorage.getItem('serverAddress');
-    let serverPort = localStorage.getItem('serverPort');
-    let algodToken = localStorage.getItem('algodToken');
+    let serverAddress;
+    let serverPort;
+    let algodToken;
+    
+    if(walletPage.serverAddress == ""){
+      serverAddress = localStorage.getItem('serverAddress');
+      onRestoreServerAddress(serverAddress);
+    }else{
+      serverAddress = walletPage.serverAddress;
+      localStorage.setItem('serverAddress', serverAddress);
+    }
+    
+    if(walletPage.serverPort == ""){
+      serverPort = localStorage.getItem('serverPort');
+      onRestoreServerPort(serverPort);
+    }else{
+      serverPort = walletPage.serverPort;
+      localStorage.setItem('serverPort', serverPort);
+    }
+    
+    if(walletPage.algodToken == ""){
+      algodToken = localStorage.getItem('algodToken');
+      onRestoreAlgodToken(algodToken);
+    }else{
+      algodToken = walletPage.algodToken;
+      localStorage.setItem('algodToken', algodToken);
+    }
     
     console.log("serverAddress", serverAddress)
     console.log("serverPort", serverPort)
     console.log("algodToken", algodToken)
+    
+    // 
+    // 
+    // 
+    
+    // 
+    // 
+    // 
 
-    if(serverAddress == "" || serverAddress == null){
-      
-    }else{
-      onRestoreServerAddress(serverAddress);
-    }
-
-    if(serverPort == "" || serverPort == null){
-      
-    }else{
-      onRestoreServerPort(serverPort);
-    }
-
-    if(algodToken == "" || algodToken == null){
-      
-    }else{
-      onRestoreAlgodToken(algodToken);
-    }
+    // if(serverAddress == "" || serverAddress == null){
+    // 
+    // }else{
+    // }
+    // 
+    // if(serverPort == "" || serverPort == null){
+    // 
+    // }else{
+    // }
+    // 
+    // if(algodToken == "" || algodToken == null){
+    // 
+    // }else{
+    // }
 
   });
   
@@ -185,12 +216,15 @@ export function App({
   return (
     <div>
       <LoadingScreen loading={walletPage.loading} />
-      <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} dropdownStatus={walletPage.dropdownStatus}  onShowDropdown={onShowDropdown} onHideDropdown={onHideDropdown} addressArray={walletPage.addressArray} addressShortenArray={walletPage.addressShortenArray} mnemonicArray={walletPage.mnemonicArray} balanceArray={walletPage.balanceArray} onSelectAccount={onSelectAccount} />
+      <Navigation address={walletPage.address} addressShorten={walletPage.addressShorten} balance={walletPage.balance} onToggleSelectedAccount={onToggleSelectedAccount} onChangeNetwork={onChangeNetwork} dropdownStatus={walletPage.dropdownStatus}  onShowDropdown={onShowDropdown} onHideDropdown={onHideDropdown} addressArray={walletPage.addressArray} addressShortenArray={walletPage.addressShortenArray} mnemonicArray={walletPage.mnemonicArray} balanceArray={walletPage.balanceArray} onSelectAccount={onSelectAccount} enablePureStake={walletPage.enablePureStake} />
+      
       <MainnetDisclaimer network={walletPage.network} />
-      <CustomNetworkDisclaimer network={walletPage.network} />
+      <BetaNetDisclaimer network={walletPage.network} />
+      <CustomNetworkDisclaimer enablePureStake={walletPage.enablePureStake} />
+      
       <NavigationSide currentPage={walletPage.currentPage} onSelectPage={onSelectPage} />
       
-      <div className={(walletPage.network == "mainnet" || walletPage.network == "custom") ? "page pagePadTop" : "page"}>
+      <div className={(walletPage.network == "mainnet" || walletPage.network == "betanet" || walletPage.enablePureStake == true) ? "page pagePadTop" : "page"}>
         <Switch>
           <Route exact path="/" component={ExplorerPage} />
           <Route exact path="/smart-asset" component={SmartAssetPage} />
@@ -276,7 +310,11 @@ function mapDispatchToProps(dispatch) {
     onRestoreAccountTertiary: evt => dispatch(restoreAccountTertiary(evt)),
     onRestoreAccountQuarternary: evt => dispatch(restoreAccountQuarternary(evt)),
     onRestoreAccountQuinary: evt => dispatch(restoreAccountQuinary(evt)),
-    onChangeNetwork: evt => dispatch(changeNetwork(evt.value)),
+    onChangeNetwork: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(loading());
+      dispatch(changeNetwork(evt.value))
+    },
     onShowDropdown: evt => dispatch(toggleDropdown(true)),
     onHideDropdown: evt => dispatch(toggleDropdown(false)),
     onSelectAccount: evt => {

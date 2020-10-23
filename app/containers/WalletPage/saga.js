@@ -62,19 +62,19 @@ import {
 
 var algosdk = require('algosdk')
 
-const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
-const port = '';
-const token = {
-    'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
-}
-
-const algodclient = new algosdk.Algod(token, baseServer, port);
+// const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
+// const port = '';
+// const token = {
+//     'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+// }
+// 
+// const algodclient = new algosdk.Algod(token, baseServer, port);
 
 // Individual exports for testing
 export default function* walletPageSaga() {
   // See example in containers/HomePage/saga.js
   
-  yield takeLatest(CHANGE_NETWORK, changeNetwork);
+  yield takeEvery(CHANGE_NETWORK, changeNetwork);
   
   yield takeLatest(GENERATE_ACCOUNT_PRIMARY, generateAccountPrimary);
   yield takeLatest(RESTORE_ACCOUNT_PRIMARY, restoreAccountPrimary);
@@ -99,42 +99,52 @@ export default function* walletPageSaga() {
 
 
 export function* changeNetwork() {
+  console.log("changeNetwork")
   let walletInfo = yield select(makeSelectWalletPage());
   
   let baseServer = getServer(walletInfo);
   let port = getPort(walletInfo);
   let token = getToken(walletInfo);
 
-  const algodclient = new algosdk.Algod(token, baseServer, port);
+  let algodclient = new algosdk.Algod(token, baseServer, port);
   
-  if(walletInfo["currentPage"] == "wallet"){
-    yield put(getFaucetBalance());
-  }
+  // if(walletInfo["currentPage"] == "wallet"){
+  //   yield put(getFaucetBalance());
+  // }
   
   let accountInfo;
   accountInfo = yield call(algodclient.accountInformation, walletInfo["addressPrimary"]);
+  console.log("accountInfo", accountInfo)
   
   yield put(generateAccountPrimarySuccess(walletInfo["addressPrimary"], walletInfo["addressShortenPrimary"], walletInfo["mnemonicPrimary"], accountInfo["amount"]));
   
-  accountInfo = yield call(algodclient.accountInformation, walletInfo["addressSecondary"]);
+  // accountInfo = yield call(algodclient.accountInformation, walletInfo["addressSecondary"]);
+  // 
+  // yield put(generateAccountSecondarySuccess(walletInfo["addressSecondary"], walletInfo["addressShortenSecondary"], walletInfo["mnemonicSecondary"], accountInfo["amount"]));
+  // 
+  // accountInfo = yield call(algodclient.accountInformation, walletInfo["addressTertiary"]);
+  // 
+  // yield put(generateAccountTertiarySuccess(walletInfo["addressTertiary"], walletInfo["addressShortenTertiary"], walletInfo["mnemonicTertiary"], accountInfo["amount"]));
+  // 
+  // accountInfo = yield call(algodclient.accountInformation, walletInfo["addressQuarternary"]);
+  // 
+  // yield put(generateAccountQuarternarySuccess(walletInfo["addressQuarternary"], walletInfo["addressShortenQuarternary"], walletInfo["mnemonicQuarternary"], accountInfo["amount"]));
+  // 
+  // accountInfo = yield call(algodclient.accountInformation, walletInfo["addressQuinary"]);
+  // 
+  // yield put(generateAccountQuinarySuccess(walletInfo["addressQuinary"], walletInfo["addressShortenQuinary"], walletInfo["mnemonicQuinary"], accountInfo["amount"]));
   
-  yield put(generateAccountSecondarySuccess(walletInfo["addressSecondary"], walletInfo["addressShortenSecondary"], walletInfo["mnemonicSecondary"], accountInfo["amount"]));
-  
-  accountInfo = yield call(algodclient.accountInformation, walletInfo["addressTertiary"]);
-  
-  yield put(generateAccountTertiarySuccess(walletInfo["addressTertiary"], walletInfo["addressShortenTertiary"], walletInfo["mnemonicTertiary"], accountInfo["amount"]));
-  
-  accountInfo = yield call(algodclient.accountInformation, walletInfo["addressQuarternary"]);
-  
-  yield put(generateAccountQuarternarySuccess(walletInfo["addressQuarternary"], walletInfo["addressShortenQuarternary"], walletInfo["mnemonicQuarternary"], accountInfo["amount"]));
-  
-  accountInfo = yield call(algodclient.accountInformation, walletInfo["addressQuinary"]);
-  
-  yield put(generateAccountQuinarySuccess(walletInfo["addressQuinary"], walletInfo["addressShortenQuinary"], walletInfo["mnemonicQuinary"], accountInfo["amount"]));
-
+  yield put(loaded());
 }
 
 export function* generateAccountPrimary() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
 
   var keys = algosdk.generateAccount();
 
@@ -154,6 +164,14 @@ export function* generateAccountPrimary() {
 }
 
 export function* generateAccountSecondary() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   var keys = algosdk.generateAccount();
 
   console.log("keys", keys["addr"]);
@@ -172,7 +190,14 @@ export function* generateAccountSecondary() {
 }
 
 export function* generateAccountTertiary() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
 
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   var keys = algosdk.generateAccount();
 
   console.log("keys", keys["addr"]);
@@ -191,7 +216,14 @@ export function* generateAccountTertiary() {
 }
 
 export function* generateAccountQuarternary() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
 
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   var keys = algosdk.generateAccount();
 
   console.log("keys", keys["addr"]);
@@ -210,7 +242,14 @@ export function* generateAccountQuarternary() {
 }
 
 export function* generateAccountQuinary() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
 
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   var keys = algosdk.generateAccount();
 
   console.log("keys", keys["addr"]);
@@ -229,16 +268,32 @@ export function* generateAccountQuinary() {
 }
 
 export function* restoreAccountPrimary(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   let accountInfo = yield call(algodclient.accountInformation, data["address"]);
   // let accountInfo = getAccountInfo(data["address"]);
   let addressShorten = shortenAddress(data["address"]);
   console.log("accountInfo", accountInfo)
-
+  
   yield put(generateAccountPrimarySuccess(data["address"], addressShorten, data["mnemonic"], accountInfo["amount"]));
 
 }
 
 export function* restoreAccountSecondary(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   let accountInfo = yield call(algodclient.accountInformation, data["address"]);
   // let accountInfo = getAccountInfo(data["address"]);
   let addressShorten = shortenAddress(data["address"]);
@@ -249,6 +304,14 @@ export function* restoreAccountSecondary(data) {
 }
 
 export function* restoreAccountTertiary(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   let accountInfo = yield call(algodclient.accountInformation, data["address"]);
   // let accountInfo = getAccountInfo(data["address"]);
   let addressShorten = shortenAddress(data["address"]);
@@ -259,6 +322,14 @@ export function* restoreAccountTertiary(data) {
 }
 
 export function* restoreAccountQuarternary(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   let accountInfo = yield call(algodclient.accountInformation, data["address"]);
   // let accountInfo = getAccountInfo(data["address"]);
   let addressShorten = shortenAddress(data["address"]);
@@ -269,6 +340,14 @@ export function* restoreAccountQuarternary(data) {
 }
 
 export function* restoreAccountQuinary(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   let accountInfo = yield call(algodclient.accountInformation, data["address"]);
   // let accountInfo = getAccountInfo(data["address"]);
   let addressShorten = shortenAddress(data["address"]);
@@ -291,32 +370,19 @@ function shortenAddress(addr){
 
 
 export function* sendTransaction(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   
   console.log("sendTransaction");
   console.log(data["sendFrom"]);
   let explorerInfo = yield select(makeSelectExplorerPage());
-  let walletInfo = yield select(makeSelectWalletPage());
   let transactionInfo = yield select(makeSelectTransactionPage());
-  
-
-  // let baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
-  // let port = '';
-  // let token = {
-  //     'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
-  // }
-  // 
-  // let algodclientCustom = new algosdk.Algod(token, baseServer, port);
-  
-  let serverAddress = 'https://testnet-algorand.api.purestake.io/ps1'; //walletInfo["serverAddress"];
-  let serverPort = ''; //walletInfo["serverPort"];
-  let algodToken = {
-      'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx' //walletInfo["algodToken"]
-  }
-  console.log("serverAddress", serverAddress);
-  console.log("serverPort", serverPort);
-  console.log("algodToken", algodToken);
-  
-  let algodclientCustom = new algosdk.Algod(serverAddress, serverPort, algodToken);
 
   let addressTo;
   let amount;
@@ -374,7 +440,9 @@ export function* sendTransaction(data) {
     
     console.log("addressToBalance", addressToBalance);
     
-    if(addressToBalance < 50){
+    if(data["sendFrom"] == "faucet" && addressToBalance >= 50){
+      yield put(sendTransactionError("Receiver address has more than sufficient ALGO. Leave some testnet ALGO for others to test with", data["sendFrom"]));
+    }else{
 
       let params = yield call(selectedAlgodClient.getTransactionParams);
       let endRound = params.lastRound + parseInt(1000);
@@ -422,8 +490,6 @@ export function* sendTransaction(data) {
       }else{
         yield put(sendTransactionSuccess(tx.txId, data["sendFrom"]));
       }
-    }else{
-      yield put(sendTransactionError("Receiver address has more than sufficient ALGO. Leave some testnet ALGO for others to test with", data["sendFrom"]));
     }
     
     
@@ -432,6 +498,14 @@ export function* sendTransaction(data) {
 }
 
 export function* getFaucetBalance() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   // let mnemonicFaucet = "core alone rain law scout guitar immense tag kit dice negative inject crew unfold acquire buzz notice scene outer leisure soccer treat family abstract sign"
   // let addr = "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM"
 
@@ -441,6 +515,14 @@ export function* getFaucetBalance() {
 }
 
 export function* getAddressBalance(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   console.log("data", data)
   let accountInfo = yield call(algodclient.accountInformation, data["address"]);
   
@@ -453,6 +535,14 @@ export function* getAddressBalance(data) {
 
 
 export function* addAccount() {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   let localMnemonicTertiary = localStorage.getItem('mnemonicTertiary');
   let localAddressTertiary = localStorage.getItem('addressTertiary');
   let localMnemonicQuarternary = localStorage.getItem('mnemonicQuarternary');
@@ -461,9 +551,6 @@ export function* addAccount() {
   let localAddressQuinary = localStorage.getItem('addressQuinary');
   
   console.log("localMnemonicTertiary", localMnemonicTertiary);
-  
-  let walletInfo = yield select(makeSelectWalletPage());
-  console.log("walletInfo", walletInfo);
   
   var keys = algosdk.generateAccount();
   
@@ -546,8 +633,14 @@ export function* addAccount() {
 
 
 export function* mnemonicRegenerate(data) {
-  console.log(data["accountNum"]);
   let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
   
   var keys = algosdk.generateAccount();
   

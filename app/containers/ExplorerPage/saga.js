@@ -30,13 +30,13 @@ import {
 
 var algosdk = require('algosdk')
 
-const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
-const port = '';
-const token = {
-    'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
-}
-
-const algodclient = new algosdk.Algod(token, baseServer, port);
+// const baseServer = 'https://testnet-algorand.api.purestake.io/ps1';
+// const port = '';
+// const token = {
+//     'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+// }
+// 
+// const algodclient = new algosdk.Algod(token, baseServer, port);
 
 
 let tealBackendAPI = 'http://127.0.0.1:5000'; //"http://teal-dev.rockx.com"; //'http://127.0.0.1:5000'
@@ -50,8 +50,15 @@ export default function* explorerPageSaga() {
 }
 
 export function* tealCodeDeploy() {
-  let contractInfo = yield select(makeSelectExplorerPage());
   let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
+  let contractInfo = yield select(makeSelectExplorerPage());
   
   
   let contractBase64 = contractInfo["teal"]["contractBase64"];
@@ -273,3 +280,52 @@ export function* jsCodeExecute() {
     yield put(loaded());
   }
 }
+
+
+function getServer(walletInfo){
+  let server;
+  
+  if(walletInfo["enablePureStake"] == true){
+    server = walletInfo["serverAddress"];
+  }else{
+    if(walletInfo["network"] == "mainnet"){
+      server = 'https://mainnet-algorand.api.purestake.io/ps1';
+    }else if(walletInfo["network"] == "testnet"){
+      server = 'https://testnet-algorand.api.purestake.io/ps1';
+    }else if(walletInfo["network"] == "betanet"){
+      server = 'https://betanet-algorand.api.purestake.io/ps1';
+    }
+  }
+  console.log("server", server);
+
+  return server;
+}
+function getPort(walletInfo){
+  let port;
+  
+  if(walletInfo["enablePureStake"] == true){
+    port = walletInfo["serverPort"];
+  }else{
+    port = '';
+  }
+  console.log("port", port);
+  
+  return port;
+}
+function getToken(walletInfo){
+  let token;
+  
+  if(walletInfo["enablePureStake"] == true){
+    token = {
+        'X-API-Key': walletInfo["algodToken"]
+    }
+  }else{
+    token = {
+        'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+    }
+  }
+  console.log("token", token);
+  
+  return token;
+}
+
