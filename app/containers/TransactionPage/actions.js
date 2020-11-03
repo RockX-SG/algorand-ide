@@ -34,6 +34,8 @@ import {
   CHANGE_ADDRESS
 } from './constants';
 
+import { toast } from "react-toastify";
+
 export function addRoute() {
   return {
     type: ADD_ROUTE,
@@ -213,6 +215,15 @@ export function sendAsaTransactionSuccess(txHash) {
 }
 
 export function sendAsaTransactionError() {
+  toast.error("Destination address require opt-in", {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  });
+  
   return {
     type: SEND_ASA_TRANSACTION_ERROR
   };

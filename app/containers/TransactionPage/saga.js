@@ -327,7 +327,7 @@ export function* sendAsaTransaction() {
     let endRound = params.lastRound + parseInt(1000);
     
     var sender = address; 
-    var recipient = transactionInfo["inputAddress"];
+    var recipient = walletInfo["inputAddress"];
     var revocationTarget = undefined;
     var closeRemainderTo = undefined;
     // let ​note = undefined;    
@@ -345,28 +345,32 @@ export function* sendAsaTransaction() {
     var rawSignedTxn = xtxn.signTxn(keys.sk)
     console.log("rawSignedTxn", rawSignedTxn);
     
+    try{
 
-    var xtx = yield call(algodclient.sendRawTransaction, rawSignedTxn);
-    console.log("Transaction : " + xtx.txId);
+      var xtx = yield call(algodclient.sendRawTransaction, rawSignedTxn);
+      console.log("Transaction : " + xtx.txId);
 
 
-    let status = yield call(algodclient.status);
-    console.log("status : " + status);
-    let lastround = status.lastRound;
-    console.log("lastround : " + lastround);
-    while (true) {
-      let pendingInfo = yield call(algodclient.pendingTransactionInformation, xtx.txId);
-      if (pendingInfo.round !== null && pendingInfo.round > 0) {
-        //Got the completed Transaction
-        console.log("Transaction " + pendingInfo.tx + " confirmed in round " + pendingInfo.round);
-        break;
+      let status = yield call(algodclient.status);
+      console.log("status : " + status);
+      let lastround = status.lastRound;
+      console.log("lastround : " + lastround);
+      while (true) {
+        let pendingInfo = yield call(algodclient.pendingTransactionInformation, xtx.txId);
+        if (pendingInfo.round !== null && pendingInfo.round > 0) {
+          //Got the completed Transaction
+          console.log("Transaction " + pendingInfo.tx + " confirmed in round " + pendingInfo.round);
+          break;
+        }
+        lastround++;
+        yield call(algodclient.statusAfterBlock, lastround);
       }
-      lastround++;
-      yield call(algodclient.statusAfterBlock, lastround);
-    }
-    console.log("done");
+      console.log("done");
 
-    yield put(sendAsaTransactionSuccess(xtx.txId));
+      yield put(sendAsaTransactionSuccess(xtx.txId));
+    }catch(err) {
+      yield put(sendAsaTransactionError("Destination address require opt-in"));
+    }
     yield put(loaded());
   }
 }
