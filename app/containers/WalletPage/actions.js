@@ -316,7 +316,7 @@ export function toggleSelectedAccount() {
 }
 
 export function selectAccount(address) {
-  console.log("address", address);
+  console.log("SELECT_ACCOUNT", address);
   return {
     type: SELECT_ACCOUNT,
     address

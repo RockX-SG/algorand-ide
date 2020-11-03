@@ -231,12 +231,12 @@ export function optInAsaSuccess(txHash) {
   };
 }
 
-export function changeAddress(address) {
-  console.log("CHANGE_ADDRESS", address)
-  return {
-    type: CHANGE_ADDRESS,
-    address
-  };
-}
+// export function changeAddress(address) {
+//   console.log("CHANGE_ADDRESS", address)
+//   return {
+//     type: CHANGE_ADDRESS,
+//     address
+//   };
+// }
 
 

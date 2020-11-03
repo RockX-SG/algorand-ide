@@ -65,7 +65,7 @@ export const initialState = {
   balanceTertiary: 0,
   balanceQuarternary: 0,
   balanceQuinary: 0,
-  inputAddress: "CYVBA6MAXXDHMAALBJEJGUXERVK2LHPZWZGMQFVIC5CGIDGUQ4IWGOLTMM",
+  inputAddress: "",
   inputAmount: "",
   faucetBalance: 0,
   faucetSendTxHash: "-",
@@ -288,6 +288,15 @@ const walletPageReducer = (state = initialState, action) =>
       case SELECT_ACCOUNT:
         draft.selectedAccount = action.address;
         draft.address = action.address;
+        
+        for(var i=0; i<draft.addressShortenArray.length; i++){
+          if(draft.addressArray[i] == action.address){
+            draft.addressShorten = draft.addressShortenArray[i];
+            draft.balance = draft.balanceArray[i];
+            
+            break;
+          }
+        }
 
         console.log("SELECT_ACCOUNT", action.address);
 
@@ -296,8 +305,13 @@ const walletPageReducer = (state = initialState, action) =>
       
 
       case CHANGE_ADDRESS:
+        console.log("CHANGE_ADDRESS", action.address);
         try{
-          draft.inputAddress = action.address["value"];
+          if(action.address["value"]){
+            draft.inputAddress = action.address["value"];
+          }else{
+            draft.inputAddress = action.address;
+          }
         }catch(err){
           draft.inputAddress = "";
         }
