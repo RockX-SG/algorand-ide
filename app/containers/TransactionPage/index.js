@@ -23,7 +23,6 @@ import messages from './messages';
 
 import {
   addRoute,
-  changeAddress,
   confirmAssetId,
   changeAssetId,
   changeSendAmount,
@@ -42,6 +41,7 @@ import {
 
 import {
   loading,
+  changeAddress,
   sendTransaction,
   changeAmount,
   recaptchaChange,
