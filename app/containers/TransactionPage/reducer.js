@@ -19,6 +19,10 @@ import {
   CHANGE_ATOMIC_AMOUNT,
   CHANGE_ATOMIC_SENDER_ADDRESS,
   CHANGE_ATOMIC_RECEIVER_ADDRESS,
+  CHANGE_ATOMIC_CLOSE_TO_ADDRESS,
+  
+  TOGGLE_CLOSE_REMAINDER,
+  
   CHANGE_ATOMIC_ASSET_TYPE,
   CHANGE_ATOMIC_ASSET_ID,
   CONFIRM_ATOMIC_ROUTE,
@@ -44,8 +48,12 @@ export const initialState = {
   sendAtomicTxHash: "-",
   optInTxHash: "-",
   routeSenders: [
-    [],
-    [],
+    [
+      [], [], [], [], [], [], 
+    ],
+    [
+      [], [], [], [], [], [], 
+    ],
   ],
   atomicTxn: [],
   atomicKey: [],
@@ -101,10 +109,28 @@ const transactionPageReducer = (state = initialState, action) =>
         draft.routeSenders[action.entryIndex][0] = action.address;
       
         break;
+        
       case CHANGE_ATOMIC_RECEIVER_ADDRESS:
         draft.routeSenders[action.entryIndex][1] = action.address;
       
         break;
+        
+      case CHANGE_ATOMIC_CLOSE_TO_ADDRESS:
+        draft.routeSenders[action.entryIndex][5] = action.address;
+      
+        break;
+        
+      case TOGGLE_CLOSE_REMAINDER:
+        console.log("action.entryIndex", action.entryIndex)
+        
+        if(draft.routeSenders[action.entryIndex][6] == true){
+          draft.routeSenders[action.entryIndex][6] = false;
+        }else{
+          draft.routeSenders[action.entryIndex][6] = true;
+        }
+      
+        break;
+        
         
       case CONFIRM_ASSET_ID:
         draft.sendAsaStep = 2;

@@ -65,3 +65,6 @@ export const CHANGE_ALGOD_TOKEN = 'app/WalletPage/CHANGE_ALGOD_TOKEN';
 
 export const CHANGE_SETTINGS = 'app/WalletPage/CHANGE_SETTINGS';
 
+export const GET_ADDRESS_ASA = 'app/WalletPage/GET_ADDRESS_ASA';
+export const GET_ADDRESS_ASA_SUCCESS = 'app/WalletPage/GET_ADDRESS_ASA_SUCCESS';
+

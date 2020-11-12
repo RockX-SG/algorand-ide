@@ -76,7 +76,7 @@ export function TutorialJsRevokeAssetPage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
     lineWrapping: true
 	};
 
@@ -127,9 +127,11 @@ var step7Code = `const algosdk = require('algosdk');
 // const port = PORT;
 
 // sandbox
-const token = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-const server = "http://localhost";
-const port = 4001;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 // Structure for changing blockchain params
 var cp = {
@@ -206,7 +208,9 @@ let algodclient = new algosdk.Algod(token, server, port);
 (async () => {
 
     // paste in the assetID (from the create asset tutorial)
-    let assetID = (your assetID);
+    // let assetID = (your assetID);
+    let assetID = 149774;
+    
     // Revoke an Asset:
     // The asset was also created with the ability for it to be revoked by 
     // the clawbackaddress. If the asset was created or configured by the manager
@@ -444,6 +448,14 @@ let algodclient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["revoke-asset", 7, step7Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.revokeAsset["step7"]} />
           </div>
         </div>
         <div className="clear"></div>

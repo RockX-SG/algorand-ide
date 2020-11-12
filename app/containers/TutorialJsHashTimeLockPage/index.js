@@ -76,7 +76,7 @@ export function TutorialJsHashTimeLockPage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
     lineWrapping: true
 	};
 
@@ -91,11 +91,15 @@ export function TutorialJsHashTimeLockPage({
 const algosdk = require('algosdk');
 const fs = require('fs');
 const htlcTemplate = require("algosdk/src/logicTemplates/htlc");
+
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-server>";
-const port = <your-algod-port>;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
+
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
 (async() => {
@@ -123,11 +127,15 @@ let algodclient = new algosdk.Algod(token, server, port);
 const algosdk = require('algosdk');
 const fs = require('fs');
 const htlcTemplate = require("algosdk/src/logicTemplates/htlc");
+
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-server>";
-const port = //<your-algod-port>;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
+
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
 (async() => {
@@ -164,11 +172,15 @@ let algodclient = new algosdk.Algod(token, server, port);
 const algosdk = require('algosdk');
 const fs = require('fs');
 const htlcTemplate = require("algosdk/src/logicTemplates/htlc");
+
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-server>";
-const port = //<your-algod-port>;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
+
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
 (async() => {
@@ -221,11 +233,15 @@ var step4Code = `// Handle importing needed modules
 const algosdk = require('algosdk');
 const fs = require('fs');
 const htlcTemplate = require("algosdk/src/logicTemplates/htlc");
+
 // Retrieve the token, server and port values for your installation in the algod.net
 // and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "http://<your-algod-server>";
-const port = //<your-algod-port>;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
+
 // Instantiate the algod wrapper
 let algodclient = new algosdk.Algod(token, server, port);
 (async() => {
@@ -339,6 +355,14 @@ let algodclient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["hash-time-lock", 1, step1Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.hashTimeLock["step1"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -365,6 +389,14 @@ let algodclient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["hash-time-lock", 2, step2Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.hashTimeLock["step2"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -388,6 +420,14 @@ let algodclient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["hash-time-lock", 3, step3Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.hashTimeLock["step3"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -411,6 +451,14 @@ let algodclient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["hash-time-lock", 4, step4Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.hashTimeLock["step4"]} />
           </div>
         </div>
         <div className="clear"></div>

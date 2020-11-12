@@ -159,13 +159,13 @@ export function ExplorerPage({
                   </div>
                 </div>
                 <div className="actionPanelButton">
-                  <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance > 1) ? "disabled" : ""}>
+                  <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance > 999999991) ? "disabled" : ""}>
                     <button data-tip="Funds address from faucet" data-for="teal" onClick={onFundContract}>
                       Fund Contract Address
                     </button>
                   </div>
                 </div>
-                <div className="actionPanelButton">
+                <div className="actionPanelButton hide">
                   <div className={(explorerPage.teal.codeCompileAddress == "-" || explorerPage.teal.contractBalance <= 1) ? "disabled" : ""}>
                     <button data-tip="Execute contract on-chain. Transaction can be viewed on block explorer" data-for="teal" onClick={onCodeDeploy}>
                       Execute Transaction

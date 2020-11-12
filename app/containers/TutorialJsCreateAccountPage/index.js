@@ -83,7 +83,7 @@ export function TutorialJsCreateAccountPage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
     lineWrapping: true
 	};
 

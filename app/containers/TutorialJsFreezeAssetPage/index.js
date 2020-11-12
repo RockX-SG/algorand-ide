@@ -76,7 +76,7 @@ export function TutorialJsFreezeAssetPage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
     lineWrapping: true
 	};
 
@@ -152,9 +152,12 @@ var step7Code = `// Attempt to spend Frozen Asset
 // const port = PORT;
 
 // sandbox
-const token = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-const server = "http://localhost";
-const port = 4001;
+
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 // Structure for changing blockchain params
 var cp = {
@@ -420,92 +423,101 @@ let algodclient = new algosdk.Algod(token, server, port);
               />
             </div>
           </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-          6. Check the Transaction on a Block Explorer
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+            6. Check the Transaction on a Block Explorer
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+                Once you’ve completed these steps you’re output should look something like this:
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step6Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
           </div>
-          <div className="tutorialSectionDescription">
-            <p>
-              Once you’ve completed these steps you’re output should look something like this:
-            </p>
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+            7. Attempt to Spend the Asset
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+                At this point, Account 3 should have all of its asset holdings frozen and should not be able to trigger a spend transaction of the asset that was frozen.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step7Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+                The output should look something like this:
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step7bCode}
+                options={optionsResponse}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
           </div>
-          <div>
-            <CodeMirror
-              value={step6Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-          7. Attempt to Spend the Asset
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-              At this point, Account 3 should have all of its asset holdings frozen and should not be able to trigger a spend transaction of the asset that was frozen.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step7Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-              The output should look something like this:
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step7bCode}
-              options={optionsResponse}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
-          </div>
-        </div>
-        <div className="tutorialSection">
-          <div className="tutorialSectionTitle">
-          8. Complete Example
-          </div>
-          <div className="tutorialSectionDescription">
-            <p>
-              This example assumes that the freezeTarget account has an asset transferred to it. The code that follows the comment ATTEMPT TO SPEND FROZEN ASSET should throw an error.
-            </p>
-          </div>
-          <div>
-            <CodeMirror
-              value={step8Code}
-              options={optionsCode}
-              autoFocus={false}
-              onBeforeChange={(editor, data, value) => {
-                console.log('set value here', {value});
-              }}
-              onChange={(editor, value) => {
-                console.log('controlled', {value});
-              }}
-            />
+          <div className="tutorialSection">
+            <div className="tutorialSectionTitle">
+            8. Complete Example
+            </div>
+            <div className="tutorialSectionDescription">
+              <p>
+                This example assumes that the freezeTarget account has an asset transferred to it. The code that follows the comment ATTEMPT TO SPEND FROZEN ASSET should throw an error.
+              </p>
+            </div>
+            <div>
+              <CodeMirror
+                value={step8Code}
+                options={optionsCode}
+                autoFocus={false}
+                onBeforeChange={(editor, data, value) => {
+                  console.log('set value here', {value});
+                }}
+                onChange={(editor, value) => {
+                  console.log('controlled', {value});
+                }}
+              />
+            </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["freeze-asset", 8, step8Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.freezeAsset["step8"]} />
+            
           </div>
         </div>
         <div className="clear"></div>

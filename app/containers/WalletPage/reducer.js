@@ -29,6 +29,9 @@ import {
   CHANGE_SERVER_PORT,
   CHANGE_ALGOD_TOKEN,
   CHANGE_SETTINGS,
+  GET_ADDRESS_ASA,
+  GET_ADDRESS_ASA_SUCCESS,
+  GET_ADDRESS_BALANCE,
 } from './constants';
 
 export const initialState = {
@@ -45,6 +48,7 @@ export const initialState = {
   addressShortenArray: [],
   mnemonicArray: [],
   balanceArray: [],
+  assetAsaArray: [],
   addressPrimary: "",
   addressSecondary: "",
   addressTertiary: "",
@@ -83,6 +87,7 @@ export const initialState = {
   serverPort: '',
   algodToken: '',
   enablePureStake: false,
+  contractAddress: '',
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -255,6 +260,12 @@ const walletPageReducer = (state = initialState, action) =>
         
         
         break;
+
+      case GET_ADDRESS_ASA_SUCCESS:
+        console.log("action.assetAsa", action.assetAsa);
+        draft.assetAsaArray = action.assetAsa;
+        
+        break;
         
         
 
@@ -379,6 +390,13 @@ const walletPageReducer = (state = initialState, action) =>
 
       case CHANGE_SETTINGS:
         draft.enablePureStake = !draft.enablePureStake;
+        break;
+
+      case GET_ADDRESS_BALANCE:
+        if(action.sendFrom == "contract"){
+          draft.contractAddress = action.address;
+        }
+        
         break;
         
         

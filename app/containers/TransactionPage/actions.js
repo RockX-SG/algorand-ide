@@ -31,7 +31,9 @@ import {
   SEND_ATOMIC_TRANSFER,
   SEND_ATOMIC_TRANSFER_SUCCESS,
   SEND_ATOMIC_TRANSFER_ERROR,
-  CHANGE_ADDRESS
+  CHANGE_ADDRESS,
+  CHANGE_ATOMIC_CLOSE_TO_ADDRESS,
+  TOGGLE_CLOSE_REMAINDER,
 } from './constants';
 
 import { toast } from "react-toastify";
@@ -130,6 +132,25 @@ export function changeAtomicReceiverAddress(response) {
     type: CHANGE_ATOMIC_RECEIVER_ADDRESS,
     entryIndex: response[1],
     address: response[0]["label"],
+  };
+}
+
+export function changeAtomicCloseToAddress(response) {
+  console.log("response", response);
+  
+  return {
+    type: CHANGE_ATOMIC_CLOSE_TO_ADDRESS,
+    entryIndex: response[1],
+    address: response[0]["label"],
+  };
+}
+
+export function toggleCloseRemainder(response) {
+  console.log("response", response);
+  
+  return {
+    type: TOGGLE_CLOSE_REMAINDER,
+    entryIndex: response,
   };
 }
 

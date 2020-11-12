@@ -51,7 +51,11 @@ function SendAlgoAtomicForm(props) {
     onConfirmAtomicRoute,
     onSignRoute,
     onSendAtomicTransfer,
-    onAddRoute
+    onAddRoute,
+    groupedOptions,
+    formatGroupLabel,
+    onToggleCloseRemainder, 
+    onChangeAtomicCloseToAddress,
   } = props;
   
   
@@ -78,9 +82,7 @@ function SendAlgoAtomicForm(props) {
               <div className="clear"></div>
             </div>
             <div className="route">
-              <RoutePath routeSenders={transactionPage.routeSenders} addressOption={addressOption} walletPage={walletPage} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} 
-              onChangeAtomicAssetType={onChangeAtomicAssetType} 
-              onChangeAtomicAssetId={onChangeAtomicAssetId}  />
+              <RoutePath routeSenders={transactionPage.routeSenders} addressOption={addressOption} groupedOptions={groupedOptions} formatGroupLabel={formatGroupLabel} walletPage={walletPage} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} onChangeAtomicAssetType={onChangeAtomicAssetType} onChangeAtomicAssetId={onChangeAtomicAssetId} onToggleCloseRemainder={onToggleCloseRemainder} onChangeAtomicCloseToAddress={onChangeAtomicCloseToAddress}  />
             </div>
             <div>
               <button onClick={() => onConfirmAtomicRoute()}>

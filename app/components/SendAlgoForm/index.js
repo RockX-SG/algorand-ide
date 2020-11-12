@@ -38,7 +38,9 @@ function SendAlgoForm(props) {
     onRecaptchaChange,
     captchaData,
     onChangeAddress,
-    onChangeSendAmount
+    onChangeSendAmount,
+    groupedOptions,
+    formatGroupLabel,
   } = props;
   
   
@@ -79,7 +81,8 @@ function SendAlgoForm(props) {
                 isClearable
                 onChange={onChangeAddress}
                 defaultValue={addressOption[0]}
-                options={addressOption}
+                options={groupedOptions}
+                formatGroupLabel={formatGroupLabel}
               />
             </div>
             <div className="disclaimer">
