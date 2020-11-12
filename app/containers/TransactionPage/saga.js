@@ -91,7 +91,13 @@ export function* confirmAtomicRoute() {
       console.log("------asa-----")
       let amount = parseFloat(route[i][2]);
       var revocationTarget = undefined;
-      var closeRemainderTo = undefined;
+      var closeRemainderTo;
+      if(parseFloat(route[i][6]) == true){
+        closeRemainderTo = parseFloat(route[i][5]);
+      }else{
+        closeRemainderTo = undefined;
+      } 
+      
       var assetId = parseFloat(route[i][4]);
       
       console.log(route[i][0], 

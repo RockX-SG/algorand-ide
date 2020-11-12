@@ -41,6 +41,7 @@ export const initialState = {
     step4: [],
     step5: [],
     step6: [],
+    step7: [],
   },
   hashTimeLock: {
     step1: [],
@@ -57,6 +58,7 @@ export const initialState = {
     step4: [],
     step5: [],
     step6: [],
+    step7: [],
   },
   revokeAsset: {
     step1: [],
@@ -65,6 +67,7 @@ export const initialState = {
     step4: [],
     step5: [],
     step6: [],
+    step7: [],
   },
   optInAsset: {
     step1: [],
@@ -73,6 +76,7 @@ export const initialState = {
     step4: [],
     step5: [],
     step6: [],
+    step7: [],
   },
   freezeAsset: {
     step1: [],
@@ -81,6 +85,8 @@ export const initialState = {
     step4: [],
     step5: [],
     step6: [],
+    step7: [],
+    step8: [],
   },
   writeTransactionNote: {
     step1: [],
@@ -136,19 +142,76 @@ const tutorialPageReducer = (state = initialState, action) =>
           }
           
         }else if(action.tutorial == "transfer-asset"){
+          if(action.step == 7){
+            draft.transferAsset.step7.push(action.response);
+          }
           
         }else if(action.tutorial == "hash-time-lock"){
+          if(action.step == 1){
+            draft.hashTimeLock.step1.push(action.response);
+          }else if(action.step == 2){
+            draft.hashTimeLock.step2.push(action.response);
+          }else if(action.step == 3){
+            draft.hashTimeLock.step3.push(action.response);
+          }else if(action.step == 4){
+            draft.hashTimeLock.step4.push(action.response);
+          }
           
         }else if(action.tutorial == "destroy-asset"){
-          
+          if(action.step == 1){
+            draft.destroyAsset.step1.push(action.response);
+          }else if(action.step == 2){
+            draft.destroyAsset.step2.push(action.response);
+          }else if(action.step == 3){
+            draft.destroyAsset.step3.push(action.response);
+          }else if(action.step == 4){
+            draft.destroyAsset.step4.push(action.response);
+          }else if(action.step == 5){
+            draft.destroyAsset.step5.push(action.response);
+          }else if(action.step == 6){
+            draft.destroyAsset.step6.push(action.response);
+          }else if(action.step == 7){
+            draft.destroyAsset.step7.push(action.response);
+          }
         }else if(action.tutorial == "revoke-asset"){
+          if(action.step == 7){
+            draft.revokeAsset.step7.push(action.response);
+          }
           
         }else if(action.tutorial == "opt-in-asset"){
+          if(action.step == 7){
+            draft.optInAsset.step7.push(action.response);
+          }
           
         }else if(action.tutorial == "freeze-asset"){
+          if(action.step == 1){
+            draft.freezeAsset.step1.push(action.response);
+          }else if(action.step == 2){
+            draft.freezeAsset.step2.push(action.response);
+          }else if(action.step == 3){
+            draft.freezeAsset.step3.push(action.response);
+          }else if(action.step == 4){
+            draft.freezeAsset.step4.push(action.response);
+          }else if(action.step == 5){
+            draft.freezeAsset.step5.push(action.response);
+          }else if(action.step == 6){
+            draft.freezeAsset.step6.push(action.response);
+          }else if(action.step == 7){
+            draft.freezeAsset.step7.push(action.response);
+          }else if(action.step == 8){
+            draft.freezeAsset.step8.push(action.response);
+          }
           
         }else if(action.tutorial == "write-transaction-note"){
-          
+          if(action.step == 1){
+            draft.writeTransactionNote.step1.push(action.response);
+          }else if(action.step == 2){
+            draft.writeTransactionNote.step2.push(action.response);
+          }else if(action.step == 3){
+            draft.writeTransactionNote.step3.push(action.response);
+          }else if(action.step == 4){
+            draft.writeTransactionNote.step4.push(action.response);
+          }
         }
         
         break;

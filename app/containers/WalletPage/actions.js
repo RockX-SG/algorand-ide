@@ -49,6 +49,8 @@ import {
   CHANGE_SERVER_PORT,
   CHANGE_ALGOD_TOKEN,
   CHANGE_SETTINGS,
+  GET_ADDRESS_ASA,
+  GET_ADDRESS_ASA_SUCCESS,
 } from './constants';
 
 export function loading() {
@@ -397,6 +399,24 @@ export function mnemonicRegenerateSuccess(accountNum, address, addressShorten, m
     balance
   };
 }
+
+
+export function getAddressAsa(address) {
+  console.log("accountNum", address)
+  return {
+    type: GET_ADDRESS_ASA,
+    address
+  };
+}
+
+export function getAddressAsaSuccess(accountNum, assetAsa) {
+  console.log(accountNum, assetAsa)
+  return {
+    type: GET_ADDRESS_ASA_SUCCESS,
+    assetAsa
+  };
+}
+
 
 export function changeServerAddress(serverAddress) {
   console.log("CHANGE_SERVER_ADDRESS", serverAddress)

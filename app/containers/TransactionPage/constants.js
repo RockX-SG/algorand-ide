@@ -41,3 +41,7 @@ export const SEND_ATOMIC_TRANSFER_SUCCESS = 'app/TransactionPage/SEND_ATOMIC_TRA
 export const SEND_ATOMIC_TRANSFER_ERROR = 'app/TransactionPage/SEND_ATOMIC_TRANSFER_ERROR';
 
 export const CHANGE_ADDRESS = 'app/TransactionPage/CHANGE_ADDRESS';
+
+export const CHANGE_ATOMIC_CLOSE_TO_ADDRESS = 'app/TransactionPage/CHANGE_ATOMIC_CLOSE_TO_ADDRESS';
+export const TOGGLE_CLOSE_REMAINDER = 'app/TransactionPage/TOGGLE_CLOSE_REMAINDER';
+

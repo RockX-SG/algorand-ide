@@ -117,15 +117,57 @@ export function SmartAssetPage({
     theme: "dracula",
 		mode: 'markdown'
 	};
+  
+  const groupStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: '10px',
+  };
+  const groupBadgeStyles = {
+    backgroundColor: '#EBECF0',
+    borderRadius: '2px',
+    color: '#172B4D',
+    display: 'inline-block',
+    fontSize: 10,
+    fontWeight: 'bold',
+    minWidth: 1,
+    padding: '3px 8px',
+    textAlign: 'center',
+  };
+  
+  const formatGroupLabel = data => (
+    <div style={groupStyles}>
+      <span>{data.label}</span>
+      <span style={groupBadgeStyles}>{data.options.length}</span>
+    </div>
+  );
 
-  // const options = [
-  //   { value: 'xxx', label: 'xxx' },
-  //   { value: 'yyy', label: 'yyy' },
-  // ]
-
-  let options = addressList.map(function(addr) {
+  let options = addressList.map(function(addr, index) {
     return { value: addr, label: addr };
   })
+
+  let optionsContract = [{ value: ((walletPage.contractAddress) ? walletPage.contractAddress : "-"), label: ((walletPage.contractAddress) ? walletPage.contractAddress : "-") }];
+  
+  const groupedOptions = [
+    {
+      label: 'User Account',
+      options: options,
+    },
+    {
+      label: 'Contract Address',
+      options: optionsContract,
+    },
+  ];
+  console.log("options", options);
+  console.log("optionsContract", optionsContract);
+  
+  
+  console.log("groupedOptions", groupedOptions);
+  console.log("groupedOptions", groupedOptions);
+  console.log("groupedOptions", groupedOptions);
+  console.log("groupedOptions", groupedOptions);
+  console.log("groupedOptions", groupedOptions);
 
   return (
     <SmartAsset>
@@ -168,8 +210,9 @@ export function SmartAssetPage({
               <div className="selectComponent">
                 <Select
                   defaultValue={options[1]}
-                  options={options}
+                  options={groupedOptions}
                   onChange={onChangeAddress}
+                  formatGroupLabel={formatGroupLabel}
                 />
               </div>
             </div>
@@ -303,7 +346,8 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeManager}
-                  options={options}
+                  options={groupedOptions}
+                  formatGroupLabel={formatGroupLabel}
                 />
               </div>
               <div className="disclaimer">
@@ -324,7 +368,8 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeReserve}
-                  options={options}
+                  options={groupedOptions}
+                  formatGroupLabel={formatGroupLabel}
                 />
               </div>
             </div>
@@ -342,7 +387,8 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeFreeze}
-                  options={options}
+                  options={groupedOptions}
+                  formatGroupLabel={formatGroupLabel}
                 />
               </div>
             </div>
@@ -360,7 +406,8 @@ export function SmartAssetPage({
                 <CreatableSelect
                   isClearable
                   onChange={onChangeClawback}
-                  options={options}
+                  options={groupedOptions}
+                  formatGroupLabel={formatGroupLabel}
                 />
               </div>
             </div>

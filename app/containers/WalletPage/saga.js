@@ -20,6 +20,7 @@ import {
   CHANGE_SERVER_ADDRESS,
   CHANGE_SERVER_PORT,
   CHANGE_ALGOD_TOKEN,
+  GET_ADDRESS_ASA,
 } from 'containers/WalletPage/constants';
 
 import {
@@ -39,6 +40,7 @@ import {
   mnemonicRegenerateSuccess,
   getAddressBalanceSuccess,
   getAddressBalanceError,
+  getAddressAsaSuccess,
 } from 'containers/WalletPage/actions';
 
 import {
@@ -95,6 +97,9 @@ export default function* walletPageSaga() {
   yield takeLatest(CHANGE_SERVER_ADDRESS, restoreServerAddress);
   yield takeLatest(CHANGE_SERVER_PORT, restoreServerPort);
   yield takeLatest(CHANGE_ALGOD_TOKEN, restoreAlgodToken);
+  
+  yield takeLatest(GET_ADDRESS_ASA, getAddressAsa);
+  
 }
 
 
@@ -662,6 +667,36 @@ export function* mnemonicRegenerate(data) {
   let addressShorten = shortenAddress(keys["addr"]);
   
   yield put(mnemonicRegenerateSuccess(data["accountNum"], keys["addr"], addressShorten, mnemonic, accountInfo["amount"]));
+}
+
+
+export function* getAddressAsa(data) {
+  let walletInfo = yield select(makeSelectWalletPage());
+  
+  let baseServer = getServer(walletInfo);
+  let port = getPort(walletInfo);
+  let token = getToken(walletInfo);
+
+  let algodclient = new algosdk.Algod(token, baseServer, port);
+  
+  let address = data["address"];
+  
+  let accountInfo;
+  accountInfo = yield call(algodclient.accountInformation, address);
+  console.log("accountInfo", accountInfo)
+  
+  let assetAsaArray = [];
+  
+  for (var key in accountInfo["thisassettotal"]) {
+    let assetAsaArraySingle = accountInfo["thisassettotal"][key];
+    
+    assetAsaArraySingle["id"] = key;
+    
+    assetAsaArray.push(assetAsaArraySingle);
+  }
+  console.log(assetAsaArray);
+  
+  yield put(getAddressAsaSuccess(data["accountNum"], assetAsaArray));
 }
 
 

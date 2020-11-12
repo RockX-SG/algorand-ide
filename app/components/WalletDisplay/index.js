@@ -18,7 +18,9 @@ import ReactTooltip from "react-tooltip";
 import WalletArea from './WalletArea';
 import Wallet from './Wallet';
 import Input from './Input';
+import AssetAsaDisplay from '../AssetAsaDisplay'
 
+let iconASA = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAACCklEQVRYhe3WPU9UQRQG4EeJJn5gZaGIhUCCH6WdpQWFWa1FE6wVG4O/QWmtCPYmCEqCQX+F/gGNWqDGxgSwWoFgMedmN9e7u3MXOnmTydzc8/XOnJlzhgP87zhUU/84bmICo7iCY1jDV7zFCr7tI0dwCrP4jd0eYwvPMbRfwa/jZzhvYgG3MY4TMcYxGbJm6G6gsdfgU/gTDhdxIcNmBK/CZgfT/QafwHaMR33Yz4Ttjj52Ygi/pFX0E7ydRJGOs3UM57S2vRuKg9cNr0NnPjf4sJT3puqcdzr93/EUR0v6o+FrC+dyCDwMhwsd5L2u4ZMKm8WQPcgh8C6UJ3sQKH9f09qJMu6GbLUsOFyhPBbzhxy2bSiqajkF8D7m0RxHRbUb7CDvlYLZCpvBkG3mENjcA4EVHKlDoCoFP2LudW/bG9m9mC+rvpbF6f+nSVUR+Bzz1R4E2vECn6Tzc6dCXvj6kuNsWlrFyw7yTrdgKr4/YqBkU1zD+zkEhqWi0ZQaSy6BgQi+G2QKjKlZiEj9fFfqat2QU4qXQ2cuNzipGW2E4UwdwxIeh491nKlr3JBa6XY46id40c5v9GGPdCB3pFUsy6tkY1rbvi2z/ndDQysdTSxJtf0STsa4GP+WtF5Q6/aw8jJO45l0knMepfMyHyB1n+VDuCXtygjOx/81qcis4o1WNT3AAXriL78qufv1XINAAAAAAElFTkSuQmCC"/>
 
 let iconView = <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAAB8ElEQVRYhe3VzW+MURQG8F+bKglaIzFRW91VWBALBBsf0Y1/hg0bBLXxEf9Aw6LY21hIhOiW1pYE0xFJlUXTNEFfi3vGXO9MPwa7zpPcvLnnfc5zzz3nvOeliy66WO/o6YDbhyMYxSEMY1u8+4q3eInHeIEf/yvIIdzAHIo1rrnw2fkvBw/gDhYz4Ve4hJMR2KZYQziBq3iX8RdxK7Q6wlnMZEKfcWCNvj04jNnMvxaaq2Ij7maOS/G8UuL1SymuR6BjYctxraRRSBkt835jO54H8aeU6unY7y9xx7TWfazEORj2aVwOzQLPUCkfXsWbIMxKNYZvYSs75OVprJk2FypCA07hSxZUtUGsYCoTGclEFsK++S8C2BL2hcw2kvm+RqVXK/LZ0BDdXeLcb+N3r7Qfjmcts7U7DykdjXrP4VjYx8N2ocTvl2o+Y/kmvBi+47E/rjlLprCjHERFapAC33EOp2P/CVuXi74NBqRPtwiN86FZ4KnmBG3BBtzWrOtkJvTACinM0IuHmvNjMtO7KY30VTGKD1obbQKDK/gN4lEbv/c4s5aDcwxIw2a+JFaXemJv3KYP+8JWL3HncV1n5WtBVWqymtabLbc+xsHVNnp/oJPfcS+OSkNqT6xd8a4uDbJpPJEm6lIH2l100cU6xi99k7U9cljKBgAAAABJRU5ErkJggg=="/>
 
@@ -40,6 +42,8 @@ function WalletDisplay(props) {
     onChangeMnemonicRestore,
     mnemonicRestore,
     onMnemonicRegenerate,
+    onGetAddressAsa,
+    assetAsaArray,
   } = props;
   
   console.log(props)
@@ -65,6 +69,25 @@ function WalletDisplay(props) {
             </div>
           </div>
           <div className="action">
+            <Popup
+              trigger={
+                <div className="actionEntry actionView" data-tip="View ASA" data-for="wallet">
+                  {iconASA}
+                </div>
+              }
+              modal
+              closeOnDocumentClick
+              closeOnEscape
+            >
+              <div className="popupContent">
+                <div className="popupContentCenter" onClick={() => onGetAddressAsa(address)}>
+                  <button className="mini">
+                    Retrieve Account ASA
+                  </button>
+                </div>
+                <AssetAsaDisplay assetAsaArray={assetAsaArray} />
+              </div>
+            </Popup>
             <Popup
               trigger={
                 <div className="actionEntry actionView" data-tip="View Mnemonic Seed" data-for="wallet">

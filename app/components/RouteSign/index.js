@@ -35,6 +35,7 @@ function RouteSign(props) {
               {(transactionPage.routeSenders[index][2]) ? " > " + transactionPage.routeSenders[index][2] : ""}
               {(transactionPage.routeSenders[index][3]) ? " > " + transactionPage.routeSenders[index][3] : ""}
               {(transactionPage.routeSenders[index][4]) ? " > " + transactionPage.routeSenders[index][4] : ""}
+              {(transactionPage.routeSenders[index][5]) ? " > " + transactionPage.routeSenders[index][5] : ""}
             </div>
             <div className="routeSign">
               <button className="mini" onClick={() => onSignRoute(index)}>

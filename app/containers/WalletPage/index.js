@@ -53,6 +53,7 @@ import {
   addAccount,
   recaptchaChange,
   mnemonicRegenerate,
+  getAddressAsa,
   selectPage
 } from '../WalletPage/actions';
 
@@ -98,6 +99,7 @@ export function WalletPage({
   onRecaptchaChange,
   onMnemonicRegenerate,
   onSelectPage,
+  onGetAddressAsa,
 }) {
   useInjectReducer({ key: 'walletPage', reducer });
   useInjectSaga({ key: 'walletPage', saga });
@@ -157,7 +159,7 @@ export function WalletPage({
           Wallets
         </div>
         <WalletDisplay address={walletPage.addressArray} addressShorten={walletPage.addressShortenArray} mnemonic={walletPage.mnemonicArray} balance={walletPage.balanceArray} selectedAccount={walletPage.address} onSelectAccount={onSelectAccount}
-        onChangeMnemonicRestore={onChangeMnemonicRestore} mnemonicRestore={walletPage.mnemonicRestore} onMnemonicRegenerate={onMnemonicRegenerate} />
+        onChangeMnemonicRestore={onChangeMnemonicRestore} mnemonicRestore={walletPage.mnemonicRestore} onMnemonicRegenerate={onMnemonicRegenerate} onGetAddressAsa={onGetAddressAsa} assetAsaArray={walletPage.assetAsaArray} />
         
         <button className={(walletPage.addressArray.length < 5) ? "" : "hide"} onClick={() => onAddAccount()}>
           Add more wallet
@@ -165,7 +167,7 @@ export function WalletPage({
         
         <div className={(walletPage.network == "mainnet") ? "hide" : "faucet"}>
           
-          <FaucetForm onSubmit={onFaucetSend} faucetSendError={walletPage.faucetSendError} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData}  onChangeAddress={onChangeAddress} onRecaptchaChange={onRecaptchaChange} />
+          <FaucetForm onSubmit={onFaucetSend} faucetSendError={walletPage.faucetSendError} faucetBalance={walletPage.faucetBalance} addressArray={walletPage.addressArray} captchaData={walletPage.captchaData}  onChangeAddress={onChangeAddress} onRecaptchaChange={onRecaptchaChange} walletPage={walletPage} />
           
           
           <div className="assetResponse">
@@ -274,6 +276,10 @@ function mapDispatchToProps(dispatch) {
     onMnemonicRegenerate: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();
       dispatch(mnemonicRegenerate(evt));
+    },
+    onGetAddressAsa: evt => {
+      if (evt !== undefined && evt.preventDefault) evt.preventDefault();
+      dispatch(getAddressAsa(evt));
     },
     onSelectPage: evt => {
       if (evt !== undefined && evt.preventDefault) evt.preventDefault();

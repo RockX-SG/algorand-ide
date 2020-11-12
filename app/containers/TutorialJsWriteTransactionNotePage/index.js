@@ -77,7 +77,7 @@ export function TutorialJsWriteTransactionNotePage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
     lineWrapping: true
 	};
 
@@ -97,12 +97,16 @@ console.log("Account Address: ", account.addr);`
 
 //Retrieve the token, server and port values for your installation in the algod.net
 //and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "<http://your-sever>";
-const port = 8080;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 //Recover the account
-var mnemonic = "<your-mnemonic-string>";
+var mnemonic = "portion never forward pill lunch organ biology" +
+    " weird catch curve isolate plug innocent skin grunt" +
+    " bounce clown mercy hole eagle soul chunk type absorb trim";
 var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
 console.log(recoveredAccount.addr);
 //check to see if account is valid
@@ -156,12 +160,16 @@ const waitForConfirmation = async function (algodclient, txId) {
 };
 //Retrieve the token, server and port values for your installation in the algod.net
 //and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "<http://your-sever>";
-const port = 8080;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 //Recover the account
-var mnemonic = "<your-mnemonic-string>";
+var mnemonic = "portion never forward pill lunch organ biology" +
+    " weird catch curve isolate plug innocent skin grunt" +
+    " bounce clown mercy hole eagle soul chunk type absorb trim";
 var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
 console.log(recoveredAccount.addr);
 //check to see if account is valid
@@ -220,12 +228,16 @@ const waitForConfirmation = async function (algodclient, txId) {
 };
 //Retrieve the token, server and port values for your installation in the algod.net
 //and algod.token files within the data directory
-const token = "<your-api-token>";
-const server = "<http://your-sever>";
-const port = 8080;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 //Recover the account
-var mnemonic = "<your-mnemonic-string>"
+var mnemonic = "portion never forward pill lunch organ biology" +
+    " weird catch curve isolate plug innocent skin grunt" +
+    " bounce clown mercy hole eagle soul chunk type absorb trim";
 var recoveredAccount = algosdk.mnemonicToSecretKey(mnemonic);
 console.log(recoveredAccount.addr);
 //check to see if account is valid
@@ -321,6 +333,14 @@ let algodClient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["write-transaction-note", 1, step1Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.writeTransactionNote["step1"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -344,6 +364,14 @@ let algodClient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["write-transaction-note", 2, step2Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.writeTransactionNote["step2"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -367,6 +395,14 @@ let algodClient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["write-transaction-note", 3, step3Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.writeTransactionNote["step3"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -390,6 +426,14 @@ let algodClient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["write-transaction-note", 4, step4Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.writeTransactionNote["step4"]} />
           </div>
         </div>
         <div className="clear"></div>

@@ -43,9 +43,35 @@ const FaucetForm = props => {
     addressArray,
     onRecaptchaChange,
     captchaData,
-    faucetSendError
+    faucetSendError,
+    walletPage
   } = props;
   
+  
+  const groupStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: '10px',
+  };
+  const groupBadgeStyles = {
+    backgroundColor: '#EBECF0',
+    borderRadius: '2px',
+    color: '#172B4D',
+    display: 'inline-block',
+    fontSize: 10,
+    fontWeight: 'bold',
+    minWidth: 1,
+    padding: '3px 8px',
+    textAlign: 'center',
+  };
+  
+  const formatGroupLabel = data => (
+    <div style={groupStyles}>
+      <span>{data.label}</span>
+      <span style={groupBadgeStyles}>{data.options.length}</span>
+    </div>
+  );
   
   let addressOption = [];
   
@@ -54,8 +80,19 @@ const FaucetForm = props => {
   function populateOptions(addr) {
     return {value: addr, label: addr};
   }
+
+  let optionsContract = [{ value: ((walletPage.contractAddress) ? walletPage.contractAddress : "-"), label: ((walletPage.contractAddress) ? walletPage.contractAddress : "-") }];
   
-  
+  const groupedOptions = [
+    {
+      label: 'User Account',
+      options: addressOption,
+    },
+    {
+      label: 'Contract Address',
+      options: optionsContract,
+    },
+  ];
   
   return (
     <form onSubmit={handleSubmit}>
@@ -84,7 +121,8 @@ const FaucetForm = props => {
               <CreatableSelect
                 isClearable
                 onChange={onChangeAddress}
-                options={addressOption}
+                options={groupedOptions}
+                formatGroupLabel={formatGroupLabel}
               />
             </div>
           </div>

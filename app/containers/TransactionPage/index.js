@@ -32,6 +32,10 @@ import {
   changeAtomicAmount,
   changeAtomicSenderAddress,
   changeAtomicReceiverAddress,
+  
+  toggleCloseRemainder,
+  changeAtomicCloseToAddress,
+  
   changeAtomicAssetType,
   changeAtomicAssetId,
   confirmAtomicRoute,
@@ -90,6 +94,8 @@ export function TransactionPage({
   onSignRoute,
   onSendAtomicTransfer,
   onSelectPage,
+  onToggleCloseRemainder,
+  onChangeAtomicCloseToAddress,
 }) {
   useInjectReducer({ key: 'transactionPage', reducer });
   useInjectSaga({ key: 'transactionPage', saga });
@@ -99,6 +105,31 @@ export function TransactionPage({
   });
   
   
+  
+  const groupStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingBottom: '10px',
+  };
+  const groupBadgeStyles = {
+    backgroundColor: '#EBECF0',
+    borderRadius: '2px',
+    color: '#172B4D',
+    display: 'inline-block',
+    fontSize: 10,
+    fontWeight: 'bold',
+    minWidth: 1,
+    padding: '3px 8px',
+    textAlign: 'center',
+  };
+  
+  const formatGroupLabel = data => (
+    <div style={groupStyles}>
+      <span>{data.label}</span>
+      <span style={groupBadgeStyles}>{data.options.length}</span>
+    </div>
+  );
   
   let addressOption = [];
   
@@ -113,6 +144,19 @@ export function TransactionPage({
   }
   
   console.log("addressOption", addressOption)
+
+  let optionsContract = [{ value: ((walletPage.contractAddress) ? walletPage.contractAddress : "-"), label: ((walletPage.contractAddress) ? walletPage.contractAddress : "-") }];
+  
+  const groupedOptions = [
+    {
+      label: 'User Account',
+      options: addressOption,
+    },
+    {
+      label: 'Contract Address',
+      options: optionsContract,
+    },
+  ];
 
   return (
     <Transaction>
@@ -130,7 +174,7 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAmount={onChangeSendAmount} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
+          <SendAlgoForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} groupedOptions={groupedOptions} formatGroupLabel={formatGroupLabel} onChangeAddress={onChangeAddress} onChangeSendAmount={onChangeSendAmount} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} />
           
           <div className="assetResponse">
             <div className={(walletPage.userSendTxHash == "-") ? "disabled" : ""}>
@@ -150,7 +194,7 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoAsaForm onSubmit={onSendAsaTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onSendAsaTransaction={onSendAsaTransaction} />
+          <SendAlgoAsaForm onSubmit={onSendAsaTransaction} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} groupedOptions={groupedOptions} formatGroupLabel={formatGroupLabel} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onSendAsaTransaction={onSendAsaTransaction} />
           
           <div className="assetResponse">
             <div className={(transactionPage.sendAsaTxHash == "-") ? "disabled" : ""}>
@@ -170,8 +214,8 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} 
-          onChangeAtomicAssetType={onChangeAtomicAssetType} onChangeAtomicAssetId={onChangeAtomicAssetId}  captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onConfirmAtomicRoute={onConfirmAtomicRoute} onSignRoute={onSignRoute} onSendAtomicTransfer={onSendAtomicTransfer} onAddRoute={onAddRoute} />
+          <SendAlgoAtomicForm onSubmit={onSendTransaction} transactionPage={transactionPage} walletPage={walletPage} addressArray={walletPage.addressArray} address={walletPage.address} balance={walletPage.balance} addressOption={addressOption} groupedOptions={groupedOptions} formatGroupLabel={formatGroupLabel} onChangeAtomicAmount={onChangeAtomicAmount} onChangeAtomicSenderAddress={onChangeAtomicSenderAddress} onChangeAtomicReceiverAddress={onChangeAtomicReceiverAddress} 
+          onChangeAtomicAssetType={onChangeAtomicAssetType} onChangeAtomicAssetId={onChangeAtomicAssetId}  captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onConfirmAtomicRoute={onConfirmAtomicRoute} onSignRoute={onSignRoute} onSendAtomicTransfer={onSendAtomicTransfer} onAddRoute={onAddRoute} onToggleCloseRemainder={onToggleCloseRemainder} onChangeAtomicCloseToAddress={onChangeAtomicCloseToAddress} />
           
           <div className="assetResponse">
             <div className={(transactionPage.sendAtomicTxHash == "-") ? "disabled" : ""}>
@@ -191,7 +235,7 @@ export function TransactionPage({
         <TabPanel>
           <ReactTooltip id="transaction" place="right" type="dark" effect="float"/>
             
-          <OptInAsaForm onSubmit={onOptInAsa} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onOptInAsa={onOptInAsa} />
+          <OptInAsaForm onSubmit={onOptInAsa} transactionPage={transactionPage} walletPage={walletPage} address={walletPage.address} addressOption={addressOption} groupedOptions={groupedOptions} formatGroupLabel={formatGroupLabel} onChangeAddress={onChangeAddress} onChangeSendAsaAmount={onChangeSendAsaAmount} onChangeAssetId={onChangeAssetId} onConfirmAssetId={onConfirmAssetId} captchaData={walletPage.captchaData} onRecaptchaChange={onRecaptchaChange} onOptInAsa={onOptInAsa} />
           
           <div className="assetResponse">
             <div className={(transactionPage.optInTxHash == "-") ? "disabled" : ""}>
@@ -232,8 +276,11 @@ function mapDispatchToProps(dispatch) {
     onChangeAtomicAmount: evt => dispatch(changeAtomicAmount(evt)),
     onChangeAtomicSenderAddress: evt => dispatch(changeAtomicSenderAddress(evt)),
     onChangeAtomicReceiverAddress: evt => dispatch(changeAtomicReceiverAddress(evt)),
+    onChangeAtomicCloseToAddress: evt => dispatch(changeAtomicCloseToAddress(evt)),
+    
     onChangeAtomicAssetType: evt => dispatch(changeAtomicAssetType(evt)),
     onChangeAtomicAssetId: evt => dispatch(changeAtomicAssetId(evt)),
+    onToggleCloseRemainder: evt => dispatch(toggleCloseRemainder(evt)),
     
     onSignRoute: evt => dispatch(signRoute(evt)),
     onSendAtomicTransfer: evt => {

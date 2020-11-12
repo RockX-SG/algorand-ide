@@ -50,6 +50,20 @@ function OptInAsaForm(props) {
           <div className="sectionGroup">
             <div className="section">
               <div className="sectionTitle">
+                <div className="sectionTitleSend">
+                  Opt-in Address: 
+                </div>
+                <div className="info sectionTitleSendInfo" data-tip="Toggle address at the top right menu to change selected address" data-for="transaction">
+                  {iconInfo}
+                </div>
+                <div className="clear"></div>
+              </div>
+              <div>
+                {walletPage.address}
+              </div>
+            </div>
+            <div className="section">
+              <div className="sectionTitle">
                 Asset Id:
               </div>
               <div>

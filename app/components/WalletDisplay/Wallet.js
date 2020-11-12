@@ -75,6 +75,11 @@ const Wallet = styled.div`
     float: right;
   }
   
+  .popupContentCenter{
+    margin: auto;
+    text-align: center;
+  }
+  
   .popupTitle{
     font-size: 18px;
     margin-bottom: 20px;

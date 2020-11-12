@@ -39,7 +39,9 @@ function SendAlgoAsaForm(props) {
     onChangeSendAsaAmount,
     onChangeAssetId,
     onConfirmAssetId,
-    onSendAsaTransaction
+    onSendAsaTransaction,
+    groupedOptions,
+    formatGroupLabel,
   } = props;
   
   
@@ -110,7 +112,8 @@ function SendAlgoAsaForm(props) {
                   isClearable
                   onChange={onChangeAddress}
                   defaultValue={addressOption[0]}
-                  options={addressOption}
+                  options={groupedOptions}
+                  formatGroupLabel={formatGroupLabel}
                 />
               </div>
               <div className="sectionDisclaimer">

@@ -122,6 +122,15 @@ const Transaction = styled.div`
     font-weight: 700;
   }
   
+  .routeTitleText{
+    float: left;
+    padding-right: 5px;
+  }
+  
+  .routeTitleIcon{
+    float: left;
+    cursor: pointer;
+  }
   
   .assetResponse{
     border-top: 1px solid #333;

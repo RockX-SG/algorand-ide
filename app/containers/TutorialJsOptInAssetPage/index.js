@@ -76,7 +76,7 @@ export function TutorialJsOptInAssetPage({
     styleActiveLine: true,
     matchBrackets: true,
     theme: "dracula",
-		mode: 'markdown',
+		mode: 'javascript',
     lineWrapping: true
 	};
 
@@ -126,9 +126,11 @@ var step7Code = `const algosdk = require('algosdk');
 
 
 // sandbox
-const token = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-const server = "http://localhost";
-const port = 4001;
+const server = 'https://testnet-algorand.api.purestake.io/ps1';
+const port = '';
+const token = {
+  'X-API-Key': 'iUYKksMBYO6odqKYA6PN65HzsvLJ8slV5zSugoGx'
+}
 
 // Structure for changing blockchain params
 var cp = {
@@ -212,7 +214,9 @@ let algodclient = new algosdk.Algod(token, server, port);
     // receive the new asset
 
     // paste in the asset id from the create asset tutorial
-    let assetID = (your assetid);
+    // let assetID = (your assetID);
+    let assetID = 149774;
+    
     let note = undefined;
     let sender = recoveredAccount3.addr;
     let recipient = sender;
@@ -300,11 +304,6 @@ let algodclient = new algosdk.Algod(token, server, port);
                   console.log('controlled', {value});
                 }}
               />
-            </div>
-            <div>
-              <button>
-                Run Code
-              </button>
             </div>
           </div>
           <div className="tutorialSection">
@@ -445,6 +444,14 @@ let algodclient = new algosdk.Algod(token, server, port);
                 }}
               />
             </div>
+            <div>
+              <div>
+                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["opt-in-asset", 7, step7Code])}>
+                  Run Script
+                </button>
+              </div>
+            </div>
+            <BashConsole bashResponse={tutorialPage.optInAsset["step7"]} />
           </div>
         </div>
         <div className="clear"></div>
