@@ -195,6 +195,15 @@ export function codeCompileSuccess(response) {
 }
 
 export function codeCompileError(error) {
+  toast.error('Your TEAL code has errors. Please edit it and try to compile again.', {
+    position: "bottom-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  });
+  
   return {
     type: CODE_COMPILE_ERROR,
     error: error["response_status"],
