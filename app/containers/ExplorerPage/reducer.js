@@ -98,9 +98,7 @@ export const initialState = {
     selectedFolderId: 999, //-1 for null
     selectedFileIndex: 0, //0 for null
     bashResponse: [
-      "this is an example code response this is an example code response this is an example code response this is an example code response this is an example code response",
-      "this is an example code response",
-      "123",
+      "",
     ],
   },
   javascript: {
@@ -129,9 +127,7 @@ export const initialState = {
     selectedFolderId: 999, //-1 for null
     selectedFileIndex: 0, //0 for null
     bashResponse: [
-      "this is an example code response this is an example code response this is an example code response this is an example code response this is an example code response",
-      "this is an example code response",
-      "123",
+      "",
     ],
   }
 };

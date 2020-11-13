@@ -40,7 +40,8 @@ var algosdk = require('algosdk')
 
 
 // let tealBackendAPI = "http://teal-dev.rockx.com"; //'http://127.0.0.1:5000'
-let tealBackendAPI = "https://algorand.rockx.com/teal/"; //'http://127.0.0.1:5000'
+// let tealBackendAPI = "https://algorand.rockx.com/teal/"; //'http://127.0.0.1:5000'
+let tealBackendAPI = 'http://127.0.0.1:5000';
 
 // Individual exports for testing
 export default function* explorerPageSaga() {
@@ -224,6 +225,7 @@ export function* codeCompile() {
   // console.log("Transaction : " + tx.txId);
   
   if(data["response_status"] !== 400){
+    console.log("compile success");
     
     localStorage.setItem('contractAddress', data["address"]);
     
@@ -231,6 +233,7 @@ export function* codeCompile() {
     yield put(getAddressBalance(data["address"], "contract"));
     yield put(loaded());
   }else{
+    console.log("compile fail");
     yield put(codeCompileError(data));
     yield put(loaded());
   }
