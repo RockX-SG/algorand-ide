@@ -301,35 +301,35 @@ let algodclient = new algosdk.Algod(token, server, port);
                             <p>
                             <ul>
                             <li>
-  TMPL_ASSET: Integer ID of the asset
+  <span className="highlight">TMPL_ASSET</span>: Integer ID of the asset
   </li>
   <li>
-  TMPL_SWAPN: Numerator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
+  <span className="highlight">TMPL_SWAPN</span>: Numerator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
   </li>
   <li>
-  TMPL_SWAPD: Denominator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
+  <span className="highlight">TMPL_SWAPD</span>: Denominator of the exchange rate (TMPL_SWAPN assets per TMPL_SWAPD microAlgos, or better)
   </li>
   <li>
-  TMPL_TIMEOUT: The round after which all of the algos in this contract may be closed back to TMPL_OWN
+  <span className="highlight">TMPL_TIMEOUT</span>: The round after which all of the algos in this contract may be closed back to TMPL_OWN
   </li>
   <li>
-  TMPL_OWN: The recipient of the asset (if the order is filled), or of the contract’s algo balance (after TMPL_TIMEOUT)
+  <span className="highlight">TMPL_OWN</span>: The recipient of the asset (if the order is filled), or of the contract’s algo balance (after TMPL_TIMEOUT)
   </li>
   <li>
-  TMPL_FEE: The maximum fee used in any transaction spending out of this contract
+  <span className="highlight">TMPL_FEE</span>: The maximum fee used in any transaction spending out of this contract
   </li>
   <li>
-  TMPL_MINTRD: The minimum number of microAlgos that may be spent out of this contract as part of a trade
+  <span className="highlight">TMPL_MINTRD</span>: The minimum number of microAlgos that may be spent out of this contract as part of a trade
   </li>
   </ul>
               </p>
               
                 <p>
-  So for example, If you want to specify that the contact will approve a transaction where it is willing to spend 3000 microAlgos for 1 Asset with id of TMPL_ASSET, you would set the TMPL_SWAPN parameter to 1 and the TMPL_SWAPD to 3000. The TMPL_MINTRD should be set to 2999 in this example as it must be less than the amount of microAlgos for the one asset.
+  So for example, If you want to specify that the contact will approve a transaction where it is willing to spend 3000 microAlgos for 1 Asset with id of <span className="highlight">TMPL_ASSET</span>, you would set the <span className="highlight">TMPL_SWAPN</span> parameter to 1 and the <span className="highlight">TMPL_SWAPD</span> to 3000. The <span className="highlight">TMPL_MINTRD</span> should be set to 2999 in this example as it must be less than the amount of microAlgos for the one asset.
               </p>
               
                 <p>
-  For this tutorial, we first need to define, the owner of the contract, and the owner of the asset with asset id = TMPL_ASSET.
+  For this tutorial, we first need to define, the owner of the contract, and the owner of the asset with asset id = <span className="highlight">TMPL_ASSET</span>.
               </p>
             </div>
             <div>
@@ -396,7 +396,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-                The Limit Order contract template offers a helper method to create the proper transactions against the contract called getSwapAssetsTransaction. This function takes an assetAmount and a microAlgoAmount for the total transaction and creates two transactions, one for each receiver and then groups these two transactions into an atomic transfer. The first transaction is signed with the program logic and the second transaction is signed with the secret key of the asset owner. The bytes of the grouped transactions to submit are returned. These bytes can then be submitted to the blockchain.
+                The Limit Order contract template offers a helper method to create the proper transactions against the contract called <span className="highlight">getSwapAssetsTransaction</span>. This function takes an <span className="highlight">assetAmount</span> and a <span className="highlight">microAlgoAmount</span> for the total transaction and creates two transactions, one for each receiver and then groups these two transactions into an atomic transfer. The first transaction is signed with the program logic and the second transaction is signed with the secret key of the asset owner. The bytes of the grouped transactions to submit are returned. These bytes can then be submitted to the blockchain.
               </p>
             </div>
             <div>

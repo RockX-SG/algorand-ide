@@ -37,6 +37,20 @@ const Tutorial = styled.div`
   .InputSectionTitle{
     font-weight: 700;
   }
+  
+  .miniCode .CodeMirror{
+    height: 50px;
+  }
+  
+  .highlight{
+    padding: 1px 4px;
+    background-color: #FFF;
+    border: 1px solid #DDD;
+  }
+  
+  li{
+    padding: 5px 0px;
+  }
 `;
 
 export default Tutorial;

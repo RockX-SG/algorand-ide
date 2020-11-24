@@ -290,7 +290,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              In this step, we need to define a revocation target that we previously set to undefined the previous times we’ve used the makeAssetTransferTxn() method. In this case, we are revoking assets from Account 3, whose assets were previously frozen. We are not closing out the asset, so the closeRemainderTo parameter is set to undefined.
+              In this step, we need to define a revocation target that we previously set to <span className="highlight">undefined</span> the previous times we’ve used the <span className="highlight">makeAssetTransferTxn()</span> method. In this case, we are revoking assets from Account 3, whose assets were previously frozen. We are not closing out the asset, so the <span className="highlight">closeRemainderTo</span> parameter is set to <span className="highlight">undefined</span>.
               </p>
               <p>
 
@@ -317,7 +317,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-                makeAssetTransferTxn is the function used to clawback. The clawback address (Account 2) revokes 10 assets from Account 3 and places it back with Account 1.
+                <span className="highlight">makeAssetTransferTxn</span> is the function used to clawback. The clawback address (Account 2) revokes 10 assets from Account 3 and places it back with Account 1.
               </p>
             </div>
             <div>

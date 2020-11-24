@@ -40,8 +40,8 @@ var algosdk = require('algosdk')
 
 
 // let tealBackendAPI = "http://teal-dev.rockx.com"; //'http://127.0.0.1:5000'
-// let tealBackendAPI = "https://algorand.rockx.com/teal/"; //'http://127.0.0.1:5000'
-let tealBackendAPI = 'http://127.0.0.1:5000';
+let tealBackendAPI = "https://algorand.rockx.com/teal/"; //'http://127.0.0.1:5000'
+// let tealBackendAPI = 'http://127.0.0.1:5000';
 
 // Individual exports for testing
 export default function* explorerPageSaga() {

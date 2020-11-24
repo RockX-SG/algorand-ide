@@ -285,11 +285,11 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              An asset can be referenced by its assetName or its assetID which is generated when you create the asset. Given that the assetName is not unique, it is always recommended to reference an asset by its assetID, which is a unique value.
+              An asset can be referenced by its <span className="highlight">assetName</span> or its <span className="highlight">assetID</span> which is generated when you create the asset. Given that the <span className="highlight">assetName</span> is not unique, it is always recommended to reference an asset by its <span className="highlight">assetID</span>, which is a unique value.
 
               </p>
               <p>
-              Notice that in this next block of code, the sender and recipient are the same account.
+              Notice that in this next block of code, the <span className="highlight">sender</span> and <span className="highlight">recipient</span> are the same account.
               </p>
             </div>
             <div>

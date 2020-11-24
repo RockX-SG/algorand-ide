@@ -313,7 +313,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-                In this first step, we need to define a freezeTarget as well as a freezeState . This asset was made “freezable” when we first created the asset. Setting an address to the freeze parameter in the makeAssetCreateTxn() method makes the asset “freezable.” Setting the freeze address parameter to “”, would make the asset unfreezable and that characteristic cannot be changed retroactively. In this example we will freeze account3 from transacting with an asset. The freeze transaction is sent from the freeze account, Which in this example is account 2.
+                In this first step, we need to define a <span className="highlight">freezeTarget</span> as well as a <span className="highlight">freezeState</span>. This asset was made “freezable” when we first created the asset. Setting an address to the freeze parameter in the <span className="highlight">makeAssetCreateTxn()</span> method makes the asset “freezable.” Setting the freeze address parameter to “”, would make the asset unfreezable and that characteristic cannot be changed retroactively. In this example we will freeze account3 from transacting with an asset. The freeze transaction is sent from the freeze account, Which in this example is account 2.
               </p>
             </div>
             <div>
@@ -336,7 +336,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              Call makeAssetFreezeTxn to freeze an account.
+              Call <span className="highlight">makeAssetFreezeTxn</span> to freeze an account.
               </p>
             </div>
             <div>
@@ -493,7 +493,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-                This example assumes that the freezeTarget account has an asset transferred to it. The code that follows the comment ATTEMPT TO SPEND FROZEN ASSET should throw an error.
+                This example assumes that the <span className="highlight">freezeTarget</span> account has an asset transferred to it. The code that follows the comment <span className="highlight">ATTEMPT TO SPEND FROZEN ASSET</span> should throw an error.
               </p>
             </div>
             <div>
