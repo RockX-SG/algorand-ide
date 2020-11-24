@@ -323,24 +323,26 @@ let algodclient = new algosdk.Algod(token, server, port);
               <p>
                 The HTLC template can be instantiated with a set of predefined parameters that configure the HTLC contract. These parameters should not be confused with Transaction parameters that are passed into the contract when using the HTLC. These parameters configure how the HTLC will function:
               </p>
-              <p>
-                TMPL_RCV: the address to send funds to when the preimage is supplied
-              </p>
-              <p>
-                TMPL_HASHFN: the specific hash function (sha256 or keccak256) to use
-              </p>
-              <p>
-                TMPL_HASHIMG: the image of the hash function for which knowing the preimage under TMPL_HASHFN will release the funds
-              </p>
-              <p>
-                TMPL_TIMEOUT: the round after which funds may be closed out to TMPL_OWN
-              </p>
-              <p>
-                TMPL_OWN: the address to refund funds to on timeout
-              </p>
-              <p>
-                TMPL_FEE: maximum fee of any transactions approved by this contract
-              </p>
+              <ul>
+                <li>
+                  <span className="highlight">TMPL_RCV</span>: the address to send funds to when the preimage is supplied
+                </li>
+                <li>
+                  <span className="highlight">TMPL_HASHFN</span>: the specific hash function (sha256 or keccak256) to use
+                </li>
+                <li>
+                  <span className="highlight">TMPL_HASHIMG</span>: the image of the hash function for which knowing the preimage under TMPL_HASHFN will release the funds
+                </li>
+                <li>
+                  <span className="highlight">TMPL_TIMEOUT</span>: the round after which funds may be closed out to TMPL_OWN
+                </li>
+                <li>
+                  <span className="highlight">TMPL_OWN</span>: the address to refund funds to on timeout
+                </li>
+                <li>
+                  <span className="highlight">TMPL_FEE</span>: maximum fee of any transactions approved by this contract
+                </li>
+              </ul>
             </div>
             <div>
               <CodeMirror
@@ -404,7 +406,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              A transaction can now be created that requests the funds from the HTLC Contract account. The amount should be set to 0 as the contract will close out all funds at once. The from address should be set to the contract’s address. After the transaction is created, it can be signed with the Logic Signature as shown in the highlighted code below. Note that the to field is set to the Zero address as the contract automatically closes out to the receiver that was configured in the template creation. If this field is not set to the zero address the transaction will fail.
+              A transaction can now be created that requests the funds from the HTLC Contract account. The <span className="highlight">amount</span> should be set to 0 as the contract will close out all funds at once. The from address should be set to the contract’s address. After the transaction is created, it can be signed with the Logic Signature as shown in the highlighted code below. Note that the to field is set to the Zero address as the contract automatically closes out to the receiver that was configured in the template creation. If this field is not set to the zero address the transaction will fail.
               </p>
             </div>
             <div>

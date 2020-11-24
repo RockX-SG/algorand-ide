@@ -277,7 +277,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              This code has Account 1 sending 10 assets to Account 3. Set assetID, Asset Amount, sender and recipient. We set revocationTarget to undefined as this is not a revocation operation. closeReaminderTo is set to undefined as we are not closing out an asset.
+              This code has Account 1 sending 10 assets to Account 3. Set assetID, Asset Amount, sender and recipient. We set <span className="highlight">revocationTarget</span> to undefined as this is not a revocation operation. <span className="highlight">closeRemainderTo</span> is set to undefined as we are not closing out an asset.
               </p>
             </div>
             <div>
@@ -300,7 +300,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              Using the same method that was used in the previous Asset Opt-In Tutorial makeAssetTransferTxn
+              Using the same method that was used in the previous Asset Opt-In Tutorial <span className="highlight">makeAssetTransferTxn</span>
               </p>
             </div>
             <div>
@@ -416,7 +416,7 @@ let algodclient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              This example assumes that the recipient account has already opted in to receiving the asset. If the account has not already opted in for this asset, it will throw an error.
+              This example assumes that the <span className="highlight">recipient</span> account has already opted in to receiving the asset. If the account has not already opted in for this asset, it will throw an error.
               </p>
             </div>
             <div>

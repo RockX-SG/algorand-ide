@@ -289,7 +289,7 @@ Asset Creation Txn : LISSHM5YU2EU6OERZJTJWYTVKJZ22MK4AG4SYMGCOTWZO4VHARFA`
               Hardcoding and recovering accounts in this way is not advised, for security purposes, but is sufficient for this tutorial.
                           </p>
                 <p>
-  Note: If you have not already done so, use this tutorial to Create Accounts
+  <strong>Note:</strong> If you have not already done so, use this tutorial to Create Accounts
               </p>
     <p>
   This tutorial will use TestNet accounts that have been pre-created from the Create Accounts tutorial. Be sure to dispense Algos to these accounts before continuing, using the TestNet Dispenser.
