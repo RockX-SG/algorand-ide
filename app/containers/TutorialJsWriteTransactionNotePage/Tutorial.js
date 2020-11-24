@@ -38,6 +38,10 @@ const Tutorial = styled.div`
     font-weight: 700;
   }
   
+  .miniCode .CodeMirror{
+    height: 50px;
+  }
+  
   .highlight{
     padding: 1px 4px;
     background-color: #FFF;

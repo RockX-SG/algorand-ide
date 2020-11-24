@@ -88,10 +88,8 @@ export function TutorialJsWriteTransactionNotePage({
 		mode: 'markdown'
 	};
   
-  var step1Code = `const algosdk = require('algosdk');
-  
-  let account = algosdk.generateAccount();
-console.log("Account Address: ", account.addr);`
+  var step1aCode = `$goal account new -d <your-data-directory> -w <your-wallet>`
+  var step1bCode = `goal account export -a <account-created-above>  -d <your-data-directory> -w <your-wallet>`
 
   var step2Code = `const algosdk = require('algosdk');
 
@@ -104,6 +102,7 @@ const token = {
 }
 
 //Recover the account
+// var mnemonic = "<your-mnemonic-string>";
 var mnemonic = "portion never forward pill lunch organ biology" +
     " weird catch curve isolate plug innocent skin grunt" +
     " bounce clown mercy hole eagle soul chunk type absorb trim";
@@ -167,6 +166,7 @@ const token = {
 }
 
 //Recover the account
+// var mnemonic = "<your-mnemonic-string>";
 var mnemonic = "portion never forward pill lunch organ biology" +
     " weird catch curve isolate plug innocent skin grunt" +
     " bounce clown mercy hole eagle soul chunk type absorb trim";
@@ -235,6 +235,7 @@ const token = {
 }
 
 //Recover the account
+// var mnemonic = "<your-mnemonic-string>"
 var mnemonic = "portion never forward pill lunch organ biology" +
     " weird catch curve isolate plug innocent skin grunt" +
     " bounce clown mercy hole eagle soul chunk type absorb trim";
@@ -313,34 +314,42 @@ let algodClient = new algosdk.Algod(token, server, port);
               1. Create an Account and Add Funds
             </div>
             <div className="tutorialSectionDescription">
-              <p>
-                Import the algosdk
-              </p>
-              <p>
-                Use the generateAccount() method to generate the keypair.
-              </p>
-            </div>
-            <div>
-              <CodeMirror
-                value={step1Code}
-                options={optionsCode}
-                autoFocus={false}
-                onBeforeChange={(editor, data, value) => {
-                  console.log('set value here', {value});
-                }}
-                onChange={(editor, value) => {
-                  console.log('controlled', {value});
-                }}
-              />
-            </div>
-            <div>
-              <div>
-                <button data-tip="Execute code" data-for="js" onClick={() => onCodeExecuteJs(["write-transaction-note", 1, step1Code])}>
-                  Run Script
-                </button>
+              <div className="miniCode">
+                <CodeMirror
+                  value={step1aCode}
+                  options={optionsCode}
+                  autoFocus={false}
+                  onBeforeChange={(editor, data, value) => {
+                    console.log('set value here', {value});
+                  }}
+                  onChange={(editor, value) => {
+                    console.log('controlled', {value});
+                  }}
+                />
               </div>
+              <p>
+                This will return an address that we will need to recover in the tutorial. Export the account mnemonic using the following goal command.
+              </p>
+              <div className="miniCode">
+                <CodeMirror
+                  value={step1bCode}
+                  options={optionsCode}
+                  autoFocus={false}
+                  onBeforeChange={(editor, data, value) => {
+                    console.log('set value here', {value});
+                  }}
+                  onChange={(editor, value) => {
+                    console.log('controlled', {value});
+                  }}
+                />
+              </div>
+              <p>
+                This will export the account mnemonic string of random words that you should copy for later use. Note that this is just a tutorial. Hard coding a mnemonic is not advised and proper key management should be used in production applications.
+              </p>
+              <p>
+  Use the dispenser to add funds to the account.
+              </p>
             </div>
-            <BashConsole bashResponse={tutorialPage.writeTransactionNote["step1"]} />
           </div>
           <div className="tutorialSection">
             <div className="tutorialSectionTitle">
@@ -410,7 +419,7 @@ let algodClient = new algosdk.Algod(token, server, port);
             </div>
             <div className="tutorialSectionDescription">
               <p>
-              Now that the transaction is confirmed, we can modify the code to read the transaction back from the blockchain and recover the person string from the note field using the decodeObj method.
+              Now that the transaction is confirmed, we can modify the code to read the transaction back from the blockchain and recover the person string from the note field using the <span className="highlight">decodeObj</span> method.
               </p>
             </div>
             <div>
